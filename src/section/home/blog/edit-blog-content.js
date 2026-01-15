@@ -1,0 +1,480 @@
+import React, { useEffect, useState, useRef } from "react";
+import DataService from "../../../services/data.service";
+import { useNavigate, useParams } from "react-router-dom";
+import { Editor } from "@tinymce/tinymce-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const styles = {
+  input: {
+    opacity: "0%",
+    position: "absolute",
+  },
+};
+const MAX_COUNT = 5;
+const serverUrl = "https://backend.digitalstudyschool.com";
+
+const EditBlogPost = () => {
+  const params = useParams();
+  const form = useRef();
+  const [name, setName] = useState("");
+  const [namePunjabi, setNamePunjabi] = useState("");
+  const [url, setUrl] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
+  const [dataMain, setDataMain] = useState([]);
+  const [mastercategory, setAData] = useState([]);
+  const [data, setData] = useState([]);
+  const [filteredData, setfilteredData] = useState([]);
+  const [description, setDescription] = useState("");
+  const [descriptionPunjabi, setDescriptionPunjabi] = useState("");
+  const [category, setCategory] = useState("");
+  const navigate = useNavigate();
+  const editorRef = useRef(null);
+  const editorRefPunjabi = useRef(null);
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const inputFileRef = useRef();
+  const imgRef = useRef();
+
+  const onFileChangeCapture = (e) => {
+    const file = e.target.files[0];
+    setFile(e.target.files);
+    const reader = new FileReader();
+    const url = reader.readAsDataURL(file);
+    reader.onloadend = function (theFile) {
+      var image = new Image();
+      image.src = theFile.target.result;
+      imgRef.current.src = image.src;
+    };
+  };
+
+  const triggerFile = () => {
+    inputFileRef.current.click();
+  };
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleSelectChange = (e) => {
+    const selectedTags = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setSelectedOptions(selectedTags);
+  };
+  useEffect(() => {
+    getCategory();
+    getAllTag();
+    getBlog();
+  }, []);
+
+  const getBlog = () => {
+    DataService.getBlogById(params.id).then((data) => {
+      setDataMain(data?.data?.data);
+      const desc = JSON.parse(data?.data?.data?.description)
+      const head = JSON.parse(data?.data?.data?.title)
+      setName(head?.EN || "");
+      setDescription(desc?.EN || null);
+      setNamePunjabi(head?.PU || "");
+      setDescriptionPunjabi(desc?.PU || null);
+      setCategory(data?.data?.data?.category?._id);
+      setMetaDescription(data?.data?.data?.metaDescription);
+      setUrl(data?.data?.data?.url);
+      setTodos(data?.data?.data?.metaKeywords || []);
+      setMetaTitle(data?.data?.data?.metaTitle);
+      setSelectedOptions(
+        data?.data?.data?.tag
+          ? data?.data?.data?.tag?.map((item) => item?._id)
+          : ""
+      );
+      setLoading(false);
+    });
+  };
+  const getCategory = () => {
+    DataService.getCategory().then((data) => {
+      setAData(data.data.data);
+    });
+  };
+  const getAllTag = () => {
+    DataService.getTags(data).then((data) => {
+      setData(data.data.data);
+      setfilteredData(data.data.data);
+      setLoading(false);
+    });
+  };
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+  const handleKeyWordSubmit = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+    setTodos([...todos, inputValue]);
+    setInputValue("");
+  };
+
+  const handleDelete = (index) => {
+    const updatedTodos = todos.filter((todo, i) => i !== index);
+    setTodos(updatedTodos);
+  };
+  const userId = JSON.parse(localStorage.getItem("user"));
+  const userIdString = userId && userId._id ? userId._id.toString() : "";
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const desc = {
+      EN: editorRef.current.getContent(),
+      PU: editorRefPunjabi.current.getContent()
+    }
+    const head = {
+      EN: name,
+      PU: namePunjabi
+    }
+    const data = new FormData();
+    if (file && file.length > 0) {
+      data.append("image", file[0]);
+    }
+    todos.forEach((keyword, index) => {
+      data.append(`metaKeywords[${index}]`, keyword);
+    });
+    data.append("description", JSON.stringify(desc));
+    data.append("title", JSON.stringify(head));
+    if (selectedOptions?.length > 0) {
+      selectedOptions.forEach((tag, i) => {
+        data.append(`tag[${i}]`, tag);
+      });
+    }
+    data.append("category", category);
+    data.append("metaTitle", metaTitle);
+    data.append("metaDescription", metaDescription);
+    data.append("url", url);
+
+    DataService.updateBlog(data, params.id).then(
+      () => {
+        toast.success("Blog Updated Successfully!!");
+        setTimeout(() => {
+          navigate("/blogs");
+        }, 2000);
+      },
+
+      (error) => {
+        const resMessage = error?.response?.data?.message;
+        setLoading(false);
+        toast.error(resMessage, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    );
+  };
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="d-flex w-100 justify-content-between align-items-center mb-4">
+          <h4 className="mb-0 f-700">Edit Blog</h4>
+        </div>
+      </div>
+      {/* <form className="mt-4 login" ref={form}> */}
+      {/* <form onSubmit={handleSubmit} className="mt-4 login" ref={form}> */}
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
+
+      <div className="row">
+        <div className="col-xxl-3 col-lg-4">
+          <div className="card">
+            <div className="card-body text=center">
+              <h4 className="f-700">Blog Details</h4>
+              <div className="card">
+                <div className="card-body text=center">
+                  {/* <h4 className="f-700">Product Details</h4> */}
+
+                  <div className="mb-3">
+                    <label className="form-label">Url</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder="Url"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Categories</label>
+                    <select
+                      required
+                      className="form-select"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="">Select an option</option>
+
+                      {mastercategory && mastercategory?.length > 0
+                        ? mastercategory?.map((item, i) => (
+                          <>
+                            <option value={item?._id}>{item?.name}</option>
+                          </>
+                        ))
+                        : ""}
+                    </select>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Tags</label>
+
+                    <select
+                      multiple
+                      required
+                      onChange={handleSelectChange}
+                      value={selectedOptions}
+                      className="form-select"
+                      style={{ minHeight: "150px" }}
+                    >
+                      <option>Select an option</option>
+                      {data && data?.length > 0
+                        ? data?.map((item, i) => (
+                          <>
+                            <option value={item?._id}>{item?.name}</option>
+                          </>
+                        ))
+                        : ""}
+                    </select>
+                    <div className="form-text">
+                      You Can Select Multiple Tags by Ctrl+Click
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Meta Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={metaTitle}
+                      onChange={(e) => setMetaTitle(e.target.value)}
+                      placeholder="Meta Title"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Meta Description</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={metaDescription}
+                      onChange={(e) => setMetaDescription(e.target.value)}
+                      placeholder="Meta Description"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <form onSubmit={handleKeyWordSubmit}>
+                      <label className="form-label">Meta Keywords</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Add Meta Keywords"
+                        value={inputValue}
+                        onChange={handleChange}
+                      />
+                      <button className="btn-todo-list-key" type="submit">
+                        Add
+                      </button>
+                    </form>
+                    <ul className="todo-list-keyword">
+                      {todos.map((todo, index) => (
+                        <li key={index}>
+                          {todo}
+                          <i
+                            onClick={() => handleDelete(index)}
+                            class="far fa-times-circle icon-cross-todo"
+                          ></i>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xxl-9 col-lg-8 ps-xxl-5 ps-md-3 ps-0">
+          <div className="col-md-12">
+            <div className="card mb-5">
+              <div className="card-body p-4">
+                <div>
+                  <div className="card mb-4">
+                    <div className="card-body text=center">
+                      <h4 className="f-700">Thumbnail</h4>
+                      <div
+                        className="Product-thumbnail  "
+                        onClick={triggerFile}
+                      >
+                        {dataMain?.image ? (
+                          <>
+                            <img
+                              src={
+                                "https://backend.digitalstudyschool.com" +
+                                dataMain?.image?.url
+                              }
+                              ref={imgRef}
+                              className="post-img"
+                              alt="customer"
+                              onError={(e) =>
+                                (e.target.src = "../assets/img/noImage.jpg")
+                              }
+                            />
+                          </>
+                        ) : (
+                          <img
+                            // src="../assets/img/noImage.jpg"
+                            src="../assets/img/img-placeholder.svg"
+                            alt="post_image"
+                          />
+                        )}
+                      </div>
+                      <p className="text-center">
+                        Set the Banner image. Only .png, .jpg and *.jpeg image
+                        files are accepted
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      ref={inputFileRef}
+                      style={styles.input}
+                      accept="image/*"
+                      onChangeCapture={onFileChangeCapture}
+                    />
+                  </div>
+                  <label className="form-label">Post Title (Punjabi)</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={namePunjabi}
+                    onChange={(e) => setNamePunjabi(e.target.value)}
+                    placeholder="Post Title (Punjabi)"
+                  />
+                  <div className="mb-4">
+                    <label className="form-label">
+                      Post Description (Punjabi)
+                    </label>
+                    <Editor
+                      apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+                      initialValue={descriptionPunjabi}
+                      onInit={(evt, editor) => (editorRefPunjabi.current = editor)}
+                      init={{
+                        height: 500,
+                        menubar: true,
+                        plugins: [
+                          "advlist",
+                          "autolink",
+                          "lists",
+                          "link",
+                          "image",
+                          "charmap",
+                          "preview",
+                          "anchor",
+                          "searchreplace",
+                          "visualblocks",
+                          "code",
+                          "fullscreen",
+                          "insertdatetime",
+                          "media",
+                          "table",
+                          "code",
+                          "help",
+                          "wordcount",
+                          "file",
+                        ],
+                        toolbar:
+                          "undo redo | blocks | " +
+                          "bold italic forecolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | image file | help",
+                        content_style:
+                          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
+
+                        file_picker_types: "image",
+                      }}
+                    />
+                  </div>
+                  <label className="form-label">Post Title (English)</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Post Title (English)"
+                  />
+                  <div className="mb-4">
+                    <label className="form-label">
+                      Post Description (English)
+                    </label>
+                    <Editor
+                      apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+                      initialValue={description}
+                      onInit={(evt, editor) => (editorRef.current = editor)}
+                      init={{
+                        height: 500,
+                        menubar: true,
+                        plugins: [
+                          "advlist",
+                          "autolink",
+                          "lists",
+                          "link",
+                          "image",
+                          "charmap",
+                          "preview",
+                          "anchor",
+                          "searchreplace",
+                          "visualblocks",
+                          "code",
+                          "fullscreen",
+                          "insertdatetime",
+                          "media",
+                          "table",
+                          "code",
+                          "help",
+                          "wordcount",
+                          "file",
+                        ],
+                        toolbar:
+                          "undo redo | blocks | " +
+                          "bold italic forecolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | image file | help",
+                        content_style:
+                          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
+
+                        file_picker_types: "image",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-start btn-min-width p-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                  //   onSubmit={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Save</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* </form> */}
+    </div>
+  );
+};
+
+export default EditBlogPost;
