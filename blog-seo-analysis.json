@@ -1,0 +1,16 @@
+{
+  "totalBlogs": 0,
+  "timestamp": "2026-01-15T14:48:40.568Z",
+  "issues": {
+    "missingMetaKeywords": [],
+    "shortMetaDescriptions": [],
+    "missingImages": [],
+    "brokenImages": [],
+    "noMetaTitle": [],
+    "shortTitles": [],
+    "longTitles": [],
+    "duplicateKeywords": [],
+    "needsTopicKeywords": []
+  },
+  "recommendations": []
+}

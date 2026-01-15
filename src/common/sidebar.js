@@ -40,7 +40,7 @@ const Sidebar = () => {
           {data?.images ? (
             <img
               src={
-                "https://digital-study-school-backend.onrender.com" + data?.images[0]?.url
+                "https://digital-study-school-website-nbgr.vercel.app" + data?.images[0]?.url
               }
               alt="profie image"
             />

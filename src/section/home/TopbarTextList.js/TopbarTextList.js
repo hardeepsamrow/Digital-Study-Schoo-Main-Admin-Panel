@@ -61,7 +61,7 @@ const TopbarTextList = () => {
     setLoading(true);
     const data = {
       // text: headingOne,
-      text:  editorRef.current.getContent(),
+      text: editorRef.current.getContent(),
     };
     DataService.updateTopBarContent("66dc40f3230010476e44f27a", data).then(
       () => {
@@ -81,7 +81,7 @@ const TopbarTextList = () => {
       }
     );
   };
-  
+
 
   return (
     <>
@@ -101,46 +101,46 @@ const TopbarTextList = () => {
               onChange={(e) => SetHeadingOne(e.target.value)}
               //   placeholder="Post Title"
             /> */}
-                  <Editor
-                        apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
-                        onInit={(evt, editor) => (editorRef.current = editor)}
-                        initialValue={headingOne}
-                        init={{
-                          height: 500,
-                          menubar: true,
-                          plugins: [
-                            "advlist",
-                            "autolink",
-                            "lists",
-                            "link",
-                            "image",
-                            "charmap",
-                            "preview",
-                            "anchor",
-                            "searchreplace",
-                            "visualblocks",
-                            "code",
-                            "fullscreen",
-                            "insertdatetime",
-                            "media",
-                            "table",
-                            "code",
-                            "help",
-                            "wordcount",
-                            "file",
-                          ],
-                          toolbar:
-                            "undo redo | blocks | " +
-                            "bold italic forecolor | alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
-                            "removeformat | image file | help",
-                          content_style:
-                            "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
-                          images_upload_url:
-                            "https://backend.digitalstudyschool.com/api/EnNews/images",
-                          file_picker_types: "image",
-                        }}
-                      />
+            <Editor
+              apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue={headingOne}
+              init={{
+                height: 500,
+                menubar: true,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                  "file",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | image file | help",
+                content_style:
+                  "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
+                images_upload_url:
+                  "https://backend.digitalstudyschool.com/api/EnNews/images",
+                file_picker_types: "image",
+              }}
+            />
           </div>
         </div>
         <div>

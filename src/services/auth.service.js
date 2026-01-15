@@ -13,8 +13,8 @@ const API_URL = (process.env.NODE_ENV != 'production' ? "https://backend.digital
 const login = (username, password) => {
   return axios
     .post(API_URL + "api/admin/login", {
-      email:username,
-      password:password,
+      email: username,
+      password: password,
     })
     .then((response) => {
       if (response.data.data.accessToken) {

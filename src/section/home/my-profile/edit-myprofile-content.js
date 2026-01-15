@@ -35,7 +35,7 @@ const EditProfileContent = (props) => {
   const navigate = useNavigate();
   //console.log(props)
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   // const onFileChangeCapture = (e) => {
   //   /*Selected files data can be collected here.*/
@@ -190,7 +190,7 @@ const EditProfileContent = (props) => {
               <img
                 ref={imgRef}
                 src={
-                  "https://digital-study-school-backend.onrender.com" +
+                  "https://digital-study-school-website-nbgr.vercel.app" +
                   props?.data?.images[0]?.url
                 }
                 alt="profie image"
