@@ -72,12 +72,28 @@ const EditBlogPost = () => {
   const getBlog = () => {
     DataService.getBlogById(params.id).then((data) => {
       setDataMain(data?.data?.data);
-      const desc = JSON.parse(data?.data?.data?.description)
-      const head = JSON.parse(data?.data?.data?.title)
+
+      let desc = { EN: "", PU: "" };
+      let head = { EN: "", PU: "" };
+
+      try {
+        desc = JSON.parse(data?.data?.data?.description);
+        if (typeof desc !== 'object') desc = { EN: data?.data?.data?.description, PU: "" };
+      } catch (e) {
+        desc = { EN: data?.data?.data?.description || "", PU: "" };
+      }
+
+      try {
+        head = JSON.parse(data?.data?.data?.title);
+        if (typeof head !== 'object') head = { EN: data?.data?.data?.title, PU: "" };
+      } catch (e) {
+        head = { EN: data?.data?.data?.title || "", PU: "" };
+      }
+
       setName(head?.EN || "");
-      setDescription(desc?.EN || null);
+      setDescription(desc?.EN || "");
       setNamePunjabi(head?.PU || "");
-      setDescriptionPunjabi(desc?.PU || null);
+      setDescriptionPunjabi(desc?.PU || "");
       setCategory(data?.data?.data?.category?._id);
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
@@ -360,6 +376,7 @@ const EditBlogPost = () => {
                       Post Description (Punjabi)
                     </label>
                     <Editor
+                      key={descriptionPunjabi ? "loaded-pu" : "loading-pu"}
                       apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
                       initialValue={descriptionPunjabi}
                       onInit={(evt, editor) => (editorRefPunjabi.current = editor)}
@@ -412,6 +429,7 @@ const EditBlogPost = () => {
                       Post Description (English)
                     </label>
                     <Editor
+                      key={description ? "loaded-en" : "loading-en"}
                       apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
                       initialValue={description}
                       onInit={(evt, editor) => (editorRef.current = editor)}
