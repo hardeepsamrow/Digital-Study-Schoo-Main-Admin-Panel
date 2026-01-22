@@ -86,14 +86,22 @@ const AddBlogPost = () => {
 
   const onFileChangeCapture = (e) => {
     const file = e.target.files[0];
-    setFile(e.target.files);
-    const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
-    reader.onloadend = function (theFile) {
-      var image = new Image();
-      image.src = theFile.target.result;
-      imgRef.current.src = image.src;
-    };
+    if (file) {
+      if (!file.type.match('image.*')) {
+        toast.error("Please select a valid image file (PNG, JPG, JPEG, WEBP)");
+        setFile(null);
+        e.target.value = null; // Reset input
+        return;
+      }
+      setFile(e.target.files);
+      const reader = new FileReader();
+      const url = reader.readAsDataURL(file);
+      reader.onloadend = function (theFile) {
+        var image = new Image();
+        image.src = theFile.target.result;
+        imgRef.current.src = image.src;
+      };
+    }
   };
   const triggerFile = () => {
     inputFileRef.current.click();
@@ -448,6 +456,7 @@ const AddBlogPost = () => {
                       </div>
                       <input
                         type="file"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
                         ref={inputFileRef}
                         style={styles.input}
                         onChangeCapture={onFileChangeCapture}
