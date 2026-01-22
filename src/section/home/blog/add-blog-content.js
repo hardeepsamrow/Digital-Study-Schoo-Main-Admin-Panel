@@ -38,7 +38,7 @@ const AddBlogPost = () => {
 
   const [filteredData, setfilteredData] = useState([]);
   const [parentId, setparentId] = useState("");
-  const [categoryName, setCategoryName] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const editorRef = useRef(null);
@@ -149,6 +149,22 @@ const AddBlogPost = () => {
     e.preventDefault();
     setMessage("");
     setLoading(true);
+
+    if (!name) {
+      toast.error("Please enter a Post Title (English).");
+      setLoading(false);
+      return;
+    }
+    if (!categoryName) {
+      toast.error("Please select a Category.");
+      setLoading(false);
+      return;
+    }
+    if (!file || file.length === 0) {
+      toast.error("Please upload a Thumbnail image.");
+      setLoading(false);
+      return;
+    }
     const desc = {
       EN: editorRef.current.getContent(),
       PU: editorRefPun.current.getContent()
@@ -186,8 +202,8 @@ const AddBlogPost = () => {
       },
 
       (error) => {
-        const resMessage = error?.response?.data?.message;
-        toast.error(error?.response?.data?.message)
+        const resMessage = error?.response?.data?.message || error.message || "Something went wrong";
+        toast.error(resMessage)
         setLoading(false);
         setMessage(resMessage);
       }
@@ -197,6 +213,27 @@ const AddBlogPost = () => {
     e.preventDefault();
     setMessage("");
     setLoading(true);
+
+    if (!name) {
+      toast.error("Please enter a Post Title (English).");
+      setLoading(false);
+      return;
+    }
+    if (!categoryName) {
+      toast.error("Please select a Category.");
+      setLoading(false);
+      return;
+    }
+    if (!file || file.length === 0) {
+      toast.error("Please upload a Thumbnail image.");
+      setLoading(false);
+      return;
+    }
+    if (!slot) {
+      toast.error("Please select a valid date/time.");
+      setLoading(false);
+      return;
+    }
     const desc = {
       EN: editorRef.current.getContent(),
       PU: editorRefPun.current.getContent()
@@ -235,8 +272,8 @@ const AddBlogPost = () => {
       },
 
       (error) => {
-        const resMessage = error?.response?.data?.message;
-        toast.error(error?.response?.data?.message)
+        const resMessage = error?.response?.data?.message || error.message || "Something went wrong";
+        toast.error(resMessage)
         setLoading(false);
         setMessage(resMessage);
       }
@@ -541,7 +578,7 @@ const AddBlogPost = () => {
                       </div>
                       <div className="mt-4" style={{ textAlign: 'center' }}>
                         <button
-                          type="submit"
+                          type="button"
                           style={{ minWidth: '120px' }}
                           className="btn btn-primary ms-3"
                           onClick={handleSubmitSchedule}
@@ -558,7 +595,7 @@ const AddBlogPost = () => {
                 }
                 <div className="d-flex justify-content-center btn-min-width p-4">
                   <button
-                    type="submit"
+                    type="button"
                     style={{ minWidth: '120px' }}
                     className="btn btn-primary me-3"
                     onClick={() => setSPopup(true)}
