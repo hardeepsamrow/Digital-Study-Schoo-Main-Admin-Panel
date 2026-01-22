@@ -193,7 +193,7 @@ const ScholarShipSectionList = () => {
               </div>
             </div> */}
             <Editor
-              apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+              apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
               onInit={(evt, editor) => (editorRef.current = editor)}
               initialValue={headingOne}
               init={{

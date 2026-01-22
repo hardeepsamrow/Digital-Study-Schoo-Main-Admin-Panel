@@ -377,7 +377,7 @@ const EditBlogPost = () => {
                     </label>
                     <Editor
                       key={descriptionPunjabi ? "loaded-pu" : "loading-pu"}
-                      apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+                      apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
                       initialValue={descriptionPunjabi}
                       onInit={(evt, editor) => (editorRefPunjabi.current = editor)}
                       init={{
@@ -430,7 +430,7 @@ const EditBlogPost = () => {
                     </label>
                     <Editor
                       key={description ? "loaded-en" : "loading-en"}
-                      apiKey="18egvot8qs0vrhnwbh3pckvbx1igb7p0z4sve1m8eblrgdj1"
+                      apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
                       initialValue={description}
                       onInit={(evt, editor) => (editorRef.current = editor)}
                       init={{
