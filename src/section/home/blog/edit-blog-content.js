@@ -13,6 +13,44 @@ const styles = {
 const MAX_COUNT = 5;
 const serverUrl = "https://backend.digitalstudyschool.com";
 
+const SeoIndicator = ({ value, max }) => {
+  const length = value ? value.length : 0;
+  const percentage = Math.min((length / max) * 100, 100);
+
+  let color = "#ffc107"; // Warning (Yellow/Orange) - Too short
+  let status = "Too Short";
+
+  if (length === 0) {
+    status = "Empty";
+  } else if (length > max) {
+    color = "#dc3545"; // Error (Red) - Too long
+    status = "Too Long";
+  } else if (length >= max * 0.5) {
+    color = "#198754"; // Success (Green) - Good
+    status = "Good";
+  }
+
+  return (
+    <div style={{ marginTop: '5px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '2px' }}>
+        <span style={{ color: color, fontWeight: 'bold' }}>
+          {status}
+        </span>
+        <span style={{ color: length > max ? '#dc3545' : '#6c757d' }}>{length} / {max} px (approx chars)</span>
+      </div>
+      <div style={{ height: '5px', width: '100%', backgroundColor: '#e9ecef', borderRadius: '3px', overflow: 'hidden' }}>
+        <div style={{
+          height: '100%',
+          width: `${length > max ? 100 : percentage}%`,
+          backgroundColor: color,
+          borderRadius: '3px',
+          transition: 'width 0.3s ease, background-color 0.3s ease'
+        }}></div>
+      </div>
+    </div>
+  );
+};
+
 const EditBlogPost = () => {
   const params = useParams();
   const form = useRef();
@@ -273,6 +311,7 @@ const EditBlogPost = () => {
                       onChange={(e) => setMetaTitle(e.target.value)}
                       placeholder="Meta Title"
                     />
+                    <SeoIndicator value={metaTitle} max={60} />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Meta Description</label>
@@ -283,6 +322,7 @@ const EditBlogPost = () => {
                       onChange={(e) => setMetaDescription(e.target.value)}
                       placeholder="Meta Description"
                     />
+                    <SeoIndicator value={metaDescription} max={160} />
                   </div>
                   <div className="mb-3">
                     <form onSubmit={handleKeyWordSubmit}>
