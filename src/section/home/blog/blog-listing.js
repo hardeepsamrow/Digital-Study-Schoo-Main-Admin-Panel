@@ -215,19 +215,19 @@ const BlogList = () => {
                                 {formatDate(item?.createdAt)}
                               </div>
                             </td>
-                            <td>
+                            <td className="py-4">
                               <div className="small mb-1" style={{ color: getLenColor(metaTitle.length, 60), fontWeight: 'bold' }}>
                                 {metaTitle.length} / 60
                               </div>
-                              <div className="small text-wrap" style={{ maxWidth: '250px', fontSize: '12px', lineHeight: '1.2' }}>
+                              <div className="small text-wrap" style={{ maxWidth: '300px', fontSize: '13px', lineHeight: '1.6' }}>
                                 {metaTitle || <span className="text-muted fst-italic">Missing</span>}
                               </div>
                             </td>
-                            <td>
+                            <td className="py-4">
                               <div className="small mb-1" style={{ color: getLenColor(metaDesc.length, 160), fontWeight: 'bold' }}>
                                 {metaDesc.length} / 160
                               </div>
-                              <div className="small text-wrap" style={{ maxWidth: '300px', fontSize: '12px', lineHeight: '1.2' }}>
+                              <div className="small text-wrap" style={{ maxWidth: '350px', fontSize: '13px', lineHeight: '1.6' }}>
                                 {metaDesc || <span className="text-muted fst-italic">Missing</span>}
                               </div>
                             </td>
