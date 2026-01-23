@@ -176,6 +176,7 @@ const EditBlogPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     const desc = {
       EN: editorRef.current.getContent(),
@@ -344,7 +345,7 @@ const EditBlogPost = () => {
                           {todo}
                           <i
                             onClick={() => handleDelete(index)}
-                            class="far fa-times-circle icon-cross-todo"
+                            className="far fa-times-circle icon-cross-todo"
                           ></i>
                         </li>
                       ))}
@@ -514,7 +515,7 @@ const EditBlogPost = () => {
 
               <div className="d-flex justify-content-start btn-min-width p-4">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-primary"
                   onClick={handleSubmit}
                   //   onSubmit={handleSubmit}
