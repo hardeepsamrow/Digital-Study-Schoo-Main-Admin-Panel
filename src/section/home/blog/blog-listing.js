@@ -456,7 +456,7 @@ const BlogList = () => {
                   </div>
                 </div>
               ))
-            ) : (
+            )) : (
             !loading && (
               <div
                 className="container-fluid text-center no-padding"
