@@ -688,5 +688,15 @@
       "Missing meta description",
       "Missing keywords/topics"
     ]
+  },
+  {
+    "id": "69721b8a4359707f65b1be87",
+    "title": "No title",
+    "problems": [
+      "Missing or broken featured image",
+      "Empty content",
+      "Missing meta description",
+      "Missing keywords/topics"
+    ]
   }
 ]
