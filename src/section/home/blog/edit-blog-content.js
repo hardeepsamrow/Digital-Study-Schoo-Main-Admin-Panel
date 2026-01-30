@@ -149,7 +149,7 @@ const EditBlogPost = () => {
         // Backend stores as ISO possibly, so ensuring it's loaded as moment then formatted
         const sDate = moment(data?.data?.data?.schedulingDate);
         if (sDate.isValid()) {
-          setSlot(sDate.format("YYYY-MM-DD HH:mm:ss"));
+          setSlot(sDate.format("YYYY-MM-DDTHH:mm:ss"));
         } else {
           setSlot(data?.data?.data?.schedulingDate);
         }
@@ -174,7 +174,7 @@ const EditBlogPost = () => {
   };
   const handleDateChange = (date) => {
     if (moment.isMoment(date)) {
-      setSlot(date.format("YYYY-MM-DD HH:mm:ss"));
+      setSlot(date.format("YYYY-MM-DDTHH:mm:ss"));
     } else {
       setSlot(date);
     }
