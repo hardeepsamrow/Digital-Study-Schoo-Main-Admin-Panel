@@ -17,7 +17,7 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       localStorage.removeItem("user");
       window.location.href = "/#/login";
       // Hace la solicitud de refresco de tokens
