@@ -5,6 +5,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { ToastContainer, toast } from "react-toastify";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import moment from "moment";
 
 const styles = {
   input: {
@@ -13,7 +14,7 @@ const styles = {
   },
 };
 let inputProps = {
-  placeholder: "Date",
+  placeholder: "Date (YYYY-MM-DD)",
 };
 const MAX_COUNT = 5;
 
@@ -159,36 +160,14 @@ const AddBlogPost = () => {
     return current.isSameOrAfter(today);
   };
   const handleDateChange = (date) => {
-    const formattedDate = formatDate(date);
-    setSlot(formattedDate);
+    // If user types invalid date, date might be string or invalid moment
+    if (moment.isMoment(date)) {
+      setSlot(date.format("YYYY-MM-DD HH:mm:ss"));
+    } else {
+      setSlot(date);
+    }
   };
-  const formatDate = (date) => {
-    const formattedDate = new Date(date);
 
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true
-    };
-
-    const year = formattedDate.getFullYear();
-    const month = formattedDate.toLocaleString("en-US", { month: "2-digit" });
-    const day = formattedDate.toLocaleString("en-US", { day: "2-digit" });
-    const time = formattedDate.toLocaleString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-
-    const correctedDate = `${year}-${month}-${day} ${time}`;
-    setCorrected(correctedDate);
-    return correctedDate;
-  };
 
   const userId = JSON.parse(localStorage.getItem("user"));
   const userIdString = userId && userId._id ? userId._id.toString() : "";
@@ -307,8 +286,8 @@ const AddBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
-    data.append("status", "Scheduled");
-    data.append("schedulingDate", new Date(slot).toISOString());
+    data.append("status", "Pending");
+    data.append("schedulingDate", slot);
     DataService.addBlog(data).then(
       () => {
         toast.success("Blog added successfully!", {

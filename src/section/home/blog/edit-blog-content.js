@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import moment from "moment";
 const styles = {
   input: {
     opacity: "0%",
@@ -14,7 +15,7 @@ const styles = {
 };
 const MAX_COUNT = 5;
 let inputProps = {
-  placeholder: "Date",
+  placeholder: "Date (YYYY-MM-DD)",
 };
 const serverUrl = "https://backend.digitalstudyschool.com";
 
@@ -144,7 +145,14 @@ const EditBlogPost = () => {
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
       if (data?.data?.data?.schedulingDate) {
-        setSlot(new Date(data?.data?.data?.schedulingDate));
+        // Set slot as string formatted
+        // Backend stores as ISO possibly, so ensuring it's loaded as moment then formatted
+        const sDate = moment(data?.data?.data?.schedulingDate);
+        if (sDate.isValid()) {
+          setSlot(sDate.format("YYYY-MM-DD HH:mm:ss"));
+        } else {
+          setSlot(data?.data?.data?.schedulingDate);
+        }
       }
       setSelectedOptions(
         data?.data?.data?.tag
@@ -165,23 +173,11 @@ const EditBlogPost = () => {
     return current.isSameOrAfter(today);
   };
   const handleDateChange = (date) => {
-    const formattedDate = formatDate(date);
-    setSlot(formattedDate);
-  };
-  const formatDate = (date) => {
-    const formattedDate = new Date(date);
-
-    const year = formattedDate.getFullYear();
-    const month = formattedDate.toLocaleString("en-US", { month: "2-digit" });
-    const day = formattedDate.toLocaleString("en-US", { day: "2-digit" });
-    const time = formattedDate.toLocaleString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-
-    const correctedDate = `${year}-${month}-${day} ${time}`;
-    return correctedDate;
+    if (moment.isMoment(date)) {
+      setSlot(date.format("YYYY-MM-DD HH:mm:ss"));
+    } else {
+      setSlot(date);
+    }
   };
   const getAllTag = () => {
     DataService.getTags(data).then((data) => {
@@ -290,8 +286,8 @@ const EditBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
-    data.append("status", "Scheduled");
-    data.append("schedulingDate", new Date(slot).toISOString());
+    data.append("status", "Pending");
+    data.append("schedulingDate", slot);
 
     DataService.updateBlog(data, params.id).then(
       () => {
