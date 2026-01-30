@@ -307,7 +307,7 @@ const AddBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
-    data.append("status", "Pending");
+    data.append("status", "Scheduled");
     data.append("schedulingDate", new Date(slot).toISOString());
     DataService.addBlog(data).then(
       () => {

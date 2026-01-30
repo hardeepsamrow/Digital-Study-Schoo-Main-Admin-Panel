@@ -149,7 +149,7 @@ const BlogList = () => {
               >
                 <option value="All">All</option>
                 <option value="Published">Published</option>
-                <option value="Pending">Scheduled</option>
+                <option value="Scheduled">Scheduled</option>
               </select>
             </form>
           </div>
