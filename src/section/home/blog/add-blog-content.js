@@ -61,7 +61,7 @@ const AddBlogPost = () => {
   const [slot, setSlot] = useState("");
   const [corrected, setCorrected] = useState("");
   const [name, setName] = useState("");
-  const [namePunjabi, setNamePunjabi] = useState("");
+
   const [url, setUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
@@ -80,7 +80,7 @@ const AddBlogPost = () => {
   const [description, setDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const editorRef = useRef(null);
-  const editorRefPun = useRef(null);
+
 
   const navigate = useNavigate();
 
@@ -213,11 +213,11 @@ const AddBlogPost = () => {
     }
     const desc = {
       EN: editorRef.current?.getContent() || "",
-      PU: editorRefPun.current?.getContent() || ""
+      PU: ""
     }
     const head = {
       EN: name,
-      PU: namePunjabi
+      PU: ""
     }
     const data = new FormData();
     if (file && file.length > 0) {
@@ -282,11 +282,11 @@ const AddBlogPost = () => {
     }
     const desc = {
       EN: editorRef.current?.getContent() || "",
-      PU: editorRefPun.current?.getContent() || ""
+      PU: ""
     }
     const head = {
       EN: name,
-      PU: namePunjabi
+      PU: ""
     }
     const data = new FormData();
     if (file && file.length > 0) {
@@ -503,68 +503,18 @@ const AddBlogPost = () => {
                       />
                     </div>
 
-                    <label className="form-label">Post Title (Punjabi)</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={namePunjabi}
-                      onChange={(e) => setNamePunjabi(e.target.value)}
-                      placeholder="Post Title (Punjabi)"
-                    />
-                    <div className="mb-4 description-sec">
-                      <label className="form-label">Post Description (Punjabi)</label>
-                      <Editor
-                        apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
-                        onInit={(evt, editor) => (editorRefPun.current = editor)}
-                        initialValue={""}
-                        init={{
-                          height: 500,
-                          menubar: true,
-                          plugins: [
-                            "advlist",
-                            "autolink",
-                            "lists",
-                            "link",
-                            "image",
-                            "charmap",
-                            "preview",
-                            "anchor",
-                            "searchreplace",
-                            "visualblocks",
-                            "code",
-                            "fullscreen",
-                            "insertdatetime",
-                            "media",
-                            "table",
-                            "code",
-                            "help",
-                            "wordcount",
-                            "file",
-                          ],
-                          toolbar:
-                            "undo redo | blocks | " +
-                            "bold italic forecolor | alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
-                            "removeformat | image file | help",
-                          content_style:
-                            "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
-                          images_upload_url:
-                            "https://backend.digitalstudyschool.com/api/EnNews/images",
-                          file_picker_types: "image",
-                        }}
-                      />
-                    </div>
-                    <label className="form-label">Post Title (English)</label>
+
+                    <label className="form-label">Post Title</label>
                     <input
                       type="text"
                       className="form-control"
                       value={name}
                       // onChange={(e) => setName(e.target.value)}
                       onChange={handleNameChange}
-                      placeholder="Post Title (English)"
+                      placeholder="Post Title"
                     />
                     <div className="mb-4 description-sec">
-                      <label className="form-label">Post Description (English) </label>
+                      <label className="form-label">Post Description </label>
 
                       <Editor
                         apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"

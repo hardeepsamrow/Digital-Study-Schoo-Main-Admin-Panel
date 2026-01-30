@@ -55,7 +55,7 @@ const EditBlogPost = () => {
   const params = useParams();
   const form = useRef();
   const [name, setName] = useState("");
-  const [namePunjabi, setNamePunjabi] = useState("");
+
   const [url, setUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
@@ -67,11 +67,11 @@ const EditBlogPost = () => {
   const [data, setData] = useState([]);
   const [filteredData, setfilteredData] = useState([]);
   const [description, setDescription] = useState("");
-  const [descriptionPunjabi, setDescriptionPunjabi] = useState("");
+
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const editorRef = useRef(null);
-  const editorRefPunjabi = useRef(null);
+
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const inputFileRef = useRef();
@@ -130,8 +130,7 @@ const EditBlogPost = () => {
 
       setName(head?.EN || "");
       setDescription(desc?.EN || "");
-      setNamePunjabi(head?.PU || "");
-      setDescriptionPunjabi(desc?.PU || "");
+
       setCategory(data?.data?.data?.category?._id);
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
@@ -180,11 +179,11 @@ const EditBlogPost = () => {
     setLoading(true);
     const desc = {
       EN: editorRef.current?.getContent() || description || "",
-      PU: editorRefPunjabi.current?.getContent() || descriptionPunjabi || ""
+      PU: ""
     }
     const head = {
       EN: name,
-      PU: namePunjabi
+      PU: ""
     }
     const data = new FormData();
     if (file && file.length > 0) {
@@ -405,70 +404,18 @@ const EditBlogPost = () => {
                       onChangeCapture={onFileChangeCapture}
                     />
                   </div>
-                  <label className="form-label">Post Title (Punjabi)</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={namePunjabi}
-                    onChange={(e) => setNamePunjabi(e.target.value)}
-                    placeholder="Post Title (Punjabi)"
-                  />
-                  <div className="mb-4">
-                    <label className="form-label">
-                      Post Description (Punjabi)
-                    </label>
-                    <Editor
-                      key={descriptionPunjabi ? "loaded-pu" : "loading-pu"}
-                      apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
-                      initialValue={descriptionPunjabi}
-                      onInit={(evt, editor) => (editorRefPunjabi.current = editor)}
-                      init={{
-                        height: 500,
-                        menubar: true,
-                        plugins: [
-                          "advlist",
-                          "autolink",
-                          "lists",
-                          "link",
-                          "image",
-                          "charmap",
-                          "preview",
-                          "anchor",
-                          "searchreplace",
-                          "visualblocks",
-                          "code",
-                          "fullscreen",
-                          "insertdatetime",
-                          "media",
-                          "table",
-                          "code",
-                          "help",
-                          "wordcount",
-                          "file",
-                        ],
-                        toolbar:
-                          "undo redo | blocks | " +
-                          "bold italic forecolor | alignleft aligncenter " +
-                          "alignright alignjustify | bullist numlist outdent indent | " +
-                          "removeformat | image file | help",
-                        content_style:
-                          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
 
-                        file_picker_types: "image",
-                      }}
-                    />
-                  </div>
-                  <label className="form-label">Post Title (English)</label>
+                  <label className="form-label">Post Title</label>
                   <input
                     type="text"
                     className="form-control"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Post Title (English)"
+                    placeholder="Post Title"
                   />
                   <div className="mb-4">
                     <label className="form-label">
-                      Post Description (English)
+                      Post Description
                     </label>
                     <Editor
                       key={description ? "loaded-en" : "loading-en"}
