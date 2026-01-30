@@ -179,8 +179,8 @@ const EditBlogPost = () => {
     if (loading) return;
     setLoading(true);
     const desc = {
-      EN: editorRef.current.getContent(),
-      PU: editorRefPunjabi.current.getContent()
+      EN: editorRef.current?.getContent() || description || "",
+      PU: editorRefPunjabi.current?.getContent() || descriptionPunjabi || ""
     }
     const head = {
       EN: name,
@@ -387,6 +387,7 @@ const EditBlogPost = () => {
                           <img
                             // src="../assets/img/noImage.jpg"
                             src="../assets/img/img-placeholder.svg"
+                            ref={imgRef}
                             alt="post_image"
                           />
                         )}

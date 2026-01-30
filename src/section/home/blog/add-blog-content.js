@@ -212,8 +212,8 @@ const AddBlogPost = () => {
       return;
     }
     const desc = {
-      EN: editorRef.current.getContent(),
-      PU: editorRefPun.current.getContent()
+      EN: editorRef.current?.getContent() || "",
+      PU: editorRefPun.current?.getContent() || ""
     }
     const head = {
       EN: name,
@@ -281,8 +281,8 @@ const AddBlogPost = () => {
       return;
     }
     const desc = {
-      EN: editorRef.current.getContent(),
-      PU: editorRefPun.current.getContent()
+      EN: editorRef.current?.getContent() || "",
+      PU: editorRefPun.current?.getContent() || ""
     }
     const head = {
       EN: name,
