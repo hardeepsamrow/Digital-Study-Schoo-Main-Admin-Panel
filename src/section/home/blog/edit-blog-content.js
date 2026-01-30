@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
 const styles = {
   input: {
     opacity: "0%",
@@ -11,6 +13,9 @@ const styles = {
   },
 };
 const MAX_COUNT = 5;
+let inputProps = {
+  placeholder: "Date",
+};
 const serverUrl = "https://backend.digitalstudyschool.com";
 
 const SeoIndicator = ({ value, max }) => {
@@ -55,6 +60,8 @@ const EditBlogPost = () => {
   const params = useParams();
   const form = useRef();
   const [name, setName] = useState("");
+  const [slot, setSlot] = useState("");
+  const [sPopup, setSPopup] = useState(false);
 
   const [url, setUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
@@ -136,6 +143,9 @@ const EditBlogPost = () => {
       setUrl(data?.data?.data?.url);
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
+      if (data?.data?.data?.schedulingDate) {
+        setSlot(new Date(data?.data?.data?.schedulingDate));
+      }
       setSelectedOptions(
         data?.data?.data?.tag
           ? data?.data?.data?.tag?.map((item) => item?._id)
@@ -148,6 +158,30 @@ const EditBlogPost = () => {
     DataService.getCategory().then((data) => {
       setAData(data.data.data);
     });
+  };
+  const isValidDate = (current) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return current.isSameOrAfter(today);
+  };
+  const handleDateChange = (date) => {
+    const formattedDate = formatDate(date);
+    setSlot(formattedDate);
+  };
+  const formatDate = (date) => {
+    const formattedDate = new Date(date);
+
+    const year = formattedDate.getFullYear();
+    const month = formattedDate.toLocaleString("en-US", { month: "2-digit" });
+    const day = formattedDate.toLocaleString("en-US", { day: "2-digit" });
+    const time = formattedDate.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    const correctedDate = `${year}-${month}-${day} ${time}`;
+    return correctedDate;
   };
   const getAllTag = () => {
     DataService.getTags(data).then((data) => {
@@ -207,6 +241,61 @@ const EditBlogPost = () => {
     DataService.updateBlog(data, params.id).then(
       () => {
         toast.success("Blog Updated Successfully!!");
+        setTimeout(() => {
+          navigate("/blogs");
+        }, 2000);
+      },
+
+      (error) => {
+        const resMessage = error?.response?.data?.message;
+        setLoading(false);
+        toast.error(resMessage, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    );
+  };
+
+  const handleSubmitSchedule = (e) => {
+    e.preventDefault();
+    if (loading) return;
+    if (!slot) {
+      toast.error("Please select a valid date/time.");
+      return;
+    }
+    setLoading(true);
+    const desc = {
+      EN: editorRef.current?.getContent() || description || "",
+      PU: ""
+    }
+    const head = {
+      EN: name,
+      PU: ""
+    }
+    const data = new FormData();
+    if (file && file.length > 0) {
+      data.append("image", file[0]);
+    }
+    todos.forEach((keyword, index) => {
+      data.append(`metaKeywords[${index}]`, keyword);
+    });
+    data.append("description", JSON.stringify(desc));
+    data.append("title", JSON.stringify(head));
+    if (selectedOptions?.length > 0) {
+      selectedOptions.forEach((tag, i) => {
+        data.append(`tag[${i}]`, tag);
+      });
+    }
+    data.append("category", category);
+    data.append("metaTitle", metaTitle);
+    data.append("metaDescription", metaDescription);
+    data.append("url", url);
+    data.append("status", "Pending");
+    data.append("schedulingDate", new Date(slot).toISOString());
+
+    DataService.updateBlog(data, params.id).then(
+      () => {
+        toast.success("Blog Scheduled Successfully!!");
         setTimeout(() => {
           navigate("/blogs");
         }, 2000);
@@ -461,12 +550,24 @@ const EditBlogPost = () => {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-start btn-min-width p-4">
+              <div className="d-flex justify-content-center btn-min-width p-4">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  style={{ minWidth: '120px' }}
+                  className="btn btn-primary me-3"
+                  onClick={() => setSPopup(true)}
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Schedule</span>
+                </button>
+                <button
+                  type="button"
+                  style={{ minWidth: '120px' }}
+                  className="btn btn-primary ms-3"
                   onClick={handleSubmit}
-                  //   onSubmit={handleSubmit}
                   disabled={loading}
                 >
                   {loading && (
@@ -479,8 +580,42 @@ const EditBlogPost = () => {
           </div>
         </div>
       </div>
+      {
+        sPopup &&
+        <div className="popup_outer">
+          <div className="popup_inner">
+            <i className="fas fa-times" onClick={() => setSPopup(false)}></i>
+            <h2>Please Select Time & Date</h2>
+            <div style={{ position: 'relative' }}>
+              <i className="far fa-calendar-alt"></i>
+              <Datetime
+                onChange={handleDateChange}
+                inputProps={inputProps}
+                dateFormat="yyyy-MMM-DD"
+                timeFormat="hh:mm A"
+                isValidDate={isValidDate}
+                value={slot}
+              />
+            </div>
+            <div className="mt-4" style={{ textAlign: 'center' }}>
+              <button
+                type="button"
+                style={{ minWidth: '120px' }}
+                className="btn btn-primary ms-3"
+                onClick={handleSubmitSchedule}
+                disabled={loading}
+              >
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Submit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
       {/* </form> */}
-    </div>
+    </div >
   );
 };
 
