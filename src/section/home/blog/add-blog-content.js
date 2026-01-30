@@ -113,7 +113,7 @@ const AddBlogPost = () => {
   };
   const generateUrlFromTitle = (title) => {
     // return title.toLowerCase().replace(/\s+/g, '-');
-    return title.toLowerCase().replace(/[^\w\-]+/g, '-').replace(/-+/g, '-');
+    return title.toLowerCase().replace(/[^\w\-]+/g, '-').replace(/-+/g, '-').replace(/-+$/, '');
   };
 
   const handleNameChange = (e) => {
@@ -180,7 +180,9 @@ const AddBlogPost = () => {
     const time = formattedDate.toLocaleString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     });
 
     const correctedDate = `${year}-${month}-${day} ${time}`;
@@ -306,7 +308,7 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("status", "Pending");
-    data.append("schedulingDate", slot);
+    data.append("schedulingDate", new Date(slot).toISOString());
     DataService.addBlog(data).then(
       () => {
         toast.success("Blog added successfully!", {
