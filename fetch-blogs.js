@@ -33,7 +33,7 @@ async function fetchAllBlogs() {
 
     console.log("\n📚 Fetching all blogs...");
     try {
-        const blogsRes = await axios.get(`${API_BASE}api/blogs/getAll`, {
+        const blogsRes = await axios.get(`${API_BASE}api/blogs/admin-panel`, {
             headers: { Authorization: `Bearer ${token}` }
         });
 

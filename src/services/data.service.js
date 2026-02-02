@@ -30,7 +30,7 @@ const addBlog = (data) => {
   return axios.post(API_URL + "api/blogs/add", data);
 };
 const getAllBlog = () => {
-  return axios.get(API_URL + "api/blogs/getAll");
+  return axios.get(API_URL + "api/blogs/admin-panel");
 };
 const getBlogById = (id) => {
   return axios.get(API_URL + "api/blogs/get/" + id);

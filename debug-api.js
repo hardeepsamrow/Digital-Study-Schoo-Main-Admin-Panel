@@ -41,7 +41,7 @@ async function debug() {
 
     console.log("Attempting to list blogs...");
     try {
-        const res = await axios.get(`${API_BASE}api/blogs/getAll`, {
+        const res = await axios.get(`${API_BASE}api/blogs/admin-panel`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         console.log("Blogs Status:", res.status);

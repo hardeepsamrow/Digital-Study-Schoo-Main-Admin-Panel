@@ -123,7 +123,7 @@
 
 - **API URL:** `https://backend.digitalstudyschool.com/`
 - **Login Endpoint:** `/api/admin/login`
-- **Blogs Endpoint:** `/api/blogs/getAll`
+- **Blogs Endpoint:** `/api/blogs/admin-panel`
 - **Indexing Endpoint:** `/api/indexing/request-indexing`
 
 ### Admin Credentials
