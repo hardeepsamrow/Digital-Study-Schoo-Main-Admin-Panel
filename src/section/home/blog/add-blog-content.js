@@ -65,7 +65,7 @@ const AddBlogPost = () => {
 
   const [url, setUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
-  const [metaTitle, setMetaTitle] = useState("");
+
   const [metaDescription, setMetaDescription] = useState("");
   const [canonicalUrl, setCanonicalUrl] = useState("");
   const [metaKeyWords, setMetaKeyWords] = useState([]);
