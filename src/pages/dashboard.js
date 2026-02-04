@@ -8,6 +8,7 @@ import TopVendor from "../section/home/dashboard/top-vendor";
 import StockReport from "../section/home/dashboard/stock-report";
 import RecentOrder from "../section/home/dashboard/recent-order";
 import DataService from "../services/data.service";
+import BlogList from "../section/home/blog/blog-listing";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -46,19 +47,13 @@ const Dashboard = () => {
   //   });
   // }
 
+
   return (
     <div className="bg-grey h-100">
       <Header />
       <section className="content-area mt-4">
         <Sidebar />
         <div className="Right-content">
-          {/* <div className="main-content"> */}
-          {/* <Graphics />
-                <TopProduct />
-                <TopVendor />
-                <RecentOrder />
-                <StockReport/> */}
-          {/* </div>  */}
           <div className="main-content">
             <div className="hp_title">
               <h2>
@@ -86,6 +81,12 @@ const Dashboard = () => {
                 </Link>
               </div>
             </div>
+
+            {/* Complete Blog List in Dashboard */}
+            <div className="mt-5">
+              <BlogList />
+            </div>
+
           </div>
           <Footer />
         </div>

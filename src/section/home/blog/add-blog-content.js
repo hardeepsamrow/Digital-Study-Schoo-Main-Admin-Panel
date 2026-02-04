@@ -287,7 +287,9 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("status", "Pending");
-    data.append("schedulingDate", slot);
+    // Ensure slot is a valid ISO string for backend Date parsing
+    const isoDate = moment(slot).toISOString();
+    data.append("schedulingDate", isoDate);
     DataService.addBlog(data).then(
       () => {
         toast.success("Blog added successfully!", {

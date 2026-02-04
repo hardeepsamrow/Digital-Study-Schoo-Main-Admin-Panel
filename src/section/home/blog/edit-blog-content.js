@@ -287,7 +287,8 @@ const EditBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("status", "Pending");
-    data.append("schedulingDate", slot);
+    const isoDate = moment(slot).toISOString();
+    data.append("schedulingDate", isoDate);
 
     DataService.updateBlog(data, params.id).then(
       () => {
