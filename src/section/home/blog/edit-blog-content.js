@@ -65,6 +65,7 @@ const EditBlogPost = () => {
   const [sPopup, setSPopup] = useState(false);
 
   const [url, setUrl] = useState("");
+  const [canonicalUrl, setCanonicalUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
   const [message, setMessage] = useState("");
@@ -142,6 +143,7 @@ const EditBlogPost = () => {
       setCategory(data?.data?.data?.category?._id);
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
+      setCanonicalUrl(data?.data?.data?.canonicalUrl || "");
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
       if (data?.data?.data?.schedulingDate) {
@@ -233,6 +235,7 @@ const EditBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
+    data.append("canonicalUrl", canonicalUrl);
 
     DataService.updateBlog(data, params.id).then(
       () => {
@@ -286,6 +289,7 @@ const EditBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
+    data.append("canonicalUrl", canonicalUrl);
     data.append("status", "Pending");
     const isoDate = moment(slot).toISOString();
     data.append("schedulingDate", isoDate);
@@ -343,6 +347,19 @@ const EditBlogPost = () => {
                       onChange={(e) => setUrl(e.target.value)}
                       placeholder="Url"
                     />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Canonical URL (Optional)</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={canonicalUrl}
+                      onChange={(e) => setCanonicalUrl(e.target.value)}
+                      placeholder="Leave empty to auto-generate"
+                    />
+                    <div className="form-text text-muted">
+                      Current: {canonicalUrl || (url ? `https://digitalstudyschool.com/blog/${url}` : 'Auto-generated')}
+                    </div>
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Categories</label>

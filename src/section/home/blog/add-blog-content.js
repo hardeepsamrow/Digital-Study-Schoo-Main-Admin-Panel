@@ -65,7 +65,9 @@ const AddBlogPost = () => {
 
   const [url, setUrl] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
+  const [canonicalUrl, setCanonicalUrl] = useState("");
   const [metaKeyWords, setMetaKeyWords] = useState([]);
   const [sPopup, setSPopup] = useState(false)
   const [message, setMessage] = useState("");
@@ -217,6 +219,7 @@ const AddBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
+    data.append("canonicalUrl", canonicalUrl);
     data.append("status", "Published");
     DataService.addBlog(data).then(
       () => {
@@ -286,6 +289,7 @@ const AddBlogPost = () => {
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
+    data.append("canonicalUrl", canonicalUrl);
     data.append("status", "Pending");
     // Ensure slot is a valid ISO string for backend Date parsing
     const isoDate = moment(slot).toISOString();
@@ -358,6 +362,19 @@ const AddBlogPost = () => {
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Url"
                   />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Canonical URL (Optional)</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={canonicalUrl}
+                    onChange={(e) => setCanonicalUrl(e.target.value)}
+                    placeholder="Leave empty to auto-generate"
+                  />
+                  <div className="form-text text-muted">
+                    If empty, will be: https://digitalstudyschool.com/blog/{url || 'your-url'}
+                  </div>
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Categories</label>

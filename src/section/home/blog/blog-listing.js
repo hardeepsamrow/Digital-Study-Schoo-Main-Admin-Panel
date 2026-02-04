@@ -203,7 +203,7 @@ const BlogList = () => {
                               />
                             </td>
                             <td>
-                              <div className="fw-bold text-truncate" style={{ maxWidth: '200px' }} title={safeJsonParse(item?.title, "EN")}>
+                              <div className="fw-bold" style={{ whiteSpace: 'normal' }}>
                                 {safeJsonParse(item?.title, "EN")}
                               </div>
                               <div className="small text-muted mt-1">
@@ -211,8 +211,18 @@ const BlogList = () => {
                                   <i className="fas fa-external-link-alt me-1"></i> View Live
                                 </a>
                               </div>
-                              <div className="small text-muted">
-                                {formatDate(item?.createdAt)}
+                              <div className="small text-muted mt-2">
+                                <div><strong>Created:</strong> {formatDate(item?.createdAt)}</div>
+                                {item?.status === "Pending" && item?.schedulingDate && (
+                                  <div className="text-warning">
+                                    <strong>Scheduled:</strong> {formatDate(item?.schedulingDate)}
+                                  </div>
+                                )}
+                                {item?.status === "Published" && (
+                                  <div className="text-success">
+                                    <strong>Published:</strong> {formatDate(item?.publishDate || item?.updatedAt)}
+                                  </div>
+                                )}
                               </div>
                             </td>
                             <td className="py-4">
