@@ -124,7 +124,7 @@ const ViewContactFormList = () => {
             )}
           </div>
         </div>
-        <table class="table table-striped">
+        <table className="table table-striped">
           <tbody>
             <tr>
               <td className="d-flex align-items-center">Name:</td>
@@ -183,16 +183,16 @@ const ViewContactFormList = () => {
               <td>
                 <div className="row">
                   <div className="col-sm-5">
-                    <div class="form-floating mb-3">
+                    <div className="form-floating mb-3">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="floatingInput"
                         placeholder="Add New Comment"
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                       />
-                      <label for="floatingInput">
+                      <label htmlFor="floatingInput">
                         Add New Comment<span className="astrick">*</span>
                       </label>
                     </div>

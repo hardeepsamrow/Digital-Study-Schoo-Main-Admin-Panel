@@ -72,7 +72,7 @@ const SendEmailList = () => {
     <>
       <ToastContainer />
       <div>
-        <h4 class="f-700 mb-4">Email Send</h4>
+        <h4 className="f-700 mb-4">Email Send</h4>
       </div>
       <div className="main-sec-email-send">
         <div className="inner-sec-email-send">

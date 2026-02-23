@@ -71,7 +71,7 @@ const MyProfileDetail = (props) => {
         {Object.keys(props.data).length > 0 ? (
           <div className="col-md-12 bg-grey p-4">
             <h4>Info</h4>
-            <table class="table table-borderless InfoTable">
+            <table className="table table-borderless InfoTable">
               <tr>
                 <th>First Name:</th>
                 <td>{props.data[0]?.name}</td>
@@ -110,7 +110,7 @@ const MyProfileDetail = (props) => {
               <div
                 className="modal fade"
                 id="exampleModal"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
               >
@@ -126,7 +126,7 @@ const MyProfileDetail = (props) => {
                       <button
                         ref={modalcloseRef}
                         type="button"
-                        class="btn-close"
+                        className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       ></button>
@@ -164,7 +164,7 @@ const MyProfileDetail = (props) => {
                         </div>
                       </div>
                       <div className="modal-footer border-0 pt-0">
-                        <div class="d-grid col-12 mx-auto">
+                        <div className="d-grid col-12 mx-auto">
                           <button
                             disabled={loading}
                             type="submit"

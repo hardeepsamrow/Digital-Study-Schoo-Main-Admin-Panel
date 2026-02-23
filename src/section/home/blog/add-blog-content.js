@@ -363,7 +363,7 @@ const AddBlogPost = () => {
         <div className="row">
           <div className="col-xxl-3 col-lg-4">
             <div className="card">
-              <div className="card-body text=center">
+              <div className="card-body text-center">
                 {/* <h4 className="f-700">Blog Details</h4> */}
                 <div className="mb-3">
                   <label className="form-label">Url</label>
@@ -494,7 +494,7 @@ const AddBlogPost = () => {
                         {todo}
                         <i
                           onClick={() => handleDelete(index)}
-                          class="far fa-times-circle icon-cross-todo"
+                          className="far fa-times-circle icon-cross-todo"
                         ></i>
                       </li>
                     ))}
@@ -509,7 +509,7 @@ const AddBlogPost = () => {
                 <div className="card-body p-4">
                   <div>
                     <div className="card mb-4">
-                      <div className="card-body text=center">
+                      <div className="card-body text-center">
                         <h4 className="f-700">Thumbnail</h4>
                         <div className="Product-thumbnail" onClick={triggerFile}>
                           <img
@@ -596,7 +596,7 @@ const AddBlogPost = () => {
                       <i className="fas fa-times" onClick={() => setSPopup(false)}></i>
                       <h2>Please Select Time & Date</h2>
                       <div style={{ position: 'relative' }}>
-                        <i class="far fa-calendar-alt"></i>
+                        <i className="far fa-calendar-alt"></i>
                         <Datetime
                           onChange={handleDateChange}
                           inputProps={inputProps}

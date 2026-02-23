@@ -133,7 +133,7 @@ const ScholarShipSectionList = () => {
         <div className="main-sec-scholar">
           <div className="inner-sec-scholar">
             <div className="left-side-inner-scholar">
-              <div className="card-body text=center">
+              <div className="card-body text-center">
                 <h4 className="f-400">Thumbnail</h4>
                 <div className="Product-thumbnail" onClick={triggerFile}>
                   {data?.image ? (
@@ -236,7 +236,7 @@ const ScholarShipSectionList = () => {
         </div>
         <div className="bottom-btn-sec-scholar">
           <button
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={handleUpdateSubmit}
             disabled={loading}
           >

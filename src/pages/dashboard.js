@@ -69,14 +69,14 @@ const Dashboard = () => {
               <div className="hp_inner">
                 <Link to="/blogs">
                   <button>
-                    All Blogs<i class="fas fa-long-arrow-alt-right"></i>
+                    All Blogs<i className="fas fa-long-arrow-alt-right"></i>
                   </button>
                 </Link>
               </div>
               <div className="hp_inner">
                 <Link to="/add-blog">
                   <button>
-                    Add Blog<i class="fas fa-long-arrow-alt-right"></i>
+                    Add Blog<i className="fas fa-long-arrow-alt-right"></i>
                   </button>
                 </Link>
               </div>

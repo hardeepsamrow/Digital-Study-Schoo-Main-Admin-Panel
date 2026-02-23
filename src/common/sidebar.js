@@ -66,7 +66,7 @@ const Sidebar = () => {
                 }
                 onClick={(e) => toggle(e)}
               >
-                <i class="fas fa-th-large side-bar-main-icon"></i>
+                <i className="fas fa-th-large side-bar-main-icon"></i>
                 <span>Add Section</span>
                 <i className="ms-auto">
                   <svg
@@ -77,8 +77,8 @@ const Sidebar = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                       fill="#2C5F2D"
                     />
@@ -102,7 +102,7 @@ const Sidebar = () => {
                     }
                     onClick={(e) => toggle(e)}
                   >
-                    <i class="fas fa-th side-bar-main-icon"></i>
+                    <i className="fas fa-th side-bar-main-icon"></i>
                     <span> All Category</span>
                     <i className="ms-auto">
                       <svg
@@ -113,8 +113,8 @@ const Sidebar = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                           fill="#2C5F2D"
                         />
@@ -133,7 +133,7 @@ const Sidebar = () => {
                     className={url.includes("tag") ? "open" : "close"}
                     onClick={(e) => toggle(e)}
                   >
-                    <i class="fas fa-tags side-bar-main-icon"></i>
+                    <i className="fas fa-tags side-bar-main-icon"></i>
                     <span>Tags</span>
                     <i className="ms-auto">
                       <svg
@@ -144,8 +144,8 @@ const Sidebar = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                           fill="#2C5F2D"
                         />
@@ -164,7 +164,7 @@ const Sidebar = () => {
                     className={url.includes("authors") ? "open" : "close"}
                     onClick={(e) => toggle(e)}
                   >
-                    <i class="fas fa-users side-bar-main-icon"></i>
+                    <i className="fas fa-users side-bar-main-icon"></i>
                     <span>Authors</span>
                     <i className="ms-auto">
                       <svg
@@ -175,8 +175,8 @@ const Sidebar = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                           fill="#2C5F2D"
                         />
@@ -198,7 +198,7 @@ const Sidebar = () => {
               className={url.includes("blog") ? "open" : "close"}
               onClick={(e) => toggle(e)}
             >
-              <i class="fas fa-book-open side-bar-main-icon"></i>
+              <i className="fas fa-book-open side-bar-main-icon"></i>
               <span>Blogs</span>
               <i className="ms-auto">
                 <svg
@@ -209,8 +209,8 @@ const Sidebar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                     fill="#2C5F2D"
                   />
@@ -236,7 +236,7 @@ const Sidebar = () => {
                   className={url.includes("contact-form") ? "open" : "close"}
                   onClick={(e) => toggle(e)}
                 >
-                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <i className="fas fa-id-card-alt side-bar-main-icon"></i>
                   <span>Contact Form</span>
                   <i className="ms-auto">
                     <svg
@@ -247,8 +247,8 @@ const Sidebar = () => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                         fill="#2C5F2D"
                       />
@@ -269,7 +269,7 @@ const Sidebar = () => {
                   className={url.includes("pdf-form-submissions") ? "open" : "close"}
                   to={"/pdf-form-submissions"}
                 >
-                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <i className="fas fa-id-card-alt side-bar-main-icon"></i>
                   <span>PDF Form Submissions</span>
                 </Link>
               </li>
@@ -278,7 +278,7 @@ const Sidebar = () => {
                   className={url.includes("contact-form") ? "open" : "close"}
                   to={"/scholarShip-section"}
                 >
-                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <i className="fas fa-id-card-alt side-bar-main-icon"></i>
                   <span>Scholarship Section</span>
                 </Link>
               </li>
@@ -287,7 +287,7 @@ const Sidebar = () => {
                   className={url.includes("top-bar-text") ? "open" : "close"}
                   to={"/top-bar-text"}
                 >
-                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <i className="fas fa-id-card-alt side-bar-main-icon"></i>
                   <span>Top Bar Text</span>
                 </Link>
               </li>
@@ -296,7 +296,7 @@ const Sidebar = () => {
                   className={url.includes("google-indexing") ? "open" : "close"}
                   to={"/google-indexing"}
                 >
-                  <i class="fab fa-google side-bar-main-icon"></i>
+                  <i className="fab fa-google side-bar-main-icon"></i>
                   <span>Google Indexing</span>
                 </Link>
               </li>
@@ -310,7 +310,7 @@ const Sidebar = () => {
               className={url.includes("profile") ? "open" : "close"}
               onClick={(e) => toggle(e)}
             >
-              <i class="fas fa-user-edit side-bar-main-icon"></i>
+              <i className="fas fa-user-edit side-bar-main-icon"></i>
               <span>Settings</span>
               <i className="ms-auto">
                 <svg
@@ -321,8 +321,8 @@ const Sidebar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
                     fill="#1C939C"
                   />

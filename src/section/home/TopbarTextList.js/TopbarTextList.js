@@ -145,7 +145,7 @@ const TopbarTextList = () => {
         </div>
         <div>
           <button
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={handleUpdateSubmit}
             disabled={loading}
           >

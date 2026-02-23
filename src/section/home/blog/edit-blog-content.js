@@ -343,10 +343,10 @@ const EditBlogPost = () => {
       <div className="row">
         <div className="col-xxl-3 col-lg-4">
           <div className="card">
-            <div className="card-body text=center">
+            <div className="card-body text-center">
               <h4 className="f-700">Blog Details</h4>
               <div className="card">
-                <div className="card-body text=center">
+                <div className="card-body text-center">
                   {/* <h4 className="f-700">Product Details</h4> */}
 
                   <div className="mb-3">
@@ -494,7 +494,7 @@ const EditBlogPost = () => {
               <div className="card-body p-4">
                 <div>
                   <div className="card mb-4">
-                    <div className="card-body text=center">
+                    <div className="card-body text-center">
                       <h4 className="f-700">Thumbnail</h4>
                       <div
                         className="Product-thumbnail  "

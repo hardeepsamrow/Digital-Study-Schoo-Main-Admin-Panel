@@ -224,8 +224,8 @@ const Loginpage = () => {
 
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </Form>
-          {/* <p class="text-center mt-3">
-            <Link to={"/forgot"} class="forgot">
+          {/* <p className="text-center mt-3">
+            <Link to={"/forgot"} className="forgot">
               Forgot your Password?
             </Link>
           </p> */}

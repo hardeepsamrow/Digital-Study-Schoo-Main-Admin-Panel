@@ -74,7 +74,7 @@ const ViewScholarShipFormList = () => {
             )}
           </div>
         </div>
-        <table class="table table-striped">
+        <table className="table table-striped">
           <tbody>
             <tr>
               <td className="d-flex align-items-center">Name:</td>

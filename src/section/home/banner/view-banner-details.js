@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DataService from "../../../services/data.service";
 import { useParams } from "react-router-dom";
 import { format } from 'date-fns'
@@ -17,25 +17,25 @@ const ViewBannerDetail = () => {
     useEffect(() => {
         getData()
     }, []);
-    const getData = async() => {
+    const getData = async () => {
         setLoading(true);
         await DataService.getBannerDetail(params.id).then((data) => {
             setData(data?.data?.data);
             setLoading(false);
-        }).catch((error)=>{
+        }).catch((error) => {
             const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
 
-                setLoading(false);
-                toast.error(resMessage, {
-                    position: toast.POSITION.TOP_RIGHT
-                });
+            setLoading(false);
+            toast.error(resMessage, {
+                position: toast.POSITION.TOP_RIGHT
+            });
         });
-        
+
     }
     const onChangeStatus = (e) => {
         const data = e.target.value;
@@ -46,9 +46,9 @@ const ViewBannerDetail = () => {
         e.preventDefault();
         setLoading(true);
         const data = new FormData();
-        if(status){
+        if (status) {
             data.append('status', status)
-        }      
+        }
         DataService.updateBanner(params?.id, data).then(
             () => {
                 getData();
@@ -73,7 +73,7 @@ const ViewBannerDetail = () => {
         );
     };
     return (
-        
+
         <div className="row">
             <ToastContainer></ToastContainer>
             <div className="col-md-12">
@@ -82,62 +82,62 @@ const ViewBannerDetail = () => {
                         <h4 className="mb-0 f-700">Banner Details</h4>
                     </div>
                 </div>
-                {!loading?
-                            <div className="row">
-                            <div className="col-md-8">
-                                <table class="table table-bordered tf-12 product-detail">
-                                    <thead class="table-secondary">
-                                        <tr>
-                                            <th scope="col" class="f-700">Banner Name</th>
-                                            <th scope="col">{data?.title}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="f-700">Valid Date</td>
-                                            <td>{(data?.to_date)? format(new Date(data?.to_date), 'MMM dd, yyyy'):""}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="f-700">Banner Description</td>
-                                            <td>{data?.description}</td>
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
+                {!loading ?
+                    <div className="row">
+                        <div className="col-md-8">
+                            <table className="table table-bordered tf-12 product-detail">
+                                <thead className="table-secondary">
+                                    <tr>
+                                        <th scope="col" className="f-700">Banner Name</th>
+                                        <th scope="col">{data?.title}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="f-700">Valid Date</td>
+                                        <td>{(data?.to_date) ? format(new Date(data?.to_date), 'MMM dd, yyyy') : ""}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="f-700">Banner Description</td>
+                                        <td>{data?.description}</td>
+                                    </tr>
 
-                                <div className="row mt-5">
+                                </tbody>
+                            </table>
+
+                            <div className="row mt-5">
                                 <div className="col-xl-3 col-md-5 col-12">
                                     <form onSubmit={handleSubmit} ref={form}>
-                                                    <div class="mb-3">
-                                                            <label class="form-label">Change Status</label>
-                                                            <select key={data?.status} defaultValue={data?.status} className="form-select" onChange={onChangeStatus}>
-                                                                <option value="active">Active</option>
-                                                                <option value="inactive">Inactive</option>
-                                                                
-                                                            </select>
-                                                        </div>  
-                                                <div class="mb-3">
-                                                <button disabled={disabled || loading} className="btn btn-primary">
-                                                        {loading && (
-                                                            <span className="spinner-border spinner-border-sm"></span>
-                                                        )}
-                                                        <span>Update</span>
-                                                    </button>
-                                                </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Change Status</label>
+                                            <select key={data?.status} defaultValue={data?.status} className="form-select" onChange={onChangeStatus}>
+                                                <option value="active">Active</option>
+                                                <option value="inactive">Inactive</option>
+
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <button disabled={disabled || loading} className="btn btn-primary">
+                                                {loading && (
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                )}
+                                                <span>Update</span>
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
-                          </div>
                             </div>
+                        </div>
 
-                            <div className="col-md-4">
-                            {(data.file_path ? 
-                                        <img src={"https://api.yourbasket.co.ke/"+data.file_path} className="w-100" alt={data.first_name} />
-                                    : ""
-                                    )}
-                            </div>
-                        </div>:<span className="spinner-border spinner-border-sm"></span>
+                        <div className="col-md-4">
+                            {(data.file_path ?
+                                <img src={"https://api.yourbasket.co.ke/" + data.file_path} className="w-100" alt={data.first_name} />
+                                : ""
+                            )}
+                        </div>
+                    </div> : <span className="spinner-border spinner-border-sm"></span>
                 }
-                
+
             </div>
         </div>
     );
