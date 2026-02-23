@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import DataService from "../../../services/data.service";
+import AuthService from "../../../services/auth.service";
 import { json, useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import { ToastContainer, toast } from "react-toastify";
@@ -81,6 +82,8 @@ const AddBlogPost = () => {
   const [parentId, setparentId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
+  const [authors, setAuthors] = useState([]);
+  const [authorId, setAuthorId] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const editorRef = useRef(null);
 
@@ -220,6 +223,7 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("author", authorId);
     data.append("status", "Published");
     DataService.addBlog(data).then(
       () => {
@@ -290,6 +294,7 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("author", authorId);
     data.append("status", "Pending");
     // Ensure slot is a valid ISO string for backend Date parsing
     const isoDate = moment(slot).toISOString();
@@ -315,6 +320,13 @@ const AddBlogPost = () => {
   useEffect(() => {
     getAllCategory();
     getAllTag();
+    DataService.getAllAuthors().then((res) => {
+      setAuthors(res.data.data);
+      const user = AuthService.getCurrentUser();
+      if (user && user.role === 'Author') {
+        setAuthorId(user._id);
+      }
+    });
   }, []);
   const getAllCategory = () => {
     DataService.getCategory().then((data) => {
@@ -392,6 +404,25 @@ const AddBlogPost = () => {
                             {item.name}
                           </option>
                         </>
+                      ))
+                      : ""}
+                  </select>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Author</label>
+                  <select
+                    className="form-select"
+                    onChange={(e) => setAuthorId(e.target.value)}
+                    value={authorId}
+                    disabled={AuthService.getCurrentUser()?.role === 'Author'}
+                  >
+                    <option value="">Select an author</option>
+                    {authors && authors.length > 0
+                      ? authors.map((item, i) => (
+                        <option key={item._id} value={item._id}>
+                          {item.name}
+                        </option>
                       ))
                       : ""}
                   </select>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DataService from "../../../services/data.service";
+import AuthService from "../../../services/auth.service";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +24,14 @@ const BlogList = () => {
   const getData = () => {
     setLoading(true);
     DataService.getAllBlog().then((response) => {
-      const blogs = response?.data?.data || [];
+      let blogs = response?.data?.data || [];
+      const user = AuthService.getCurrentUser();
+
+      // RBAC: Authors only see their own blogs
+      if (user && user.role === 'Author') {
+        blogs = blogs.filter(blog => (blog.author?._id === user._id || blog.author === user._id));
+      }
+
       // Sort blogs: latest (newest) on top
       blogs.sort((a, b) => {
         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;

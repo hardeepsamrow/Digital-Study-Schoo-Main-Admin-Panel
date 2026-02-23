@@ -22,7 +22,22 @@ const login = (username, password) => {
         localStorage.setItem("userId", JSON.stringify(response.data.data.userData._id));
         localStorage.setItem("token", JSON.stringify(response.data.data.accessToken));
       }
-      console.log(response.data.data)
+      return response.data;
+    });
+};
+
+const authorLogin = (email, password) => {
+  return axios
+    .post(API_URL + "api/authors/login", {
+      email: email,
+      password: password,
+    })
+    .then((response) => {
+      if (response.data.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data.data.userData));
+        localStorage.setItem("userId", JSON.stringify(response.data.data.userData._id));
+        localStorage.setItem("token", JSON.stringify(response.data.data.accessToken));
+      }
       return response.data;
     });
 };
@@ -44,6 +59,7 @@ const getCurrentUserTokken = () => {
 const AuthService = {
   // register,
   login,
+  authorLogin,
   logout,
   getCurrentUser,
   getCurrentUserTokken

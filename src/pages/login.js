@@ -27,6 +27,7 @@ const Loginpage = () => {
   const [phoneCode, setPhoneCode] = useState("254");
   const [showCountryCode, setShowCountryCode] = useState(false);
   const [showshowemail, setshowshowemail] = useState(true);
+  const [isAuthor, setIsAuthor] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -70,7 +71,8 @@ const Loginpage = () => {
 
     form.current.validateAll();
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
+      const loginMethod = isAuthor ? AuthService.authorLogin : AuthService.login;
+      loginMethod(username, password).then(
         () => {
           navigate("/dashboard");
           window.location.reload();
@@ -113,7 +115,19 @@ const Loginpage = () => {
             </div>
           )}
           <Form className="mt-4 login" ref={form} onSubmit={handleLogin}>
-          {/* {showCountryCode && (
+            <div className="mb-4 d-flex align-items-center gap-2">
+              <input
+                type="checkbox"
+                id="isAuthorToggle"
+                checked={isAuthor}
+                onChange={() => setIsAuthor(!isAuthor)}
+                className="form-check-input mt-0"
+              />
+              <label htmlFor="isAuthorToggle" className="form-check-label f-600" style={{ cursor: 'pointer' }}>
+                Login as Author
+              </label>
+            </div>
+            {/* {showCountryCode && (
             <div className="two_innerfieldscountry">
               <div className="one_country2" style={{ marginBottom: "10px" }}>
                 <PhoneInput
@@ -137,7 +151,7 @@ const Loginpage = () => {
               </div>
             </div>
           )} */}
-             
+
             <div class="mb-4">
               <label for="exampleFormControlInput1" class="form-label">
                 Username
@@ -155,9 +169,9 @@ const Loginpage = () => {
                 validations={[required]}
               />
             </div>
-           
-            
-          
+
+
+
             <div class="mb-4 pr password-wrap">
               <label for="exampleFormControlInput1" class="form-label">
                 Password
@@ -198,7 +212,7 @@ const Loginpage = () => {
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
-            <span>Login</span>
+                <span>Login</span>
               </button>
               {/* <Link to="/blogs" class="btn btn-primary" type="submit">Login</Link> */}
             </div>

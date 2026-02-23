@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import DataService from "../../../services/data.service";
+import AuthService from "../../../services/auth.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import { ToastContainer, toast } from "react-toastify";
@@ -78,6 +79,8 @@ const EditBlogPost = () => {
   const [description, setDescription] = useState("");
 
   const [category, setCategory] = useState("");
+  const [authors, setAuthors] = useState([]);
+  const [authorId, setAuthorId] = useState("");
   const navigate = useNavigate();
   const editorRef = useRef(null);
 
@@ -113,8 +116,15 @@ const EditBlogPost = () => {
   useEffect(() => {
     getCategory();
     getAllTag();
+    getAllAuthors();
     getBlog();
   }, []);
+
+  const getAllAuthors = () => {
+    DataService.getAllAuthors().then((res) => {
+      setAuthors(res.data.data);
+    });
+  };
 
   const getBlog = () => {
     DataService.getBlogById(params.id).then((data) => {
@@ -144,6 +154,7 @@ const EditBlogPost = () => {
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
       setCanonicalUrl(data?.data?.data?.canonicalUrl || "");
+      setAuthorId(data?.data?.data?.author?._id || data?.data?.data?.author || "");
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
       if (data?.data?.data?.schedulingDate) {
@@ -376,6 +387,25 @@ const EditBlogPost = () => {
                           <>
                             <option value={item?._id}>{item?.name}</option>
                           </>
+                        ))
+                        : ""}
+                    </select>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Author</label>
+                    <select
+                      className="form-select"
+                      onChange={(e) => setAuthorId(e.target.value)}
+                      value={authorId}
+                      disabled={AuthService.getCurrentUser()?.role === 'Author'}
+                    >
+                      <option value="">Select an author</option>
+                      {authors && authors.length > 0
+                        ? authors.map((item, i) => (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
                         ))
                         : ""}
                     </select>

@@ -73,6 +73,21 @@ const updateTag = (data, id) => {
 const deleteTag = (id) => {
   return axios.delete(API_URL + "api/tag/delete/" + id);
 };
+const addAuthor = (data) => {
+  return axios.post(API_URL + "api/authors/add", data);
+};
+const getAllAuthors = () => {
+  return axios.get(API_URL + "api/authors/getAll");
+};
+const getAuthorById = (id) => {
+  return axios.get(API_URL + "api/authors/get/" + id);
+};
+const updateAuthor = (id, data) => {
+  return axios.put(API_URL + "api/authors/update/" + id, data);
+};
+const deleteAuthor = (id) => {
+  return axios.delete(API_URL + "api/authors/delete/" + id);
+};
 const getProfile = () => {
   return axios.get(API_URL + "api/admin/get");
 };
@@ -251,5 +266,10 @@ const DataService = {
   addTopBarContent,
   getTopBarContent,
   updateTopBarContent,
+  addAuthor,
+  getAllAuthors,
+  getAuthorById,
+  updateAuthor,
+  deleteAuthor,
 };
 export default DataService;

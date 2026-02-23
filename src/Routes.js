@@ -32,6 +32,9 @@ import ViewScholarShipForm from "./pages/ViewScholarShipForm";
 import TopBarText from "./pages/topbartext";
 import PDFFormList from "./section/home/pdf-form/PDFFormList";
 import GoogleIndexing from "./pages/GoogleIndexing";
+import Authors from "./pages/Authors";
+import AddAuthor from "./pages/AddAuthor";
+import EditAuthor from "./pages/EditAuthor";
 export default function App() {
   return (
     <HashRouter onUpdate={() => window.scrollTo(0, 0)}>
@@ -66,6 +69,9 @@ export default function App() {
           <Route exact path="/view-scholarship-form/:id" element={<ViewScholarShipForm />} />
           <Route exact path="/top-bar-text" element={<TopBarText />} />
           <Route exact path="/google-indexing" element={<GoogleIndexing />} />
+          <Route exact path="/authors" element={<Authors />} />
+          <Route exact path="/add-author" element={<AddAuthor />} />
+          <Route exact path="/edit-author/:id" element={<EditAuthor />} />
         </Route>
       </Routes>
     </HashRouter>

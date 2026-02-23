@@ -56,116 +56,143 @@ const Sidebar = () => {
 
       <nav className="mt-4">
         <ul>
-          <li className={url.includes("categories") ? "active" : ""}>
-            <Link
-              className={
-                url.includes("categories") || url.includes("Add Section")
-                  ? "open"
-                  : "close"
-              }
-              onClick={(e) => toggle(e)}
-            >
-              <i class="fas fa-th-large side-bar-main-icon"></i>
-              <span>Add Section</span>
-              <i className="ms-auto">
-                <svg
-                  width="7"
-                  height="14"
-                  viewBox="0 0 7 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
-                    fill="#2C5F2D"
-                  />
-                </svg>
-              </i>
-            </Link>
-
-            <ul className="ps-4">
-              <li
+          {user && user.role !== 'Author' && (
+            <li className={url.includes("categories") ? "active" : ""}>
+              <Link
                 className={
-                  url.includes("categories") || url.includes("categories")
-                    ? "active"
-                    : ""
+                  url.includes("categories") || url.includes("Add Section")
+                    ? "open"
+                    : "close"
                 }
+                onClick={(e) => toggle(e)}
               >
-                <Link
+                <i class="fas fa-th-large side-bar-main-icon"></i>
+                <span>Add Section</span>
+                <i className="ms-auto">
+                  <svg
+                    width="7"
+                    height="14"
+                    viewBox="0 0 7 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                      fill="#2C5F2D"
+                    />
+                  </svg>
+                </i>
+              </Link>
+
+              <ul className="ps-4">
+                <li
                   className={
                     url.includes("categories") || url.includes("categories")
-                      ? "open"
-                      : "close"
+                      ? "active"
+                      : ""
                   }
-                  onClick={(e) => toggle(e)}
                 >
-                  <i class="fas fa-th side-bar-main-icon"></i>
-                  <span> All Category</span>
-                  <i className="ms-auto">
-                    <svg
-                      width="7"
-                      height="14"
-                      viewBox="0 0 7 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
-                        fill="#2C5F2D"
-                      />
-                    </svg>
-                  </i>
-                </Link>
+                  <Link
+                    className={
+                      url.includes("categories") || url.includes("categories")
+                        ? "open"
+                        : "close"
+                    }
+                    onClick={(e) => toggle(e)}
+                  >
+                    <i class="fas fa-th side-bar-main-icon"></i>
+                    <span> All Category</span>
+                    <i className="ms-auto">
+                      <svg
+                        width="7"
+                        height="14"
+                        viewBox="0 0 7 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                          fill="#2C5F2D"
+                        />
+                      </svg>
+                    </i>
+                  </Link>
 
-                <ul className="ps-4">
-                  <li>
-                    <Link to={"/all-categories"}>Category</Link>
-                  </li>
-                  {/* <li>
-                    <Link to={"/add-category"}>Add Category</Link>
-                  </li> */}
-                </ul>
-              </li>
-              <li className={url.includes("tag") ? "active" : ""}>
-                <Link
-                  className={url.includes("tag") ? "open" : "close"}
-                  onClick={(e) => toggle(e)}
-                >
-                  <i class="fas fa-tags side-bar-main-icon"></i>
-                  <span>Tags</span>
-                  <i className="ms-auto">
-                    <svg
-                      width="7"
-                      height="14"
-                      viewBox="0 0 7 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
-                        fill="#2C5F2D"
-                      />
-                    </svg>
-                  </i>
-                </Link>
+                  <ul className="ps-4">
+                    <li>
+                      <Link to={"/all-categories"}>Category</Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className={url.includes("tag") ? "active" : ""}>
+                  <Link
+                    className={url.includes("tag") ? "open" : "close"}
+                    onClick={(e) => toggle(e)}
+                  >
+                    <i class="fas fa-tags side-bar-main-icon"></i>
+                    <span>Tags</span>
+                    <i className="ms-auto">
+                      <svg
+                        width="7"
+                        height="14"
+                        viewBox="0 0 7 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                          fill="#2C5F2D"
+                        />
+                      </svg>
+                    </i>
+                  </Link>
 
-                <ul className="ps-4">
-                  <li>
-                    <Link to={"/all-tags"}>All Tags</Link>
-                  </li>
-                  {/* <li>
-                    <Link to={"/add-tag"}>Add Tags</Link>
-                  </li> */}
-                </ul>
-              </li>
-            </ul>
-          </li>
+                  <ul className="ps-4">
+                    <li>
+                      <Link to={"/all-tags"}>All Tags</Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className={url.includes("authors") ? "active" : ""}>
+                  <Link
+                    className={url.includes("authors") ? "open" : "close"}
+                    onClick={(e) => toggle(e)}
+                  >
+                    <i class="fas fa-users side-bar-main-icon"></i>
+                    <span>Authors</span>
+                    <i className="ms-auto">
+                      <svg
+                        width="7"
+                        height="14"
+                        viewBox="0 0 7 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                          fill="#2C5F2D"
+                        />
+                      </svg>
+                    </i>
+                  </Link>
+
+                  <ul className="ps-4">
+                    <li>
+                      <Link to={"/authors"}>All Authors</Link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          )}
           <li className={url.includes("blog") ? "active" : ""}>
             <Link
               className={url.includes("blog") ? "open" : "close"}
@@ -202,75 +229,79 @@ const Sidebar = () => {
               <li><Link to={"/add-blog"} >Add Blog in Espanol</Link></li> */}
             </ul>
           </li>
-          <li className={url.includes("contact-form") ? "active" : ""}>
-            <Link
-              className={url.includes("contact-form") ? "open" : "close"}
-              onClick={(e) => toggle(e)}
-            >
-              <i class="fas fa-id-card-alt side-bar-main-icon"></i>
-              <span>Contact Form</span>
-              <i className="ms-auto">
-                <svg
-                  width="7"
-                  height="14"
-                  viewBox="0 0 7 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+          {user && user.role !== 'Author' && (
+            <>
+              <li className={url.includes("contact-form") ? "active" : ""}>
+                <Link
+                  className={url.includes("contact-form") ? "open" : "close"}
+                  onClick={(e) => toggle(e)}
                 >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
-                    fill="#2C5F2D"
-                  />
-                </svg>
-              </i>
-            </Link>
-            <ul className="ps-4">
-              <li>
-                <Link to={"/contact-form"}>All Contact Form</Link>
+                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <span>Contact Form</span>
+                  <i className="ms-auto">
+                    <svg
+                      width="7"
+                      height="14"
+                      viewBox="0 0 7 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                        fill="#2C5F2D"
+                      />
+                    </svg>
+                  </i>
+                </Link>
+                <ul className="ps-4">
+                  <li>
+                    <Link to={"/contact-form"}>All Contact Form</Link>
+                  </li>
+                  <li>
+                    <Link to={"/scholarship-form"}>All ScholarShip Form</Link>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <Link to={"/scholarship-form"}>All ScholarShip Form</Link>
+              <li className={url.includes("pdf-form-submissions") ? "active" : ""}>
+                <Link
+                  className={url.includes("pdf-form-submissions") ? "open" : "close"}
+                  to={"/pdf-form-submissions"}
+                >
+                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <span>PDF Form Submissions</span>
+                </Link>
               </li>
-            </ul>
-          </li>
-          <li className={url.includes("pdf-form-submissions") ? "active" : ""}>
-            <Link
-              className={url.includes("pdf-form-submissions") ? "open" : "close"}
-              to={"/pdf-form-submissions"}
-            >
-              <i class="fas fa-id-card-alt side-bar-main-icon"></i>
-              <span>PDF Form Submissions</span>
-            </Link>
-          </li>
-          <li className={url.includes("contact-form") ? "active" : ""}>
-            <Link
-              className={url.includes("contact-form") ? "open" : "close"}
-              to={"/scholarShip-section"}
-            >
-              <i class="fas fa-id-card-alt side-bar-main-icon"></i>
-              <span>Scholarship Section</span>
-            </Link>
-          </li>
-          <li className={url.includes("top-bar-text") ? "active" : ""}>
-            <Link
-              className={url.includes("top-bar-text") ? "open" : "close"}
-              to={"/top-bar-text"}
-            >
-              <i class="fas fa-id-card-alt side-bar-main-icon"></i>
-              <span>Top Bar Text</span>
-            </Link>
-          </li>
-          <li className={url.includes("google-indexing") ? "active" : ""}>
-            <Link
-              className={url.includes("google-indexing") ? "open" : "close"}
-              to={"/google-indexing"}
-            >
-              <i class="fab fa-google side-bar-main-icon"></i>
-              <span>Google Indexing</span>
-            </Link>
-          </li>
+              <li className={url.includes("contact-form") ? "active" : ""}>
+                <Link
+                  className={url.includes("contact-form") ? "open" : "close"}
+                  to={"/scholarShip-section"}
+                >
+                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <span>Scholarship Section</span>
+                </Link>
+              </li>
+              <li className={url.includes("top-bar-text") ? "active" : ""}>
+                <Link
+                  className={url.includes("top-bar-text") ? "open" : "close"}
+                  to={"/top-bar-text"}
+                >
+                  <i class="fas fa-id-card-alt side-bar-main-icon"></i>
+                  <span>Top Bar Text</span>
+                </Link>
+              </li>
+              <li className={url.includes("google-indexing") ? "active" : ""}>
+                <Link
+                  className={url.includes("google-indexing") ? "open" : "close"}
+                  to={"/google-indexing"}
+                >
+                  <i class="fab fa-google side-bar-main-icon"></i>
+                  <span>Google Indexing</span>
+                </Link>
+              </li>
+            </>
+          )}
 
         </ul>
         <ul>
