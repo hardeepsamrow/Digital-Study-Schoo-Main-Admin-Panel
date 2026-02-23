@@ -103,7 +103,7 @@ const Loginpage = () => {
   };
 
   return (
-    <div class="container-fluid bg-grey p-0 h-100">
+    <div className="container-fluid bg-grey p-0 h-100">
       <div className="row m-0">
         <div className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 bg-white p-4 h-100">
           <Link to={"/"}>
@@ -160,15 +160,14 @@ const Loginpage = () => {
             </div>
           )} */}
 
-            <div class="mb-4">
-              <label for="exampleFormControlInput1" class="form-label">
+            <div className="mb-4">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 Username
               </label>
               <input
                 type="text"
-                class="form-control"
-                placeholder="Enter Your Username"
                 className="form-control"
+                placeholder="Enter Your Username"
                 name="username"
                 value={username}
                 required
@@ -178,10 +177,8 @@ const Loginpage = () => {
               />
             </div>
 
-
-
-            <div class="mb-4 pr password-wrap">
-              <label for="exampleFormControlInput1" class="form-label">
+            <div className="mb-4 pr password-wrap">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 Password
               </label>
               <input
@@ -212,17 +209,17 @@ const Loginpage = () => {
                 </svg>
               )}
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {/* <Link to={"/otp"} className="text-yellow mt-2 text-decoration-none">Forgot Password?</Link> */}
             </div>
-            <div class="d-grid mt-5">
+            <div className="d-grid mt-5">
               <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
                 <span>Login</span>
               </button>
-              {/* <Link to="/blogs" class="btn btn-primary" type="submit">Login</Link> */}
+              {/* <Link to="/blogs" className="btn btn-primary" type="submit">Login</Link> */}
             </div>
 
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
