@@ -247,6 +247,7 @@ const EditBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("author", authorId);
 
     DataService.updateBlog(data, params.id).then(
       () => {
@@ -301,6 +302,7 @@ const EditBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("author", authorId);
     data.append("status", "Pending");
     const isoDate = moment(slot).toISOString();
     data.append("schedulingDate", isoDate);
