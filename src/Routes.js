@@ -41,6 +41,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Loginpage />} />
         <Route exact path="/Login" element={<Loginpage />} />
+        <Route exact path="/author/login" element={<Loginpage />} />
         <Route exact path="/otp" element={<Otp />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot" element={<Forgot />} />

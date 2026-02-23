@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import { Link } from "react-router-dom";
@@ -30,6 +30,14 @@ const Loginpage = () => {
   const [isAuthor, setIsAuthor] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/author/login") {
+      setIsAuthor(true);
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
     const auth = AuthService.getCurrentUser();
     if (auth) {
