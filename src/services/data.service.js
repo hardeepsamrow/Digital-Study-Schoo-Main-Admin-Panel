@@ -85,8 +85,11 @@ const getAuthorById = (id) => {
 const updateAuthor = (id, data) => {
   return axios.put(API_URL + "api/authors/update/" + id, data);
 };
-const deleteAuthor = (id) => {
-  return axios.delete(API_URL + "api/authors/delete/" + id);
+const deleteAuthor = (id, data) => {
+  return axios.delete(API_URL + "api/authors/delete/" + id, { data });
+};
+const sendAuthorOtp = (data) => {
+  return axios.post(API_URL + "api/authors/send-otp", data);
 };
 const getProfile = () => {
   return axios.get(API_URL + "api/admin/get");
@@ -271,5 +274,6 @@ const DataService = {
   getAuthorById,
   updateAuthor,
   deleteAuthor,
+  sendAuthorOtp,
 };
 export default DataService;

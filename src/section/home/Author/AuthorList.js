@@ -39,15 +39,32 @@ const AuthorList = () => {
     };
 
     const deleteAuthor = (id) => {
+        if (!window.confirm(`Are you sure you want to delete this author? An OTP will be sent to admin email for verification.`)) {
+            return;
+        }
+
         setLoading(true);
-        DataService.deleteAuthor(id).then(
+        DataService.sendAuthorOtp({ action: "DELETE_AUTHOR" }).then(
             () => {
-                toast.success("Author deleted successfully");
-                getAuthors();
+                setLoading(false);
+                const otp = window.prompt("Please enter the 6-digit OTP sent to admin email");
+                if (otp) {
+                    setLoading(true);
+                    DataService.deleteAuthor(id, { otp }).then(
+                        () => {
+                            toast.success("Author deleted successfully");
+                            getAuthors();
+                        },
+                        (error) => {
+                            setLoading(false);
+                            toast.error(error.response?.data?.message || "Failed to delete author");
+                        }
+                    );
+                }
             },
             (error) => {
                 setLoading(false);
-                toast.error("Failed to delete author");
+                toast.error("Failed to send verification OTP to admin");
             }
         );
     };
@@ -102,7 +119,7 @@ const AuthorList = () => {
                                             <path d="M12.8415 0.623009C13.0368 0.427747 13.3534 0.427747 13.5486 0.623009L16.5486 3.62301C16.7439 3.81827 16.7439 4.13485 16.5486 4.33012L6.54864 14.3301C6.50076 14.378 6.44365 14.4157 6.38078 14.4408L1.38078 16.4408C1.19507 16.5151 0.982961 16.4715 0.84153 16.3301C0.700098 16.1887 0.656561 15.9766 0.730845 15.7909L2.73084 10.7909C2.75599 10.728 2.79365 10.6709 2.84153 10.623L12.8415 0.623009ZM11.9022 2.97656L14.1951 5.26946L15.488 3.97656L13.1951 1.68367L11.9022 2.97656ZM13.488 5.97656L11.1951 3.68367L4.69508 10.1837V10.4766H5.19508C5.47123 10.4766 5.69508 10.7004 5.69508 10.9766V11.4766H6.19508C6.47123 11.4766 6.69508 11.7004 6.69508 11.9766V12.4766H6.98798L13.488 5.97656ZM3.72673 11.152L3.62121 11.2575L2.09261 15.079L5.9141 13.5504L6.01963 13.4449C5.83003 13.3739 5.69508 13.191 5.69508 12.9766V12.4766H5.19508C4.91894 12.4766 4.69508 12.2527 4.69508 11.9766V11.4766H4.19508C3.98068 11.4766 3.79779 11.3416 3.72673 11.152Z" fill="#2C5F2D" />
                                         </svg>
                                     </Link>
-                                    <span onClick={() => { if (window.confirm('Are you sure you want to delete this author?')) deleteAuthor(item._id) }} style={{ cursor: 'pointer' }} className="mx-2">
+                                    <span onClick={() => deleteAuthor(item._id)} style={{ cursor: 'pointer' }} className="mx-2">
                                         <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4.19312 5.979C4.46926 5.979 4.69312 6.20286 4.69312 6.479V12.479C4.69311 12.7551 4.46926 12.979 4.19312 12.979C3.91697 12.979 3.69312 12.7551 3.69312 12.479V6.479C3.69312 6.20286 3.91697 5.979 4.19312 5.979Z" fill="#C30E0E" />
                                             <path d="M6.69312 5.979C6.96926 5.979 7.19312 6.20286 7.19312 6.479V12.479C7.19312 12.7551 6.96926 12.979 6.69312 12.979C6.41697 12.979 6.19312 12.7551 6.19312 12.479V6.479C6.19312 6.20286 6.41697 5.979 6.69312 5.979Z" fill="#C30E0E" />

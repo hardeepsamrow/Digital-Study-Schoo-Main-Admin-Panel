@@ -13,8 +13,25 @@ const AddAuthor = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [file, setFile] = useState(null);
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const handleSendOtp = () => {
+        setLoading(true);
+        DataService.sendAuthorOtp({ action: "CREATE_AUTHOR" }).then(
+            () => {
+                setLoading(false);
+                setOtpSent(true);
+                toast.success("OTP sent to admin email");
+            },
+            (error) => {
+                setLoading(false);
+                toast.error("Failed to send OTP to admin");
+            }
+        );
+    };
     const inputFileRef = useRef();
     const imgRef = useRef();
 
@@ -44,6 +61,10 @@ const AddAuthor = () => {
             toast.error("Name is required");
             return;
         }
+        if (!otp) {
+            toast.error("Please enter OTP");
+            return;
+        }
         setLoading(true);
         const data = new FormData();
         data.append("name", name);
@@ -53,6 +74,7 @@ const AddAuthor = () => {
         data.append("linkedin", linkedin);
         data.append("email", email);
         data.append("password", password);
+        data.append("otp", otp);
         if (file) {
             data.append("image", file);
         }
@@ -64,7 +86,7 @@ const AddAuthor = () => {
             },
             (error) => {
                 setLoading(false);
-                toast.error("Something went wrong");
+                toast.error(error.response?.data?.message || "Something went wrong");
             }
         );
     };
@@ -122,8 +144,20 @@ const AddAuthor = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" />
+                                    <div className="input-group">
+                                        <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" required />
+                                        <button className="btn btn-outline-secondary" type="button" onClick={handleSendOtp} disabled={loading}>
+                                            {otpSent ? "Resend OTP" : "Send OTP"}
+                                        </button>
+                                    </div>
                                 </div>
+                                {otpSent && (
+                                    <div className="mb-3">
+                                        <label className="form-label">OTP Verification</label>
+                                        <input type="text" className="form-control" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter 6-digit OTP" required />
+                                        <small className="text-success">OTP sent to admin email for security</small>
+                                    </div>
+                                )}
                                 <div className="mb-3">
                                     <label className="form-label">Password</label>
                                     <input type="password" title="Set a password for author login" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Login Password" required />
