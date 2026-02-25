@@ -11,6 +11,12 @@ const EditAuthor = () => {
     const [designation, setDesignation] = useState("");
     const [specialization, setSpecialization] = useState("");
     const [linkedin, setLinkedin] = useState("");
+    const [facebook, setFacebook] = useState("");
+    const [instagram, setInstagram] = useState("");
+    const [twitter, setTwitter] = useState("");
+    const [quora, setQuora] = useState("");
+    const [education, setEducation] = useState("");
+    const [authorType, setAuthorType] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [file, setFile] = useState(null);
@@ -27,6 +33,12 @@ const EditAuthor = () => {
             setDesignation(author.designation || "");
             setSpecialization(author.specialization || "");
             setLinkedin(author.linkedin || "");
+            setFacebook(author.facebook || "");
+            setInstagram(author.instagram || "");
+            setTwitter(author.twitter || "");
+            setQuora(author.quora || "");
+            setEducation(author.education || "");
+            setAuthorType(author.authorType || "");
             setEmail(author.email || "");
             if (author.image) {
                 imgRef.current.src = `https://backend.digitalstudyschool.com${author.image.url}`;
@@ -57,6 +69,12 @@ const EditAuthor = () => {
         data.append("designation", designation);
         data.append("specialization", specialization);
         data.append("linkedin", linkedin);
+        data.append("facebook", facebook);
+        data.append("instagram", instagram);
+        data.append("twitter", twitter);
+        data.append("quora", quora);
+        data.append("education", education);
+        data.append("authorType", authorType);
         data.append("email", email);
         if (password) {
             data.append("password", password);
@@ -116,6 +134,16 @@ const EditAuthor = () => {
                                     <label className="form-label">Name</label>
                                     <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full Name" required />
                                 </div>
+                                <div className="row">
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Author Type</label>
+                                        <input type="text" className="form-control" value={authorType} onChange={(e) => setAuthorType(e.target.value)} placeholder="E.g. Company Staff, Guest Author" />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Education</label>
+                                        <input type="text" className="form-control" value={education} onChange={(e) => setEducation(e.target.value)} placeholder="E.g. MBA in Marketing" />
+                                    </div>
+                                </div>
                                 <div className="mb-3">
                                     <label className="form-label">Designation</label>
                                     <input type="text" className="form-control" value={designation} onChange={(e) => setDesignation(e.target.value)} placeholder="Job Title" />
@@ -124,9 +152,29 @@ const EditAuthor = () => {
                                     <label className="form-label">Specialization</label>
                                     <input type="text" className="form-control" value={specialization} onChange={(e) => setSpecialization(e.target.value)} placeholder="E.g. SEO, Content Marketing" />
                                 </div>
+                                <div className="row">
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">LinkedIn Profile URL</label>
+                                        <input type="text" className="form-control" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/..." />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Twitter Profile URL</label>
+                                        <input type="text" className="form-control" value={twitter} onChange={(e) => setTwitter(e.target.value)} placeholder="https://twitter.com/..." />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Facebook Profile URL</label>
+                                        <input type="text" className="form-control" value={facebook} onChange={(e) => setFacebook(e.target.value)} placeholder="https://facebook.com/..." />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Instagram Profile URL</label>
+                                        <input type="text" className="form-control" value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="https://instagram.com/..." />
+                                    </div>
+                                </div>
                                 <div className="mb-3">
-                                    <label className="form-label">LinkedIn Profile URL</label>
-                                    <input type="text" className="form-control" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/..." />
+                                    <label className="form-label">Quora Profile URL</label>
+                                    <input type="text" className="form-control" value={quora} onChange={(e) => setQuora(e.target.value)} placeholder="https://quora.com/..." />
                                 </div>
                                 <div className="mb-3">
                                     <label className="form-label">Email</label>
