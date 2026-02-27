@@ -81,6 +81,7 @@ const AddBlogPost = () => {
   const [filteredData, setfilteredData] = useState([]);
   const [parentId, setparentId] = useState("");
   const [categoryName, setCategoryName] = useState("");
+  const [innerCategoryName, setInnerCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [authors, setAuthors] = useState([]);
   const [authorId, setAuthorId] = useState("");
@@ -219,6 +220,9 @@ const AddBlogPost = () => {
       data.append(`tag[${i}]`, selectedOptions[i]);
     });
     data.append("category", categoryName);
+    if (innerCategoryName) {
+      data.append("innerCategory", innerCategoryName);
+    }
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
@@ -290,6 +294,9 @@ const AddBlogPost = () => {
       data.append(`tag[${i}]`, selectedOptions[i]);
     });
     data.append("category", categoryName);
+    if (innerCategoryName) {
+      data.append("innerCategory", innerCategoryName);
+    }
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
@@ -393,21 +400,42 @@ const AddBlogPost = () => {
                   <select
                     required
                     className="form-select"
-                    onChange={(e) => setCategoryName(e.target.value)}
+                    onChange={(e) => {
+                      setCategoryName(e.target.value);
+                      setInnerCategoryName(""); // Reset inner category when parent changes
+                    }}
                   >
                     <option value="">Select an option</option>
 
                     {category && category.length > 0
-                      ? category.map((item, i) => (
-                        <>
-                          <option key={item._id} value={item._id}>
-                            {item.name}
-                          </option>
-                        </>
+                      ? category.filter(item => !item.parentCategory).map((item, i) => (
+                        <option key={item._id} value={item._id}>
+                          {item.name}
+                        </option>
                       ))
                       : ""}
                   </select>
                 </div>
+
+                {categoryName && (
+                  <div className="mb-3">
+                    <label className="form-label">Inner Category (Optional)</label>
+                    <select
+                      className="form-select"
+                      value={innerCategoryName}
+                      onChange={(e) => setInnerCategoryName(e.target.value)}
+                    >
+                      <option value="">Select an Inner Category</option>
+                      {category && category.length > 0
+                        ? category.filter(item => item.parentCategory === categoryName || (item.parentCategory && item.parentCategory._id === categoryName)).map((item, i) => (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
+                        ))
+                        : ""}
+                    </select>
+                  </div>
+                )}
 
                 <div className="mb-3">
                   <label className="form-label">Author</label>

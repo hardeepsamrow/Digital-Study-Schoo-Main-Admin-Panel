@@ -79,6 +79,7 @@ const EditBlogPost = () => {
   const [description, setDescription] = useState("");
 
   const [category, setCategory] = useState("");
+  const [innerCategoryName, setInnerCategoryName] = useState("");
   const [authors, setAuthors] = useState([]);
   const [authorId, setAuthorId] = useState("");
   const navigate = useNavigate();
@@ -150,7 +151,8 @@ const EditBlogPost = () => {
       setName(head?.EN || "");
       setDescription(desc?.EN || "");
 
-      setCategory(data?.data?.data?.category?._id);
+      setCategory(data?.data?.data?.category?._id || data?.data?.data?.category || "");
+      setInnerCategoryName(data?.data?.data?.innerCategory?._id || data?.data?.data?.innerCategory || "");
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
       setCanonicalUrl(data?.data?.data?.canonicalUrl || "");
@@ -243,6 +245,9 @@ const EditBlogPost = () => {
       });
     }
     data.append("category", category);
+    if (innerCategoryName) {
+      data.append("innerCategory", innerCategoryName);
+    }
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
@@ -298,6 +303,9 @@ const EditBlogPost = () => {
       });
     }
     data.append("category", category);
+    if (innerCategoryName) {
+      data.append("innerCategory", innerCategoryName);
+    }
     data.append("metaTitle", metaTitle);
     data.append("metaDescription", metaDescription);
     data.append("url", url);
@@ -380,19 +388,40 @@ const EditBlogPost = () => {
                       required
                       className="form-select"
                       value={category}
-                      onChange={(e) => setCategory(e.target.value)}
+                      onChange={(e) => {
+                        setCategory(e.target.value);
+                        setInnerCategoryName("");
+                      }}
                     >
                       <option value="">Select an option</option>
 
                       {mastercategory && mastercategory?.length > 0
-                        ? mastercategory?.map((item, i) => (
-                          <>
-                            <option value={item?._id}>{item?.name}</option>
-                          </>
+                        ? mastercategory?.filter(item => !item.parentCategory).map((item, i) => (
+                          <option key={item._id} value={item._id}>{item.name}</option>
                         ))
                         : ""}
                     </select>
                   </div>
+
+                  {category && (
+                    <div className="mb-3">
+                      <label className="form-label">Inner Category (Optional)</label>
+                      <select
+                        className="form-select"
+                        value={innerCategoryName}
+                        onChange={(e) => setInnerCategoryName(e.target.value)}
+                      >
+                        <option value="">Select an Inner Category</option>
+                        {mastercategory && mastercategory?.length > 0
+                          ? mastercategory?.filter(item => item.parentCategory === category || (item.parentCategory && item.parentCategory._id === category)).map((item, i) => (
+                            <option key={item._id} value={item._id}>
+                              {item.name}
+                            </option>
+                          ))
+                          : ""}
+                      </select>
+                    </div>
+                  )}
 
                   <div className="mb-3">
                     <label className="form-label">Author</label>
