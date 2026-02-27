@@ -15,6 +15,8 @@ const EditCategoryList = () => {
 
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
+  const [parentId, setParentId] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -22,8 +24,12 @@ const EditCategoryList = () => {
   const getCategory = () => {
     DataService.getCategoryById(params.id).then((data) => {
       setName(data?.data?.data?.name);
+      setParentId(data?.data?.data?.parentCategory?._id || data?.data?.data?.parentCategory || "");
       setData(data?.data?.data);
       setLoading(false);
+    });
+    DataService.getCategory().then((res) => {
+      setCategories(res.data.data || []);
     });
   };
   useEffect(() => {
@@ -34,6 +40,7 @@ const EditCategoryList = () => {
     setLoading(true);
     const data = {};
     data.name = name;
+    data.parentCategory = parentId || null;
     DataService.updateCategory(data, params.id).then(
       () => {
         toast.success("Category Updated Successfully!!");
@@ -73,15 +80,28 @@ const EditCategoryList = () => {
                     className="form-control my-4"
                     onChange={(e) => setName(e.target.value)}
                     placeholder="En"
+                    required
                   />
+                  <select
+                    className="form-control my-4"
+                    onChange={(e) => setParentId(e.target.value)}
+                    value={parentId}
+                  >
+                    <option value="">Select Parent Category (Optional)</option>
+                    {categories.filter(cat => cat._id !== params.id).map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
             <div style={{ textAlign: "left" }}>
               <button onClick={handleSubmit} className="btn btn-primary">
-              {loading && (
-                      <span className="spinner-border spinner-border-sm"></span>
-                    )}
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
                 Save
               </button>
             </div>

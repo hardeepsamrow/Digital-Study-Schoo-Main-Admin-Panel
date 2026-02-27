@@ -168,6 +168,7 @@ const CategoryList = () => {
 
                   <td className="d-flex align-items-center">
                     {item?.name}
+                    {item?.parentCategory && <span className="badge bg-secondary ms-2">{item.parentCategory.name}</span>}
                   </td>
 
                   <td style={{ textAlign: "right" }}>

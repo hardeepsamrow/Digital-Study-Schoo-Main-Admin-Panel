@@ -11,11 +11,14 @@ const AddCategoryList = () => {
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // getCategory();
-  // }, []);
+  useEffect(() => {
+    DataService.getCategory().then((res) => {
+      setCategories(res.data.data || []);
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,6 +26,7 @@ const AddCategoryList = () => {
     setLoading(true);
     const data = {};
     data.name = name;
+    if (parentId) data.parentCategory = parentId;
     DataService.addCategory(data).then(
       () => {
         toast.success("Category Added Successfully!!!");
@@ -70,7 +74,20 @@ const AddCategoryList = () => {
                       className="form-control my-4"
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Add Category"
+                      required
                     />
+                    <select
+                      className="form-control my-4"
+                      onChange={(e) => setparentId(e.target.value)}
+                      value={parentId}
+                    >
+                      <option value="">Select Parent Category (Optional)</option>
+                      {categories.map((cat) => (
+                        <option key={cat._id} value={cat._id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="d-flex justify-content-start btn-min-width">
