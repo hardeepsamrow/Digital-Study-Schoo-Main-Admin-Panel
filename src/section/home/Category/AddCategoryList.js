@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const AddCategoryList = () => {
   const form = useRef();
+  const [categoryType, setCategoryType] = useState("main");
   const [parentId, setparentId] = useState("");
   const [name, setName] = useState("");
 
@@ -26,7 +27,13 @@ const AddCategoryList = () => {
     setLoading(true);
     const data = {};
     data.name = name;
-    if (parentId) data.parentCategory = parentId;
+    if (categoryType === "inner" && parentId) {
+      data.parentCategory = parentId;
+    } else if (categoryType === "inner" && !parentId) {
+      setLoading(false);
+      setMessage("Please select a parent category.");
+      return;
+    }
     DataService.addCategory(data).then(
       () => {
         toast.success("Category Added Successfully!!!");
@@ -69,25 +76,63 @@ const AddCategoryList = () => {
               <div className="card-body p-4">
                 <div className="mb-4">
                   <div className="mb-4">
+                    <div className="d-flex mb-4">
+                      <div className="form-check me-4">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="categoryType"
+                          id="mainCategory"
+                          value="main"
+                          checked={categoryType === "main"}
+                          onChange={() => {
+                            setCategoryType("main");
+                            setparentId("");
+                          }}
+                        />
+                        <label className="form-check-label" htmlFor="mainCategory">
+                          Main Category
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="categoryType"
+                          id="innerCategory"
+                          value="inner"
+                          checked={categoryType === "inner"}
+                          onChange={() => setCategoryType("inner")}
+                        />
+                        <label className="form-check-label" htmlFor="innerCategory">
+                          Inner Category
+                        </label>
+                      </div>
+                    </div>
+
                     <input
                       type="text"
                       className="form-control my-4"
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Add Category"
+                      placeholder="Category Name"
                       required
                     />
-                    <select
-                      className="form-control my-4"
-                      onChange={(e) => setparentId(e.target.value)}
-                      value={parentId}
-                    >
-                      <option value="">Select Parent Category (Optional)</option>
-                      {categories.map((cat) => (
-                        <option key={cat._id} value={cat._id}>
-                          {cat.name}
-                        </option>
-                      ))}
-                    </select>
+
+                    {categoryType === "inner" && (
+                      <select
+                        className="form-control my-4"
+                        onChange={(e) => setparentId(e.target.value)}
+                        value={parentId}
+                        required
+                      >
+                        <option value="">Select Parent Category</option>
+                        {categories.map((cat) => (
+                          <option key={cat._id} value={cat._id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex justify-content-start btn-min-width">

@@ -15,6 +15,7 @@ const EditCategoryList = () => {
 
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
+  const [categoryType, setCategoryType] = useState("main");
   const [parentId, setParentId] = useState("");
   const [categories, setCategories] = useState([]);
 
@@ -24,7 +25,9 @@ const EditCategoryList = () => {
   const getCategory = () => {
     DataService.getCategoryById(params.id).then((data) => {
       setName(data?.data?.data?.name);
-      setParentId(data?.data?.data?.parentCategory?._id || data?.data?.data?.parentCategory || "");
+      const parent = data?.data?.data?.parentCategory?._id || data?.data?.data?.parentCategory || "";
+      setParentId(parent);
+      setCategoryType(parent ? "inner" : "main");
       setData(data?.data?.data);
       setLoading(false);
     });
@@ -40,7 +43,14 @@ const EditCategoryList = () => {
     setLoading(true);
     const data = {};
     data.name = name;
-    data.parentCategory = parentId || null;
+    if (categoryType === "inner" && !parentId) {
+      setLoading(false);
+      toast.error("Please select a parent category.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    data.parentCategory = categoryType === "inner" ? parentId : null;
     DataService.updateCategory(data, params.id).then(
       () => {
         toast.success("Category Updated Successfully!!");
@@ -74,26 +84,64 @@ const EditCategoryList = () => {
             <div className="col-xxl-9 col-lg-8 ps-xxl-5 ps-md-3 ps-0">
               <div className="mb-4">
                 <div className="mb-4">
+                  <div className="d-flex mb-4">
+                    <div className="form-check me-4">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="categoryType"
+                        id="mainCategory"
+                        value="main"
+                        checked={categoryType === "main"}
+                        onChange={() => {
+                          setCategoryType("main");
+                          setParentId("");
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="mainCategory">
+                        Main Category
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="categoryType"
+                        id="innerCategory"
+                        value="inner"
+                        checked={categoryType === "inner"}
+                        onChange={() => setCategoryType("inner")}
+                      />
+                      <label className="form-check-label" htmlFor="innerCategory">
+                        Inner Category
+                      </label>
+                    </div>
+                  </div>
+
                   <input
                     type="text"
                     value={name}
                     className="form-control my-4"
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="En"
+                    placeholder="Category Name"
                     required
                   />
-                  <select
-                    className="form-control my-4"
-                    onChange={(e) => setParentId(e.target.value)}
-                    value={parentId}
-                  >
-                    <option value="">Select Parent Category (Optional)</option>
-                    {categories.filter(cat => cat._id !== params.id).map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
+
+                  {categoryType === "inner" && (
+                    <select
+                      className="form-control my-4"
+                      onChange={(e) => setParentId(e.target.value)}
+                      value={parentId}
+                      required
+                    >
+                      <option value="">Select Parent Category</option>
+                      {categories.filter(cat => cat._id !== params.id).map((cat) => (
+                        <option key={cat._id} value={cat._id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
             </div>
