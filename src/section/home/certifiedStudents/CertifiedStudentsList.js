@@ -49,7 +49,8 @@ const CertifiedStudentsList = () => {
                 setLoading(false);
             },
             (err) => {
-                toast.error(err.response?.data?.message || "Failed to add student");
+                console.error("Upload error details:", err, err.response);
+                toast.error(err.response?.data?.message || err.message || "Failed to add student");
                 setLoading(false);
             }
         );
