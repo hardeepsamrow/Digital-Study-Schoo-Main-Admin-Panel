@@ -275,5 +275,14 @@ const DataService = {
   updateAuthor,
   deleteAuthor,
   sendAuthorOtp,
+  addVideoReview: (data) => {
+    return axios.post(API_URL + "api/video-review/create", data);
+  },
+  getAllVideoReviews: () => {
+    return axios.get(API_URL + "api/video-review/getAll");
+  },
+  deleteVideoReview: (id) => {
+    return axios.delete(API_URL + "api/video-review/delete/" + id);
+  },
 };
 export default DataService;

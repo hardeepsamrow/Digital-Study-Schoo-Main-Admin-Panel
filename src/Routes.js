@@ -35,6 +35,8 @@ import GoogleIndexing from "./pages/GoogleIndexing";
 import Authors from "./pages/Authors";
 import AddAuthor from "./pages/AddAuthor";
 import EditAuthor from "./pages/EditAuthor";
+import VideoReviews from "./pages/VideoReviews";
+
 export default function App() {
   return (
     <HashRouter onUpdate={() => window.scrollTo(0, 0)}>
@@ -73,6 +75,7 @@ export default function App() {
           <Route exact path="/authors" element={<Authors />} />
           <Route exact path="/add-author" element={<AddAuthor />} />
           <Route exact path="/edit-author/:id" element={<EditAuthor />} />
+          <Route exact path="/video-reviews" element={<VideoReviews />} />
         </Route>
       </Routes>
     </HashRouter>

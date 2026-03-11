@@ -300,6 +300,15 @@ const Sidebar = () => {
                   <span>Google Indexing</span>
                 </Link>
               </li>
+              <li className={url.includes("video-reviews") ? "active" : ""}>
+                <Link
+                  className={url.includes("video-reviews") ? "open" : "close"}
+                  to={"/video-reviews"}
+                >
+                  <i className="fas fa-video side-bar-main-icon"></i>
+                  <span>Student Reviews</span>
+                </Link>
+              </li>
             </>
           )}
 
