@@ -23,9 +23,9 @@ const CertifiedStudentsList = () => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            // Check if file is larger than 2MB (2,097,152 bytes)
-            if (selectedFile.size > 2097152) {
-                toast.error("File is too large! Please upload an image smaller than 2MB. (A large file causes a Network Error)");
+            // Check if file is larger than 5MB (5,242,880 bytes)
+            if (selectedFile.size > 5242880) {
+                toast.error("File is too large! Please upload an image smaller than 5MB. (A large file causes a Network Error)");
                 e.target.value = null; // reset input
                 setFile(null);
                 setPreview(null);
