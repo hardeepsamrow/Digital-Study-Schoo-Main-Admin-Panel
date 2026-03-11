@@ -27,6 +27,7 @@ const VideoReviewsList = () => {
     }
     setLoading(true);
     const payload = { videoUrl, name, isShort };
+    console.log("Submitting payload:", payload);
     DataService.addVideoReview(payload).then(
       () => {
         toast.success("Video added successfully!");
@@ -37,6 +38,7 @@ const VideoReviewsList = () => {
         setLoading(false);
       },
       (err) => {
+        console.error("Add Video Request Failed:", err);
         const msg = err.response?.data?.message || "Failed to add video";
         toast.error(msg);
         setLoading(false);
