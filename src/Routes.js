@@ -36,6 +36,7 @@ import Authors from "./pages/Authors";
 import AddAuthor from "./pages/AddAuthor";
 import EditAuthor from "./pages/EditAuthor";
 import VideoReviews from "./pages/VideoReviews";
+import CertifiedStudents from "./pages/CertifiedStudents";
 
 export default function App() {
   return (
@@ -76,6 +77,7 @@ export default function App() {
           <Route exact path="/add-author" element={<AddAuthor />} />
           <Route exact path="/edit-author/:id" element={<EditAuthor />} />
           <Route exact path="/video-reviews" element={<VideoReviews />} />
+          <Route exact path="/certified-students" element={<CertifiedStudents />} />
         </Route>
       </Routes>
     </HashRouter>

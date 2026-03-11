@@ -309,6 +309,15 @@ const Sidebar = () => {
                   <span>Student Reviews</span>
                 </Link>
               </li>
+              <li className={url.includes("certified-students") ? "active" : ""}>
+                <Link
+                  className={url.includes("certified-students") ? "open" : "close"}
+                  to={"/certified-students"}
+                >
+                  <i className="fas fa-image side-bar-main-icon"></i>
+                  <span>Students Photos</span>
+                </Link>
+              </li>
             </>
           )}
 

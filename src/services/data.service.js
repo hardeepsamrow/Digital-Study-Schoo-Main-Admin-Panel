@@ -284,5 +284,14 @@ const DataService = {
   deleteVideoReview: (id) => {
     return axios.delete(API_URL + "api/video-review/delete/" + id);
   },
+  addCertifiedStudent: (data) => {
+    return axios.post(API_URL + "api/certified-students/add", data);
+  },
+  getAllCertifiedStudents: () => {
+    return axios.get(API_URL + "api/certified-students/getAll");
+  },
+  deleteCertifiedStudent: (id) => {
+    return axios.delete(API_URL + "api/certified-students/delete/" + id);
+  },
 };
 export default DataService;
