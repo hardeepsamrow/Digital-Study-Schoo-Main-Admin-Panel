@@ -37,7 +37,8 @@ const VideoReviewsList = () => {
         setLoading(false);
       },
       (err) => {
-        toast.error("Failed to add video");
+        const msg = err.response?.data?.message || "Failed to add video";
+        toast.error(msg);
         setLoading(false);
       }
     );
