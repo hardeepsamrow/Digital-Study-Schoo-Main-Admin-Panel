@@ -113,7 +113,7 @@ const CertifiedStudentsList = () => {
                         {preview && (
                             <div className="mt-3">
                                 <p className="mb-1">Preview:</p>
-                                <img src={preview} alt="preview" style={{ width: '150px', borderRadius: '10px', border: '1px solid #ddd' }} />
+                                <img src={preview} alt="preview" style={{ width: '150px', borderRadius: '10px', border: '1px solid #ddd', display: 'block' }} />
                             </div>
                         )}
                     </form>
@@ -129,7 +129,7 @@ const CertifiedStudentsList = () => {
                                         <img 
                                             src={"https://backend.digitalstudyschool.com" + item.image?.url} 
                                             alt={item.name} 
-                                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                                             onError={(e) => e.target.src = '../assets/img/noImage.jpg'}
                                         />
                                     </div>

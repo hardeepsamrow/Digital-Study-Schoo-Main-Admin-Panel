@@ -541,7 +541,7 @@ const AddBlogPost = () => {
                         <h4 className="f-700">Thumbnail</h4>
                         <div className="Product-thumbnail" onClick={triggerFile}>
                           <img
-                            style={{ width: "100%" }}
+                            style={{ width: "100%", display: "block" }}
                             // src="https://backend.digitalstudyschool.com/"
                             src="../assets/img/upload-image.png"
                             ref={imgRef}

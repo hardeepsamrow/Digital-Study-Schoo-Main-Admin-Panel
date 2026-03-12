@@ -126,7 +126,7 @@ const VideoReviewsList = () => {
                         {data.map((item) => (
                             <tr key={item._id}>
                                 <td>
-                                    <img src={item.thumb} alt="thumb" style={{ width: '100px', borderRadius: '8px' }} onError={(e) => e.target.src = '../assets/img/noImage.jpg'} />
+                                    <img src={item.thumb} alt="thumb" style={{ width: '100px', borderRadius: '8px', display: 'block' }} onError={(e) => e.target.src = '../assets/img/noImage.jpg'} />
                                 </td>
                                 <td>{item.name}</td>
                                 <td>
