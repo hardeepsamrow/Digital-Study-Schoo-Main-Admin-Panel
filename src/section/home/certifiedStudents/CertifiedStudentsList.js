@@ -5,9 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 const CertifiedStudentsList = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [name, setName] = useState("");
-    const [file, setFile] = useState(null);
-    const [preview, setPreview] = useState(null);
+    const [altText, setAltText] = useState("");
     const fileInputRef = useRef();
 
     useEffect(() => {
@@ -46,11 +44,13 @@ const CertifiedStudentsList = () => {
         const formData = new FormData();
         formData.append("image", file);
         formData.append("name", name || "Student");
+        formData.append("altText", altText || name || "Certified Student");
 
         DataService.addCertifiedStudent(formData).then(
             () => {
                 toast.success("Student added successfully!");
                 setName("");
+                setAltText("");
                 setFile(null);
                 setPreview(null);
                 fetchStudents();
@@ -84,8 +84,8 @@ const CertifiedStudentsList = () => {
                 <div className="card mt-4 p-4">
                     <form onSubmit={handleAddStudent}>
                         <div className="row align-items-end">
-                            <div className="col-md-5">
-                                <label className="form-label">Student Name (for alt text)</label>
+                            <div className="col-md-3">
+                                <label className="form-label">Student Name</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -94,7 +94,17 @@ const CertifiedStudentsList = () => {
                                     placeholder="Enter student name"
                                 />
                             </div>
-                            <div className="col-md-5">
+                            <div className="col-md-3">
+                                <label className="form-label">Alt Text (SEO)</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={altText}
+                                    onChange={(e) => setAltText(e.target.value)}
+                                    placeholder="SEO Alt Text"
+                                />
+                            </div>
+                            <div className="col-md-4">
                                 <label className="form-label">Upload Photo</label>
                                 <input
                                     type="file"

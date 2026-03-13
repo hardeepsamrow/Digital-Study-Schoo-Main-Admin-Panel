@@ -7,6 +7,7 @@ const VideoReviewsList = () => {
   const [loading, setLoading] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [name, setName] = useState("");
+  const [altText, setAltText] = useState("");
   const [isShort, setIsShort] = useState(false);
 
   useEffect(() => {
@@ -26,13 +27,14 @@ const VideoReviewsList = () => {
       return;
     }
     setLoading(true);
-    const payload = { videoUrl, name, isShort };
+    const payload = { videoUrl, name, isShort, altText };
     console.log("Submitting payload:", payload);
     DataService.addVideoReview(payload).then(
       () => {
         toast.success("Video added successfully!");
         setVideoUrl("");
         setName("");
+        setAltText("");
         setIsShort(false);
         fetchVideos();
         setLoading(false);
@@ -66,19 +68,19 @@ const VideoReviewsList = () => {
         <div className="card mt-4 p-4">
           <form onSubmit={handleAddVideo}>
             <div className="row">
-              <div className="col-md-5">
-                <label className="form-label">Video URL (YouTube/Shorts)</label>
+              <div className="col-md-4">
+                <label className="form-label">Video URL</label>
                 <input
                   type="text"
                   className="form-control"
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  placeholder="YouTube Link"
                   required
                 />
               </div>
-              <div className="col-md-4">
-                <label className="form-label">Student Name/Title</label>
+              <div className="col-md-3">
+                <label className="form-label">Student Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -89,6 +91,16 @@ const VideoReviewsList = () => {
                 />
               </div>
               <div className="col-md-3">
+                <label className="form-label">Alt Text (SEO)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={altText}
+                  onChange={(e) => setAltText(e.target.value)}
+                  placeholder="SEO Video Title"
+                />
+              </div>
+              <div className="col-md-2">
                 <label className="form-label d-block">Is it a Short?</label>
                 <div className="form-check form-switch mt-2">
                   <input
