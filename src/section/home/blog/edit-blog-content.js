@@ -618,7 +618,7 @@ const EditBlogPost = () => {
                         content_style:
                           "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
 
-                        images_upload_url: "https://digitalstudyschool.com/api/admin/blogs/upload",
+                        images_upload_url: "https://digitalstudyschool.com/api/admin/blogs/upload/",
                         file_picker_types: "image media",
                         file_picker_callback: function (cb, value, meta) {
                           const input = document.createElement("input");
@@ -630,7 +630,7 @@ const EditBlogPost = () => {
                             const formData = new FormData();
                             formData.append("file", file);
 
-                            fetch("https://digitalstudyschool.com/api/admin/blogs/upload", {
+                            fetch("https://digitalstudyschool.com/api/admin/blogs/upload/", {
                               method: "POST",
                               body: formData,
                             })
