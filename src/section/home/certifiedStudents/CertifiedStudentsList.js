@@ -6,6 +6,9 @@ const CertifiedStudentsList = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [altText, setAltText] = useState("");
+    const [name, setName] = useState("");
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
     const fileInputRef = useRef();
 
     useEffect(() => {
