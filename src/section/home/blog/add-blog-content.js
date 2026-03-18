@@ -610,9 +610,34 @@ const AddBlogPost = () => {
                             "removeformat | image file | help",
                           content_style:
                             "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
-                          images_upload_url:
-                            "https://backend.digitalstudyschool.com/api/EnNews/images",
-                          file_picker_types: "image",
+                          images_upload_url: "https://digitalstudyschool.com/api/admin/blogs/upload",
+                          file_picker_types: "image media",
+                          file_picker_callback: function (cb, value, meta) {
+                            const input = document.createElement("input");
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", meta.filetype === "image" ? "image/*" : "video/*");
+
+                            input.onchange = function () {
+                              const file = this.files[0];
+                              const formData = new FormData();
+                              formData.append("file", file);
+
+                              fetch("https://digitalstudyschool.com/api/admin/blogs/upload", {
+                                method: "POST",
+                                body: formData,
+                              })
+                              .then(response => response.json())
+                              .then(data => {
+                                if (data.location) {
+                                  cb(data.location, { title: file.name, alt: file.name });
+                                } else {
+                                  toast.error(data.error || "Upload failed");
+                                }
+                              })
+                              .catch(error => toast.error("Upload error: " + error.message));
+                            };
+                            input.click();
+                          },
                         }}
                       />
                     </div>
