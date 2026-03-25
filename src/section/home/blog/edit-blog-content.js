@@ -383,45 +383,53 @@ const EditBlogPost = () => {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Categories</label>
+                    <label className="form-label">Category</label>
                     <select
                       required
                       className="form-select"
-                      value={category}
+                      value={innerCategoryName || category}
                       onChange={(e) => {
-                        setCategory(e.target.value);
-                        setInnerCategoryName("");
+                        const selectedId = e.target.value;
+                        const selectedCat = mastercategory.find(c => c._id === selectedId);
+                        if (selectedCat) {
+                          if (selectedCat.parentCategory) {
+                            // It's an inner category
+                            setCategory(selectedCat.parentCategory?._id || selectedCat.parentCategory);
+                            setInnerCategoryName(selectedCat._id);
+                          } else {
+                            // It's a main category
+                            setCategory(selectedCat._id);
+                            setInnerCategoryName("");
+                          }
+                        } else {
+                          setCategory("");
+                          setInnerCategoryName("");
+                        }
                       }}
                     >
                       <option value="">Select an option</option>
-
-                      {mastercategory && mastercategory?.length > 0
-                        ? mastercategory?.filter(item => !item.parentCategory).map((item, i) => (
-                          <option key={item._id} value={item._id}>{item.name}</option>
-                        ))
-                        : ""}
+                      {(() => {
+                        const topLevel = mastercategory.filter(c => !c.parentCategory);
+                        const children = mastercategory.filter(c => c.parentCategory);
+                        
+                        return topLevel.map(parent => (
+                            <React.Fragment key={parent._id}>
+                                <option value={parent._id} style={{ fontWeight: 'bold' }}>
+                                    {parent.name}
+                                </option>
+                                {children
+                                    .filter(child => (child.parentCategory?._id || child.parentCategory) === parent._id)
+                                    .map(child => (
+                                        <option key={child._id} value={child._id}>
+                                            &nbsp;&nbsp;&nbsp;-- {child.name}
+                                        </option>
+                                    ))
+                                }
+                            </React.Fragment>
+                        ));
+                      })()}
                     </select>
                   </div>
-
-                  {category && (
-                    <div className="mb-3">
-                      <label className="form-label">Inner Category (Optional)</label>
-                      <select
-                        className="form-select"
-                        value={innerCategoryName}
-                        onChange={(e) => setInnerCategoryName(e.target.value)}
-                      >
-                        <option value="">Select an Inner Category</option>
-                        {mastercategory && mastercategory?.length > 0
-                          ? mastercategory?.filter(item => item.parentCategory === category || (item.parentCategory && item.parentCategory._id === category)).map((item, i) => (
-                            <option key={item._id} value={item._id}>
-                              {item.name}
-                            </option>
-                          ))
-                          : ""}
-                      </select>
-                    </div>
-                  )}
 
                   <div className="mb-3">
                     <label className="form-label">Author</label>

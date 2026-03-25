@@ -118,30 +118,36 @@ const EditCategoryList = () => {
                     </div>
                   </div>
 
-                  <input
-                    type="text"
-                    value={name}
-                    className="form-control my-4"
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Category Name"
-                    required
-                  />
+                    <div className="mb-4">
+                      <label className="mb-2">Category Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        className="form-control mb-4"
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Category Name"
+                        required
+                      />
+                    </div>
 
-                  {categoryType === "inner" && (
-                    <select
-                      className="form-control my-4"
-                      onChange={(e) => setParentId(e.target.value)}
-                      value={parentId}
-                      required
-                    >
-                      <option value="">Select Parent Category</option>
-                      {categories.filter(cat => cat._id !== params.id).map((cat) => (
-                        <option key={cat._id} value={cat._id}>
-                          {cat.name}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                    {categoryType === "inner" && (
+                      <div className="mb-4">
+                        <label className="mb-2">Select Parent Category</label>
+                        <select
+                          className="form-control"
+                          onChange={(e) => setParentId(e.target.value)}
+                          value={parentId}
+                          required
+                        >
+                          <option value="">Select Parent Category</option>
+                          {categories.filter(cat => cat._id !== params.id).map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

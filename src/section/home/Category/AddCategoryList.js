@@ -110,28 +110,34 @@ const AddCategoryList = () => {
                       </div>
                     </div>
 
-                    <input
-                      type="text"
-                      className="form-control my-4"
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Category Name"
-                      required
-                    />
+                    <div className="mb-4">
+                      <label className="mb-2">Category Name</label>
+                      <input
+                        type="text"
+                        className="form-control mb-4"
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Category Name"
+                        required
+                      />
+                    </div>
 
                     {categoryType === "inner" && (
-                      <select
-                        className="form-control my-4"
-                        onChange={(e) => setparentId(e.target.value)}
-                        value={parentId}
-                        required
-                      >
-                        <option value="">Select Parent Category</option>
-                        {categories.map((cat) => (
-                          <option key={cat._id} value={cat._id}>
-                            {cat.name}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="mb-4">
+                        <label className="mb-2">Select Parent Category</label>
+                        <select
+                          className="form-control"
+                          onChange={(e) => setparentId(e.target.value)}
+                          value={parentId}
+                          required
+                        >
+                          <option value="">Select Parent Category</option>
+                          {categories.map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     )}
                   </div>
                 </div>

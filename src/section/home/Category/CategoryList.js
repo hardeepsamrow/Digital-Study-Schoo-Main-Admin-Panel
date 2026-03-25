@@ -151,6 +151,7 @@ const CategoryList = () => {
           <thead>
             <tr>
               <th scope="col">Category</th>
+              <th scope="col">Parent Category</th>
               <th scope="col" className="text-end">
                 Action
               </th>
@@ -165,10 +166,11 @@ const CategoryList = () => {
                   onSortItems={onSortItems}
                   sortId={i}
                 >
-
                   <td className="d-flex align-items-center">
                     {item?.name}
-                    {item?.parentCategory && <span className="badge bg-secondary ms-2">{item.parentCategory.name}</span>}
+                  </td>
+                  <td>
+                    {item?.parentCategory?.name || (typeof item?.parentCategory === 'string' ? item.parentCategory : "-")}
                   </td>
 
                   <td style={{ textAlign: "right" }}>
