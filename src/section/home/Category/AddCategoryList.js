@@ -43,11 +43,12 @@ const AddCategoryList = () => {
       },
       (error) => {
         const resMessage =
-          (error.response && error.response.data && error.response.data.msg) ||
+          (error.response && error.response.data && (error.response.data.message || error.response.data.msg)) ||
           error.message ||
           error.toString();
 
         setLoading(false);
+        setMessage(resMessage); // Show specific error in the UI toast
         toast.error(resMessage, {
           position: toast.POSITION.TOP_RIGHT,
         });
