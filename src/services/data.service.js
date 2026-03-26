@@ -2,8 +2,8 @@ import axios from "axios";
 import AuthService from "../services/auth.service";
 
 const API_URL =
-  process.env.NODE_ENV != "production"
-    ? "https://backend.digitalstudyschool.com/"
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3005/"
     : "https://backend.digitalstudyschool.com/";
 
 axios.interceptors.request.use(function (config) {
