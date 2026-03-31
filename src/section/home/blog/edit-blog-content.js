@@ -82,8 +82,14 @@ const EditBlogPost = () => {
   const [innerCategoryName, setInnerCategoryName] = useState("");
   const [authors, setAuthors] = useState([]);
   const [authorId, setAuthorId] = useState("");
-  const navigate = useNavigate();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const editorRef = useRef(null);
+
+  // SEO Optimization states
+  const [focusKeyword, setFocusKeyword] = useState("");
+  const [seoResults, setSeoResults] = useState(null);
+
+  const navigate = useNavigate();
 
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -105,6 +111,28 @@ const EditBlogPost = () => {
   const triggerFile = () => {
     inputFileRef.current.click();
   };
+  const handleEditorChange = (content, editor) => {
+    setDescription(content);
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (description || name || focusKeyword) {
+        DataService.analyzeSeo({
+          title: name,
+          description: description,
+          metaTitle: metaTitle,
+          metaDescription: metaDescription,
+          keyword: focusKeyword
+        }).then(res => {
+          setSeoResults(res.data.data);
+        }).catch(err => console.error("SEO Analysis Error:", err));
+      }
+    }, 1200);
+
+    return () => clearTimeout(timeoutId);
+  }, [description, name, metaTitle, metaDescription, focusKeyword]);
+
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleSelectChange = (e) => {
@@ -522,6 +550,78 @@ const EditBlogPost = () => {
                       ))}
                     </ul>
                   </div>
+
+                  {/* SEO Optimization Dashboard */}
+                  <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
+                    <div className="card-body">
+                      <h5 className="f-700 mb-3" style={{ color: '#333' }}>
+                        <i className="fas fa-chart-line me-2 text-primary"></i>
+                        SEO Content Engine
+                      </h5>
+
+                      <div className="mb-3">
+                        <label className="form-label fw-bold small">Focus Keyword</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="e.g. digital marketing"
+                          value={focusKeyword}
+                          onChange={(e) => setFocusKeyword(e.target.value)}
+                        />
+                      </div>
+
+                      {seoResults && (
+                        <div className="seo-metrics">
+                          <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
+                            <div className="text-center flex-fill border-end">
+                              <div className="small text-muted">SEO Score</div>
+                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
+                                {seoResults.seo.score}/100
+                              </div>
+                            </div>
+                            <div className="text-center flex-fill border-end">
+                              <div className="small text-muted">Readability</div>
+                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
+                                {seoResults.readability.score}
+                              </div>
+                              <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
+                            </div>
+                            <div className="text-center flex-fill">
+                              <div className="small text-muted">UX Score</div>
+                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
+                                {seoResults.ux.score}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="seo-checklist mt-3">
+                            <h6 className="small fw-bold mb-2">Checklist</h6>
+                            {seoResults.seo.checklist.map((item, idx) => (
+                              <div key={idx} className="d-flex align-items-center mb-1 small">
+                                {item.check ? (
+                                  <i className="fas fa-check-circle text-success me-2"></i>
+                                ) : (
+                                  <i className="fas fa-times-circle text-danger me-2"></i>
+                                )}
+                                <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {seoResults.allSuggestions.length > 0 && (
+                            <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
+                              <h6 className="small fw-bold mb-1">How to Improve:</h6>
+                              <ul className="mb-0 ps-3 small">
+                                {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
+                                  <li key={idx} className="mb-1">{s}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -594,6 +694,7 @@ const EditBlogPost = () => {
                       apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
                       initialValue={description}
                       onInit={(evt, editor) => (editorRef.current = editor)}
+                      onEditorChange={handleEditorChange}
                       init={{
                         height: 500,
                         menubar: true,
