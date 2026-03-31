@@ -499,9 +499,9 @@ const AddBlogPost = () => {
                     <option>Select an option</option>
                     {data && data.length > 0
                       ? data.map((item, i) => (
-                        <>
+                        <React.Fragment key={item?._id}>
                           <option value={item?._id}>{item?.name}</option>
-                        </>
+                        </React.Fragment>
                       ))
                       : ""}
                   </select>
@@ -556,83 +556,83 @@ const AddBlogPost = () => {
                       </li>
                     ))}
                   </ul>
-                  </div>
+                </div>
 
-                  {/* SEO Optimization Dashboard */}
-                  <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
-                    <div className="card-body">
-                      <h5 className="f-700 mb-3" style={{ color: '#333' }}>
-                        <i className="fas fa-chart-line me-2 text-primary"></i>
-                        SEO Content Engine
-                      </h5>
+                {/* SEO Optimization Dashboard */}
+                <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
+                  <div className="card-body">
+                    <h5 className="f-700 mb-3" style={{ color: '#333' }}>
+                      <i className="fas fa-chart-line me-2 text-primary"></i>
+                      SEO Content Engine
+                    </h5>
 
-                      <div className="mb-3">
-                        <label className="form-label fw-bold small">Focus Keyword</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="e.g. digital marketing"
-                          value={focusKeyword}
-                          onChange={(e) => setFocusKeyword(e.target.value)}
-                        />
-                      </div>
-
-                      {seoResults && (
-                        <div className="seo-metrics">
-                          <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
-                            <div className="text-center flex-fill border-end">
-                              <div className="small text-muted">SEO Score</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
-                                {seoResults.seo.score}/100
-                              </div>
-                            </div>
-                            <div className="text-center flex-fill border-end">
-                              <div className="small text-muted">Readability</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
-                                {seoResults.readability.score}
-                              </div>
-                              <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
-                            </div>
-                            <div className="text-center flex-fill">
-                              <div className="small text-muted">UX Score</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
-                                {seoResults.ux.score}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="seo-checklist mt-3">
-                            <h6 className="small fw-bold mb-2">Checklist</h6>
-                            {seoResults.seo.checklist.map((item, idx) => (
-                              <div key={idx} className="d-flex align-items-center mb-1 small">
-                                {item.check ? (
-                                  <i className="fas fa-check-circle text-success me-2"></i>
-                                ) : (
-                                  <i className="fas fa-times-circle text-danger me-2"></i>
-                                )}
-                                <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {seoResults.allSuggestions.length > 0 && (
-                            <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
-                              <h6 className="small fw-bold mb-1">How to Improve:</h6>
-                              <ul className="mb-0 ps-3 small">
-                                {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
-                                  <li key={idx} className="mb-1">{s}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                    <div className="mb-3">
+                      <label className="form-label fw-bold small">Focus Keyword</label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                        placeholder="e.g. digital marketing"
+                        value={focusKeyword}
+                        onChange={(e) => setFocusKeyword(e.target.value)}
+                      />
                     </div>
+
+                    {seoResults && (
+                      <div className="seo-metrics">
+                        <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
+                          <div className="text-center flex-fill border-end">
+                            <div className="small text-muted">SEO Score</div>
+                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
+                              {seoResults.seo.score}/100
+                            </div>
+                          </div>
+                          <div className="text-center flex-fill border-end">
+                            <div className="small text-muted">Readability</div>
+                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
+                              {seoResults.readability.score}
+                            </div>
+                            <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
+                          </div>
+                          <div className="text-center flex-fill">
+                            <div className="small text-muted">UX Score</div>
+                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
+                              {seoResults.ux.score}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="seo-checklist mt-3">
+                          <h6 className="small fw-bold mb-2">Checklist</h6>
+                          {seoResults.seo.checklist.map((item, idx) => (
+                            <div key={idx} className="d-flex align-items-center mb-1 small">
+                              {item.check ? (
+                                <i className="fas fa-check-circle text-success me-2"></i>
+                              ) : (
+                                <i className="fas fa-times-circle text-danger me-2"></i>
+                              )}
+                              <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {seoResults.allSuggestions.length > 0 && (
+                          <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
+                            <h6 className="small fw-bold mb-1">How to Improve:</h6>
+                            <ul className="mb-0 ps-3 small">
+                              {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
+                                <li key={idx} className="mb-1">{s}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <div className="col-xxl-9 col-lg-8 ps-xxl-5 ps-md-3 ps-0">
             <div className="col-md-12">
               <div className="card mb-5">
@@ -644,7 +644,6 @@ const AddBlogPost = () => {
                         <div className="Product-thumbnail" onClick={triggerFile}>
                           <img
                             style={{ width: "100%", display: "block" }}
-                            // src="https://backend.digitalstudyschool.com/"
                             src="../assets/img/upload-image.png"
                             ref={imgRef}
                             alt=""
@@ -664,13 +663,11 @@ const AddBlogPost = () => {
                       />
                     </div>
 
-
                     <label className="form-label">Post Title</label>
                     <input
                       type="text"
                       className="form-control"
                       value={name}
-                      // onChange={(e) => setName(e.target.value)}
                       onChange={handleNameChange}
                       placeholder="Post Title"
                     />
@@ -686,31 +683,13 @@ const AddBlogPost = () => {
                           height: 500,
                           menubar: true,
                           plugins: [
-                            "advlist",
-                            "autolink",
-                            "lists",
-                            "link",
-                            "image",
-                            "charmap",
-                            "preview",
-                            "anchor",
-                            "searchreplace",
-                            "visualblocks",
-                            "code",
-                            "fullscreen",
-                            "insertdatetime",
-                            "media",
-                            "table",
-                            "code",
-                            "help",
-                            "wordcount",
-                            "file",
+                            "advlist", "autolink", "lists", "link", "image", "charmap", "preview",
+                            "anchor", "searchreplace", "visualblocks", "code", "fullscreen",
+                            "insertdatetime", "media", "table", "help", "wordcount", "file"
                           ],
                           toolbar:
-                            "undo redo | blocks | " +
-                            "bold italic forecolor | alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
-                            "removeformat | image file | help",
+                            "undo redo | blocks | bold italic forecolor | alignleft aligncenter " +
+                            "alignright alignjustify | bullist numlist outdent indent | removeformat | image file | help",
                           content_style:
                             "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
                           images_upload_url: "https://backend.digitalstudyschool.com/api/blogs/uploadMedia",
@@ -746,7 +725,8 @@ const AddBlogPost = () => {
                     </div>
                   </div>
                 </div>
-                {sPopup &&
+
+                {sPopup && (
                   <div className="popup_outer">
                     <div className="popup_inner">
                       <i className="fas fa-times" onClick={() => setSPopup(false)}></i>
@@ -778,7 +758,8 @@ const AddBlogPost = () => {
                       </div>
                     </div>
                   </div>
-                }
+                )}
+
                 <div className="d-flex justify-content-center btn-min-width p-4">
                   <button
                     type="button"
@@ -809,7 +790,6 @@ const AddBlogPost = () => {
             </div>
           </div>
         </div>
-        {/* </form> */}
       </div>
     </>
   );

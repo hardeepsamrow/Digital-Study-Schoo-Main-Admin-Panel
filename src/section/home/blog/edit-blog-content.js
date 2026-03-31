@@ -82,7 +82,6 @@ const EditBlogPost = () => {
   const [innerCategoryName, setInnerCategoryName] = useState("");
   const [authors, setAuthors] = useState([]);
   const [authorId, setAuthorId] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
   const editorRef = useRef(null);
 
   // SEO Optimization states
@@ -98,14 +97,16 @@ const EditBlogPost = () => {
 
   const onFileChangeCapture = (e) => {
     const file = e.target.files[0];
-    setFile(e.target.files);
-    const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
-    reader.onloadend = function (theFile) {
-      var image = new Image();
-      image.src = theFile.target.result;
-      imgRef.current.src = image.src;
-    };
+    if (file) {
+      setFile(e.target.files);
+      const reader = new FileReader();
+      const url = reader.readAsDataURL(file);
+      reader.onloadend = function (theFile) {
+        var image = new Image();
+        image.src = theFile.target.result;
+        imgRef.current.src = image.src;
+      };
+    }
   };
 
   const triggerFile = () => {
@@ -188,8 +189,6 @@ const EditBlogPost = () => {
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
       if (data?.data?.data?.schedulingDate) {
-        // Set slot as string formatted
-        // Backend stores as ISO possibly, so ensuring it's loaded as moment then formatted
         const sDate = moment(data?.data?.data?.schedulingDate);
         if (sDate.isValid()) {
           setSlot(sDate.format("YYYY-MM-DDTHH:mm:ss"));
@@ -243,8 +242,6 @@ const EditBlogPost = () => {
     const updatedTodos = todos.filter((todo, i) => i !== index);
     setTodos(updatedTodos);
   };
-  const userId = JSON.parse(localStorage.getItem("user"));
-  const userIdString = userId && userId._id ? userId._id.toString() : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -293,9 +290,7 @@ const EditBlogPost = () => {
       (error) => {
         const resMessage = error?.response?.data?.message;
         setLoading(false);
-        toast.error(resMessage, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.error(resMessage);
       }
     );
   };
@@ -354,445 +349,400 @@ const EditBlogPost = () => {
       (error) => {
         const resMessage = error?.response?.data?.message;
         setLoading(false);
-        toast.error(resMessage, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.error(resMessage);
       }
     );
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="d-flex w-100 justify-content-between align-items-center mb-4">
-          <h4 className="mb-0 f-700">Edit Blog</h4>
-        </div>
-      </div>
-      {/* <form className="mt-4 login" ref={form}> */}
-      {/* <form onSubmit={handleSubmit} className="mt-4 login" ref={form}> */}
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
+    <>
+      <ToastContainer />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="d-flex w-100 justify-content-between align-items-center mb-4">
+            <h4 className="mb-0 f-700">Edit Blog</h4>
           </div>
         </div>
-      )}
 
-      <div className="row">
-        <div className="col-xxl-3 col-lg-4">
-          <div className="card">
-            <div className="card-body text-center">
-              <h4 className="f-700">Blog Details</h4>
-              <div className="card">
-                <div className="card-body text-center">
-                  {/* <h4 className="f-700">Product Details</h4> */}
-
-                  <div className="mb-3">
-                    <label className="form-label">Url</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                      placeholder="Url"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Canonical URL (Optional)</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={canonicalUrl}
-                      onChange={(e) => setCanonicalUrl(e.target.value)}
-                      placeholder="Leave empty to auto-generate"
-                    />
-                    <div className="form-text text-muted">
-                      Current: {canonicalUrl || (url ? `https://digitalstudyschool.com/blog/${url}` : 'Auto-generated')}
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Category</label>
-                    <select
-                      required
-                      className="form-select"
-                      value={innerCategoryName || category}
-                      onChange={(e) => {
-                        const selectedId = e.target.value;
-                        const selectedCat = mastercategory.find(c => c._id === selectedId);
-                        if (selectedCat) {
-                          if (selectedCat.parentCategory) {
-                            // It's an inner category
-                            setCategory(selectedCat.parentCategory?._id || selectedCat.parentCategory);
-                            setInnerCategoryName(selectedCat._id);
-                          } else {
-                            // It's a main category
-                            setCategory(selectedCat._id);
-                            setInnerCategoryName("");
-                          }
-                        } else {
-                          setCategory("");
-                          setInnerCategoryName("");
-                        }
-                      }}
-                    >
-                      <option value="">Select an option</option>
-                      {(() => {
-                        const topLevel = mastercategory.filter(c => !c.parentCategory);
-                        const children = mastercategory.filter(c => c.parentCategory);
-                        
-                        return topLevel.map(parent => (
-                            <React.Fragment key={parent._id}>
-                                <option value={parent._id} style={{ fontWeight: 'bold' }}>
-                                    {parent.name}
-                                </option>
-                                {children
-                                    .filter(child => (child.parentCategory?._id || child.parentCategory) === parent._id)
-                                    .map(child => (
-                                        <option key={child._id} value={child._id}>
-                                            &nbsp;&nbsp;&nbsp;-- {child.name}
-                                        </option>
-                                    ))
-                                }
-                            </React.Fragment>
-                        ));
-                      })()}
-                    </select>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Author</label>
-                    <select
-                      className="form-select"
-                      onChange={(e) => setAuthorId(e.target.value)}
-                      value={authorId}
-                      disabled={AuthService.getCurrentUser()?.role === 'Author'}
-                    >
-                      <option value="">Select an author</option>
-                      {authors && authors.length > 0
-                        ? authors.map((item, i) => (
-                          <option key={item._id} value={item._id}>
-                            {item.name}
-                          </option>
-                        ))
-                        : ""}
-                    </select>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Tags</label>
-
-                    <select
-                      multiple
-                      required
-                      onChange={handleSelectChange}
-                      value={selectedOptions}
-                      className="form-select"
-                      style={{ minHeight: "150px" }}
-                    >
-                      <option>Select an option</option>
-                      {data && data?.length > 0
-                        ? data?.map((item, i) => (
-                          <>
-                            <option value={item?._id}>{item?.name}</option>
-                          </>
-                        ))
-                        : ""}
-                    </select>
-                    <div className="form-text">
-                      You Can Select Multiple Tags by Ctrl+Click
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Meta Title</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={metaTitle}
-                      onChange={(e) => setMetaTitle(e.target.value)}
-                      placeholder="Meta Title"
-                    />
-                    <SeoIndicator value={metaTitle} max={60} />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Meta Description</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={metaDescription}
-                      onChange={(e) => setMetaDescription(e.target.value)}
-                      placeholder="Meta Description"
-                    />
-                    <SeoIndicator value={metaDescription} max={160} />
-                  </div>
-                  <div className="mb-3">
-                    <form onSubmit={handleKeyWordSubmit}>
-                      <label className="form-label">Meta Keywords</label>
+        <div className="row">
+          <div className="col-xxl-3 col-lg-4">
+            <div className="card">
+              <div className="card-body text-center">
+                <h4 className="f-700">Blog Details</h4>
+                <div className="card">
+                  <div className="card-body text-center">
+                    <div className="mb-3">
+                      <label className="form-label">Url</label>
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Add Meta Keywords"
-                        value={inputValue}
-                        onChange={handleChange}
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        placeholder="Url"
                       />
-                      <button className="btn-todo-list-key" type="submit">
-                        Add
-                      </button>
-                    </form>
-                    <ul className="todo-list-keyword">
-                      {todos.map((todo, index) => (
-                        <li key={index}>
-                          {todo}
-                          <i
-                            onClick={() => handleDelete(index)}
-                            className="far fa-times-circle icon-cross-todo"
-                          ></i>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Canonical URL (Optional)</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={canonicalUrl}
+                        onChange={(e) => setCanonicalUrl(e.target.value)}
+                        placeholder="Leave empty to auto-generate"
+                      />
+                      <div className="form-text text-muted">
+                        Current: {canonicalUrl || (url ? `https://digitalstudyschool.com/blog/${url}` : 'Auto-generated')}
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Category</label>
+                      <select
+                        required
+                        className="form-select"
+                        value={innerCategoryName || category}
+                        onChange={(e) => {
+                          const selectedId = e.target.value;
+                          const selectedCat = mastercategory.find(c => c._id === selectedId);
+                          if (selectedCat) {
+                            if (selectedCat.parentCategory) {
+                              setCategory(selectedCat.parentCategory?._id || selectedCat.parentCategory);
+                              setInnerCategoryName(selectedCat._id);
+                            } else {
+                              setCategory(selectedCat._id);
+                              setInnerCategoryName("");
+                            }
+                          } else {
+                            setCategory("");
+                            setInnerCategoryName("");
+                          }
+                        }}
+                      >
+                        <option value="">Select an option</option>
+                        {(() => {
+                          const topLevel = mastercategory.filter(c => !c.parentCategory);
+                          const children = mastercategory.filter(c => c.parentCategory);
+                          
+                          return topLevel.map(parent => (
+                              <React.Fragment key={parent._id}>
+                                  <option value={parent._id} style={{ fontWeight: 'bold' }}>
+                                      {parent.name}
+                                  </option>
+                                  {children
+                                      .filter(child => (child.parentCategory?._id || child.parentCategory) === parent._id)
+                                      .map(child => (
+                                          <option key={child._id} value={child._id}>
+                                              &nbsp;&nbsp;&nbsp;-- {child.name}
+                                          </option>
+                                      ))
+                                  }
+                              </React.Fragment>
+                          ));
+                        })()}
+                      </select>
+                    </div>
 
-                  {/* SEO Optimization Dashboard */}
-                  <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
-                    <div className="card-body">
-                      <h5 className="f-700 mb-3" style={{ color: '#333' }}>
-                        <i className="fas fa-chart-line me-2 text-primary"></i>
-                        SEO Content Engine
-                      </h5>
+                    <div className="mb-3">
+                      <label className="form-label">Author</label>
+                      <select
+                        className="form-select"
+                        onChange={(e) => setAuthorId(e.target.value)}
+                        value={authorId}
+                        disabled={AuthService.getCurrentUser()?.role === 'Author'}
+                      >
+                        <option value="">Select an author</option>
+                        {authors && authors.length > 0
+                          ? authors.map((item, i) => (
+                            <option key={item._id} value={item._id}>
+                              {item.name}
+                            </option>
+                          ))
+                          : ""}
+                      </select>
+                    </div>
 
-                      <div className="mb-3">
-                        <label className="form-label fw-bold small">Focus Keyword</label>
+                    <div className="mb-3">
+                      <label className="form-label">Tags</label>
+                      <select
+                        multiple
+                        required
+                        onChange={handleSelectChange}
+                        value={selectedOptions}
+                        className="form-select"
+                        style={{ minHeight: "150px" }}
+                      >
+                        <option>Select an option</option>
+                        {data && data?.length > 0
+                          ? data?.map((item, i) => (
+                            <React.Fragment key={item?._id}>
+                              <option value={item?._id}>{item?.name}</option>
+                            </React.Fragment>
+                          ))
+                          : ""}
+                      </select>
+                      <div className="form-text">
+                        You Can Select Multiple Tags by Ctrl+Click
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Meta Title</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={metaTitle}
+                        onChange={(e) => setMetaTitle(e.target.value)}
+                        placeholder="Meta Title"
+                      />
+                      <SeoIndicator value={metaTitle} max={60} />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Meta Description</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={metaDescription}
+                        onChange={(e) => setMetaDescription(e.target.value)}
+                        placeholder="Meta Description"
+                      />
+                      <SeoIndicator value={metaDescription} max={160} />
+                    </div>
+                    <div className="mb-3">
+                      <form onSubmit={handleKeyWordSubmit}>
+                        <label className="form-label">Meta Keywords</label>
                         <input
                           type="text"
-                          className="form-control form-control-sm"
-                          placeholder="e.g. digital marketing"
-                          value={focusKeyword}
-                          onChange={(e) => setFocusKeyword(e.target.value)}
+                          className="form-control"
+                          placeholder="Add Meta Keywords"
+                          value={inputValue}
+                          onChange={handleChange}
                         />
-                      </div>
+                        <button className="btn-todo-list-key" type="submit">
+                          Add
+                        </button>
+                      </form>
+                      <ul className="todo-list-keyword">
+                        {todos.map((todo, index) => (
+                          <li key={index}>
+                            {todo}
+                            <i
+                              onClick={() => handleDelete(index)}
+                              className="far fa-times-circle icon-cross-todo"
+                            ></i>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                      {seoResults && (
-                        <div className="seo-metrics">
-                          <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
-                            <div className="text-center flex-fill border-end">
-                              <div className="small text-muted">SEO Score</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
-                                {seoResults.seo.score}/100
-                              </div>
-                            </div>
-                            <div className="text-center flex-fill border-end">
-                              <div className="small text-muted">Readability</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
-                                {seoResults.readability.score}
-                              </div>
-                              <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
-                            </div>
-                            <div className="text-center flex-fill">
-                              <div className="small text-muted">UX Score</div>
-                              <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
-                                {seoResults.ux.score}
-                              </div>
-                            </div>
-                          </div>
+                    {/* SEO Optimization Dashboard */}
+                    <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
+                      <div className="card-body">
+                        <h5 className="f-700 mb-3" style={{ color: '#333' }}>
+                          <i className="fas fa-chart-line me-2 text-primary"></i>
+                          SEO Content Engine
+                        </h5>
 
-                          <div className="seo-checklist mt-3">
-                            <h6 className="small fw-bold mb-2">Checklist</h6>
-                            {seoResults.seo.checklist.map((item, idx) => (
-                              <div key={idx} className="d-flex align-items-center mb-1 small">
-                                {item.check ? (
-                                  <i className="fas fa-check-circle text-success me-2"></i>
-                                ) : (
-                                  <i className="fas fa-times-circle text-danger me-2"></i>
-                                )}
-                                <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {seoResults.allSuggestions.length > 0 && (
-                            <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
-                              <h6 className="small fw-bold mb-1">How to Improve:</h6>
-                              <ul className="mb-0 ps-3 small">
-                                {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
-                                  <li key={idx} className="mb-1">{s}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
+                        <div className="mb-3">
+                          <label className="form-label fw-bold small">Focus Keyword</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            placeholder="e.g. digital marketing"
+                            value={focusKeyword}
+                            onChange={(e) => setFocusKeyword(e.target.value)}
+                          />
                         </div>
-                      )}
+
+                        {seoResults && (
+                          <div className="seo-metrics">
+                            <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
+                              <div className="text-center flex-fill border-end">
+                                <div className="small text-muted">SEO Score</div>
+                                <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
+                                  {seoResults.seo.score}/100
+                                </div>
+                              </div>
+                              <div className="text-center flex-fill border-end">
+                                <div className="small text-muted">Readability</div>
+                                <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
+                                  {seoResults.readability.score}
+                                </div>
+                                <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
+                              </div>
+                              <div className="text-center flex-fill">
+                                <div className="small text-muted">UX Score</div>
+                                <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
+                                  {seoResults.ux.score}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="seo-checklist mt-3">
+                              <h6 className="small fw-bold mb-2">Checklist</h6>
+                              {seoResults.seo.checklist.map((item, idx) => (
+                                <div key={idx} className="d-flex align-items-center mb-1 small">
+                                  {item.check ? (
+                                    <i className="fas fa-check-circle text-success me-2"></i>
+                                  ) : (
+                                    <i className="fas fa-times-circle text-danger me-2"></i>
+                                  )}
+                                  <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            {seoResults.allSuggestions.length > 0 && (
+                              <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
+                                <h6 className="small fw-bold mb-1">How to Improve:</h6>
+                                <ul className="mb-0 ps-3 small">
+                                  {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
+                                    <li key={idx} className="mb-1">{s}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xxl-9 col-lg-8 ps-xxl-5 ps-md-3 ps-0">
-          <div className="col-md-12">
-            <div className="card mb-5">
-              <div className="card-body p-4">
-                <div>
-                  <div className="card mb-4">
-                    <div className="card-body text-center">
-                      <h4 className="f-700">Thumbnail</h4>
-                      <div
-                        className="Product-thumbnail  "
-                        onClick={triggerFile}
-                      >
-                        {dataMain?.image ? (
-                          <>
+
+          <div className="col-xxl-9 col-lg-8 ps-xxl-5 ps-md-3 ps-0">
+            <div className="col-md-12">
+              <div className="card mb-5">
+                <div className="card-body p-4">
+                  <div>
+                    <div className="card mb-4">
+                      <div className="card-body text-center">
+                        <h4 className="f-700">Thumbnail</h4>
+                        <div
+                          className="Product-thumbnail"
+                          onClick={triggerFile}
+                        >
+                          {dataMain?.image ? (
                             <img
-                              src={
-                                "https://backend.digitalstudyschool.com" +
-                                dataMain?.image?.url
-                              }
+                              src={"https://backend.digitalstudyschool.com" + dataMain?.image?.url}
                               ref={imgRef}
                               className="post-img"
                               alt="customer"
-                              onError={(e) =>
-                                (e.target.src = "../assets/img/noImage.jpg")
-                              }
+                              onError={(e) => (e.target.src = "../assets/img/noImage.jpg")}
                             />
-                          </>
-                        ) : (
-                          <img
-                            // src="../assets/img/noImage.jpg"
-                            src="../assets/img/img-placeholder.svg"
-                            ref={imgRef}
-                            alt="post_image"
-                          />
-                        )}
+                          ) : (
+                            <img
+                              src="../assets/img/img-placeholder.svg"
+                              ref={imgRef}
+                              alt="post_image"
+                            />
+                          )}
+                        </div>
+                        <p className="text-center">
+                          Set the Banner image. Only .png, .jpg and *.jpeg image
+                          files are accepted
+                        </p>
                       </div>
-                      <p className="text-center">
-                        Set the Banner image. Only .png, .jpg and *.jpeg image
-                        files are accepted
-                      </p>
+                      <input
+                        type="file"
+                        ref={inputFileRef}
+                        style={styles.input}
+                        accept="image/*"
+                        onChangeCapture={onFileChangeCapture}
+                      />
                     </div>
+
+                    <label className="form-label">Post Title</label>
                     <input
-                      type="file"
-                      ref={inputFileRef}
-                      style={styles.input}
-                      accept="image/*"
-                      onChangeCapture={onFileChangeCapture}
+                      type="text"
+                      className="form-control"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Post Title"
                     />
-                  </div>
+                    <div className="mb-4">
+                      <label className="form-label">Post Description</label>
+                      <Editor
+                        key={description ? "loaded-en" : "loading-en"}
+                        apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
+                        initialValue={description}
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        onEditorChange={handleEditorChange}
+                        init={{
+                          height: 500,
+                          menubar: true,
+                          plugins: [
+                            "advlist", "autolink", "lists", "link", "image", "charmap", "preview",
+                            "anchor", "searchreplace", "visualblocks", "code", "fullscreen",
+                            "insertdatetime", "media", "table", "help", "wordcount", "file"
+                          ],
+                          toolbar:
+                            "undo redo | blocks | bold italic forecolor | alignleft aligncenter " +
+                            "alignright alignjustify | bullist numlist outdent indent | removeformat | image file | help",
+                          content_style:
+                            "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
+                          images_upload_url: "https://backend.digitalstudyschool.com/api/blogs/uploadMedia",
+                          file_picker_types: "image media",
+                          file_picker_callback: function (cb, value, meta) {
+                            const input = document.createElement("input");
+                            input.setAttribute("type", "file");
+                            input.setAttribute("accept", meta.filetype === "image" ? "image/*" : "video/*");
 
-                  <label className="form-label">Post Title</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Post Title"
-                  />
-                  <div className="mb-4">
-                    <label className="form-label">
-                      Post Description
-                    </label>
-                    <Editor
-                      key={description ? "loaded-en" : "loading-en"}
-                      apiKey="v0ip0qppa6tx5219zcux6zor3lpvn1yla3uwnme1btty213m"
-                      initialValue={description}
-                      onInit={(evt, editor) => (editorRef.current = editor)}
-                      onEditorChange={handleEditorChange}
-                      init={{
-                        height: 500,
-                        menubar: true,
-                        plugins: [
-                          "advlist",
-                          "autolink",
-                          "lists",
-                          "link",
-                          "image",
-                          "charmap",
-                          "preview",
-                          "anchor",
-                          "searchreplace",
-                          "visualblocks",
-                          "code",
-                          "fullscreen",
-                          "insertdatetime",
-                          "media",
-                          "table",
-                          "code",
-                          "help",
-                          "wordcount",
-                          "file",
-                        ],
-                        toolbar:
-                          "undo redo | blocks | " +
-                          "bold italic forecolor | alignleft aligncenter " +
-                          "alignright alignjustify | bullist numlist outdent indent | " +
-                          "removeformat | image file | help",
-                        content_style:
-                          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
+                            input.onchange = function () {
+                              const file = this.files[0];
+                              const formData = new FormData();
+                              formData.append("file", file);
 
-                        images_upload_url: "https://backend.digitalstudyschool.com/api/blogs/uploadMedia",
-                        file_picker_types: "image media",
-                        file_picker_callback: function (cb, value, meta) {
-                          const input = document.createElement("input");
-                          input.setAttribute("type", "file");
-                          input.setAttribute("accept", meta.filetype === "image" ? "image/*" : "video/*");
-
-                          input.onchange = function () {
-                            const file = this.files[0];
-                            const formData = new FormData();
-                            formData.append("file", file);
-
-                            fetch("https://backend.digitalstudyschool.com/api/blogs/uploadMedia", {
-                              method: "POST",
-                              body: formData,
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                              if (data.location) {
-                                cb(data.location, { title: file.name, alt: file.name });
-                              } else {
-                                toast.error(data.error || "Upload failed");
-                              }
-                            })
-                            .catch(error => toast.error("Upload error: " + error.message));
-                          };
-                          input.click();
-                        },
-                      }}
-                    />
+                              fetch("https://backend.digitalstudyschool.com/api/blogs/uploadMedia", {
+                                method: "POST",
+                                body: formData,
+                              })
+                              .then(response => response.json())
+                              .then(data => {
+                                if (data.location) {
+                                  cb(data.location, { title: file.name, alt: file.name });
+                                } else {
+                                  toast.error(data.error || "Upload failed");
+                                }
+                              })
+                              .catch(error => toast.error("Upload error: " + error.message));
+                            };
+                            input.click();
+                          },
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="d-flex justify-content-center btn-min-width p-4">
-                <button
-                  type="button"
-                  style={{ minWidth: '120px' }}
-                  className="btn btn-primary me-3"
-                  onClick={() => setSPopup(true)}
-                  disabled={loading}
-                >
-                  {loading && (
-                    <span className="spinner-border spinner-border-sm"></span>
-                  )}
-                  <span>Schedule</span>
-                </button>
-                <button
-                  type="button"
-                  style={{ minWidth: '120px' }}
-                  className="btn btn-primary ms-3"
-                  onClick={handleSubmit}
-                  disabled={loading}
-                >
-                  {loading && (
-                    <span className="spinner-border spinner-border-sm"></span>
-                  )}
-                  <span>Save</span>
-                </button>
+                <div className="d-flex justify-content-center btn-min-width p-4">
+                  <button
+                    type="button"
+                    style={{ minWidth: '120px' }}
+                    className="btn btn-primary me-3"
+                    onClick={() => setSPopup(true)}
+                    disabled={loading}
+                  >
+                    {loading && <span className="spinner-border spinner-border-sm"></span>}
+                    <span>Schedule</span>
+                  </button>
+                  <button
+                    type="button"
+                    style={{ minWidth: '120px' }}
+                    className="btn btn-primary ms-3"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                  >
+                    {loading && <span className="spinner-border spinner-border-sm"></span>}
+                    <span>Save</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {
-        sPopup &&
+
+      {sPopup && (
         <div className="popup_outer">
           <div className="popup_inner">
             <i className="fas fa-times" onClick={() => setSPopup(false)}></i>
@@ -816,17 +766,14 @@ const EditBlogPost = () => {
                 onClick={handleSubmitSchedule}
                 disabled={loading}
               >
-                {loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
+                {loading && <span className="spinner-border spinner-border-sm"></span>}
                 <span>Submit</span>
               </button>
             </div>
           </div>
         </div>
-      }
-      {/* </form> */}
-    </div >
+      )}
+    </>
   );
 };
 
