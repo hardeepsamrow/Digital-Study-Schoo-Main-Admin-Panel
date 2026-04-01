@@ -730,7 +730,9 @@ const AddBlogPost = () => {
                                      <div className="d-flex justify-content-between align-items-start mb-2">
                                         <div className="fw-bold text-primary">
                                             <i className="far fa-file-alt me-2"></i>
-                                            {source.title}
+                                            <a href={`https://digitalstudyschool.com/blog/${source.url}`} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-primary" title="View published blog">
+                                                {source.title} <i className="fas fa-external-link-alt ms-1 small"></i>
+                                            </a>
                                         </div>
                                         {source.titleMatch && <span className="badge bg-danger">Exact Title Match</span>}
                                      </div>
