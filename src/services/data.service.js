@@ -296,5 +296,8 @@ const DataService = {
   analyzeSeo: (data) => {
     return axios.post(API_URL + "api/seo/analyze-realtime", data);
   },
+  checkDuplicate: (data) => {
+    return axios.post(API_URL + "api/seo/check-duplicate", data);
+  },
 };
 export default DataService;

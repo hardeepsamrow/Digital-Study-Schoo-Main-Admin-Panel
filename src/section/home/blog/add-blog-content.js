@@ -91,6 +91,8 @@ const AddBlogPost = () => {
   // SEO Optimization states
   const [focusKeyword, setFocusKeyword] = useState("");
   const [seoResults, setSeoResults] = useState(null);
+  const [duplicateResults, setDuplicateResults] = useState(null);
+  const [isCheckingDuplicate, setIsCheckingDuplicate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -121,6 +123,23 @@ const AddBlogPost = () => {
 
     return () => clearTimeout(timeoutId);
   }, [description, name, metaTitle, metaDescription, focusKeyword]);
+
+  const handleCheckDuplicate = () => {
+    if (!description && !name) {
+      toast.warning("Please enter a title or description first to check duplicates.");
+      return;
+    }
+    setIsCheckingDuplicate(true);
+    DataService.checkDuplicate({ title: name, description })
+      .then(res => {
+        setDuplicateResults(res.data.data);
+      })
+      .catch(err => {
+        console.error("Duplicate Check Error:", err);
+        toast.error("Failed to check duplicate content.");
+      })
+      .finally(() => setIsCheckingDuplicate(false));
+  };
 
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -558,75 +577,151 @@ const AddBlogPost = () => {
                   </ul>
                 </div>
 
-                {/* SEO Optimization Dashboard */}
-                <div className="card mt-4 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa' }}>
-                  <div className="card-body">
-                    <h5 className="f-700 mb-3" style={{ color: '#333' }}>
-                      <i className="fas fa-chart-line me-2 text-primary"></i>
-                      SEO Content Engine
+                {/* Modernized SEO Optimization Dashboard */}
+                <div className="card mt-4 border border-light shadow-sm" style={{ borderRadius: '12px' }}>
+                  <div className="card-header bg-white border-bottom-0 pt-4 pb-2">
+                    <h5 className="f-700 mb-0 d-flex align-items-center" style={{ color: '#2c3e50' }}>
+                      <i className="fas fa-rocket me-2 text-primary" style={{ fontSize: '1.2rem' }}></i>
+                      SEO & Readability Analyzer
                     </h5>
-
-                    <div className="mb-3">
-                      <label className="form-label fw-bold small">Focus Keyword</label>
+                  </div>
+                  <div className="card-body pt-2">
+                    <div className="mb-4">
+                      <label className="form-label fw-semibold text-muted small text-uppercase letter-spacing-1">Focus Keyword</label>
                       <input
                         type="text"
-                        className="form-control form-control-sm"
-                        placeholder="e.g. digital marketing"
+                        className="form-control bg-light border-0"
+                        placeholder="e.g. digital marketing, online learning..."
                         value={focusKeyword}
                         onChange={(e) => setFocusKeyword(e.target.value)}
+                        style={{ padding: '10px 15px', borderRadius: '8px' }}
                       />
                     </div>
 
-                    {seoResults && (
-                      <div className="seo-metrics">
-                        <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded" style={{ backgroundColor: '#fff' }}>
-                          <div className="text-center flex-fill border-end">
-                            <div className="small text-muted">SEO Score</div>
-                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : '#ffc107' }}>
-                              {seoResults.seo.score}/100
+                    {seoResults ? (
+                      <div className="seo-metrics-container">
+                        <div className="row g-3 mb-4">
+                          <div className="col-4">
+                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545')}` }}>
+                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>SEO Score</div>
+                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545') }}>
+                                {seoResults.seo.score}
+                              </div>
                             </div>
                           </div>
-                          <div className="text-center flex-fill border-end">
-                            <div className="small text-muted">Readability</div>
-                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.readability.color }}>
-                              {seoResults.readability.score}
+                          <div className="col-4">
+                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.readability.color || '#6c757d'}` }}>
+                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Readability</div>
+                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.readability.color }}>
+                                {seoResults.readability.score}
+                              </div>
+                              <div className="fw-bold" style={{ fontSize: '9px', color: seoResults.readability.color }}>{seoResults.readability.label}</div>
                             </div>
-                            <div className="x-small" style={{ fontSize: '10px' }}>{seoResults.readability.label}</div>
                           </div>
-                          <div className="text-center flex-fill">
-                            <div className="small text-muted">UX Score</div>
-                            <div className="h4 mb-0 fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
-                              {seoResults.ux.score}
+                          <div className="col-4">
+                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.ux.score > 70 ? '#198754' : '#ffc107'}` }}>
+                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>UX Score</div>
+                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
+                                {seoResults.ux.score}
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="seo-checklist mt-3">
-                          <h6 className="small fw-bold mb-2">Checklist</h6>
-                          {seoResults.seo.checklist.map((item, idx) => (
-                            <div key={idx} className="d-flex align-items-center mb-1 small">
-                              {item.check ? (
-                                <i className="fas fa-check-circle text-success me-2"></i>
-                              ) : (
-                                <i className="fas fa-times-circle text-danger me-2"></i>
-                              )}
-                              <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
-                            </div>
-                          ))}
+                        <div className="card shadow-sm border-0 mb-4" style={{ borderRadius: '10px', backgroundColor: '#f9fbfd' }}>
+                          <div className="card-body p-3">
+                             <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: '#495057' }}>
+                               <i className="fas fa-check-double me-2 text-success"></i> Action Plan
+                             </h6>
+                             <div style={{ maxHeight: '180px', overflowY: 'auto' }}>
+                             {seoResults.seo.checklist.map((item, idx) => (
+                               <div key={idx} className="d-flex align-items-start mb-2 small pb-2 border-bottom">
+                                 {item.check ? (
+                                   <i className="fas fa-check-circle text-success mt-1 me-2" style={{ fontSize: '1.1rem' }}></i>
+                                 ) : (
+                                   <i className="fas fa-exclamation-circle text-warning mt-1 me-2" style={{ fontSize: '1.1rem' }}></i>
+                                 )}
+                                 <span className={item.check ? "text-dark" : "text-muted"}>{item.label}</span>
+                               </div>
+                             ))}
+                             </div>
+                          </div>
                         </div>
 
                         {seoResults.allSuggestions.length > 0 && (
-                          <div className="seo-suggestions mt-3 p-2 rounded" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
-                            <h6 className="small fw-bold mb-1">How to Improve:</h6>
-                            <ul className="mb-0 ps-3 small">
-                              {seoResults.allSuggestions.slice(0, 4).map((s, idx) => (
+                          <div className="alert border-0 shadow-sm" style={{ backgroundColor: '#eff6ff', borderRadius: '10px' }}>
+                            <h6 className="fw-bold mb-2 text-primary d-flex align-items-center">
+                              <i className="far fa-lightbulb me-2"></i> Improvement Ideas
+                            </h6>
+                            <ul className="mb-0 ps-3 small text-dark" style={{ lineHeight: '1.6' }}>
+                              {seoResults.allSuggestions.slice(0, 3).map((s, idx) => (
                                 <li key={idx} className="mb-1">{s}</li>
                               ))}
                             </ul>
                           </div>
                         )}
                       </div>
+                    ) : (
+                      <div className="text-center p-4 text-muted bg-light" style={{ borderRadius: '10px' }}>
+                         <i className="fas fa-spinner fa-spin fa-2x mb-2 text-primary"></i>
+                         <p className="small mb-0">Analyzing content...</p>
+                      </div>
                     )}
+
+                    <hr className="my-4" style={{ borderTop: '2px dashed #e9ecef' }} />
+
+                    {/* Duplicate Content Checker Section */}
+                    <div>
+                      <h6 className="fw-bold mb-2 d-flex align-items-center" style={{ color: '#2c3e50' }}>
+                        <i className="fas fa-copy me-2 text-danger"></i>
+                        Duplicate Checker
+                      </h6>
+                      <p className="small text-muted mb-3">Check internally across existing blogs and externally across the web for similar content.</p>
+                      
+                      <button 
+                         type="button" 
+                         className="btn btn-outline-primary btn-sm w-100 rounded-pill fw-bold mb-3"
+                         onClick={handleCheckDuplicate}
+                         disabled={isCheckingDuplicate}
+                      >
+                         {isCheckingDuplicate ? (
+                           <><i className="fas fa-spinner fa-spin me-2"></i> Scanning...</>
+                         ) : (
+                           <><i className="fas fa-search me-2"></i> Run Plagiarism Check</>
+                         )}
+                      </button>
+
+                      {duplicateResults && (
+                        <div className="duplicate-results-container animation-fade-in">
+                          {duplicateResults.internal?.length > 0 ? (
+                            <div className="alert alert-danger border-danger border-opacity-25 bg-danger bg-opacity-10 py-2 px-3 small rounded-3">
+                              <div className="fw-bold mb-1 text-danger"><i className="fas fa-exclamation-triangle me-1"></i> internal Duplication Detected!</div>
+                              <ul className="mb-0 ps-3">
+                                {duplicateResults.internal.map((item, idx) => (
+                                  <li key={idx}>
+                                    <strong>{item.title}</strong> - {item.similarityScore}% Similar
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ) : (
+                            <div className="alert alert-success border-success border-opacity-25 bg-success bg-opacity-10 py-2 px-3 small rounded-3">
+                              <div className="fw-bold text-success"><i className="fas fa-shield-alt me-1"></i> 100% Unique Internally</div>
+                            </div>
+                          )}
+
+                          <div className="alert alert-warning border-warning border-opacity-25 bg-warning bg-opacity-10 py-2 px-3 small rounded-3 mt-2">
+                            <div className="fw-bold text-warning mb-1"><i className="fas fa-globe me-1"></i> External Web Check</div>
+                            {duplicateResults.externalCheckAvailable ? (
+                                <div>Checked across web. Original content.</div>
+                            ) : (
+                                <div className="text-secondary">{duplicateResults.message}</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
                 </div>
               </div>
