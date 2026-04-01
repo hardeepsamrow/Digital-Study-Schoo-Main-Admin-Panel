@@ -574,46 +574,46 @@ const EditBlogPost = () => {
 
                         {seoResults ? (
                           <div className="seo-metrics-container">
-                            <div className="mb-4 mt-3">
-                              <div className="d-flex justify-content-between mb-1">
-                                <span className="fw-bold" style={{ color: '#495057' }}>SEO Score</span>
+                            <div className="mb-4 mt-3" style={{ cursor: 'pointer' }} onClick={() => document.getElementById('seo-suggestions-panel-edit').scrollIntoView({ behavior: 'smooth' })}>
+                              <div className="d-flex justify-content-between mb-1" title="Click to view fixing suggestions">
+                                <span className="fw-bold text-primary text-decoration-underline" style={{ color: '#495057' }}>SEO Score (Click to fix)</span>
                                 <span className="fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545') }}>
                                   {seoResults.seo.score}/100
                                 </span>
                               </div>
-                              <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
-                                <div className={`progress-bar ${seoResults.seo.score > 70 ? 'bg-success' : (seoResults.seo.score > 40 ? 'bg-warning' : 'bg-danger')}`} style={{ width: `${seoResults.seo.score}%`, borderRadius: '10px' }}></div>
+                              <div className="progress shadow-sm" style={{ height: '14px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                                <div className={`progress-bar progress-bar-striped progress-bar-animated ${seoResults.seo.score > 70 ? 'bg-success' : (seoResults.seo.score > 40 ? 'bg-warning' : 'bg-danger')}`} style={{ width: `${seoResults.seo.score}%`, borderRadius: '10px' }}></div>
                               </div>
                             </div>
 
-                            <div className="mb-4">
-                              <div className="d-flex justify-content-between mb-1">
-                                <span className="fw-bold" style={{ color: '#495057' }}>Readability: {seoResults.readability.label}</span>
+                            <div className="mb-4" style={{ cursor: 'pointer' }} onClick={() => document.getElementById('seo-suggestions-panel-edit').scrollIntoView({ behavior: 'smooth' })}>
+                              <div className="d-flex justify-content-between mb-1" title="Click to view fixing suggestions">
+                                <span className="fw-bold text-primary text-decoration-underline" style={{ color: '#495057' }}>Readability: {seoResults.readability.label} (Click to fix)</span>
                                 <span className="fw-bold" style={{ color: seoResults.readability.color || '#6c757d' }}>
                                   {seoResults.readability.score}/100
                                 </span>
                               </div>
-                              <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
-                                <div className="progress-bar" style={{ backgroundColor: seoResults.readability.color || '#6c757d', width: `${seoResults.readability.score}%`, borderRadius: '10px' }}></div>
+                              <div className="progress shadow-sm" style={{ height: '14px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ backgroundColor: seoResults.readability.color || '#6c757d', width: `${seoResults.readability.score}%`, borderRadius: '10px' }}></div>
                               </div>
                             </div>
 
-                            <div className="mb-4">
-                              <div className="d-flex justify-content-between mb-1">
-                                <span className="fw-bold" style={{ color: '#495057' }}>UX Score</span>
+                            <div className="mb-4" style={{ cursor: 'pointer' }} onClick={() => document.getElementById('seo-suggestions-panel-edit').scrollIntoView({ behavior: 'smooth' })}>
+                              <div className="d-flex justify-content-between mb-1" title="Click to view fixing suggestions">
+                                <span className="fw-bold text-primary text-decoration-underline" style={{ color: '#495057' }}>UX Score (Click to fix)</span>
                                 <span className="fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
                                   {seoResults.ux.score}/100
                                 </span>
                               </div>
-                              <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
-                                <div className={`progress-bar ${seoResults.ux.score > 70 ? 'bg-success' : 'bg-warning'}`} style={{ width: `${seoResults.ux.score}%`, borderRadius: '10px' }}></div>
+                              <div className="progress shadow-sm" style={{ height: '14px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                                <div className={`progress-bar progress-bar-striped progress-bar-animated ${seoResults.ux.score > 70 ? 'bg-success' : 'bg-warning'}`} style={{ width: `${seoResults.ux.score}%`, borderRadius: '10px' }}></div>
                               </div>
                             </div>
 
-                            <div className="card shadow-sm border-0 mb-4" style={{ borderRadius: '10px', backgroundColor: '#f9fbfd' }}>
-                              <div className="card-body p-3">
-                                 <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: '#495057' }}>
-                                   <i className="fas fa-check-double me-2 text-success"></i> Action Plan
+                            <div id="seo-suggestions-panel-edit" className="card shadow-md border border-info mb-4" style={{ borderRadius: '10px', backgroundColor: '#f0fdf4' }}>
+                              <div className="card-body p-4">
+                                 <h6 className="fw-bold mb-3 pb-2 border-bottom border-success d-flex align-items-center text-success">
+                                   <i className="fas fa-tools me-2"></i> How to Fix Your Score
                                  </h6>
                                  <div style={{ maxHeight: '180px', overflowY: 'auto' }}>
                                  {seoResults.seo.checklist.map((item, idx) => (
@@ -674,37 +674,57 @@ const EditBlogPost = () => {
                           </button>
 
                           {duplicateResults && (
-                            <div className="mt-4 p-3 animation-fade-in" style={{ border: '2px dashed #dee2e6', borderRadius: '8px', backgroundColor: '#fff' }}>
-                              <h6 className="fw-bolder text-dark mb-3 text-uppercase letter-spacing-1" style={{ fontSize: '0.85rem' }}>Plagiarism Report</h6>
-                              {duplicateResults.internal?.length > 0 ? (
+                            <div className="mt-4 p-4 shadow-sm animation-fade-in" style={{ border: '2px solid #e2e8f0', borderRadius: '12px', backgroundColor: '#fff' }}>
+                              <h5 className="fw-bolder text-dark mb-4 d-flex align-items-center">
+                                <i className="fas fa-search me-2 text-primary"></i> Plagiarism Report
+                              </h5>
+                              
+                              <div className="d-flex mb-4">
+                                 <div className="flex-fill text-center p-3 rounded shadow-sm me-2" style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+                                   <div className="text-success display-6 fw-bold">{duplicateResults.uniquePercentage}%</div>
+                                   <div className="fw-semibold text-success small text-uppercase">Unique Content</div>
+                                 </div>
+                                 <div className="flex-fill text-center p-3 rounded shadow-sm ms-2" style={{ backgroundColor: duplicateResults.plagiarizedPercentage > 0 ? '#fef2f2' : '#f8f9fa', border: duplicateResults.plagiarizedPercentage > 0 ? '1px solid #fecaca' : '1px solid #e9ecef' }}>
+                                   <div className={duplicateResults.plagiarizedPercentage > 0 ? "text-danger display-6 fw-bold" : "text-secondary display-6 fw-bold"}>{duplicateResults.plagiarizedPercentage}%</div>
+                                   <div className={duplicateResults.plagiarizedPercentage > 0 ? "fw-semibold text-danger small text-uppercase" : "fw-semibold text-secondary small text-uppercase"}>Plagiarized</div>
+                                 </div>
+                              </div>
+
+                              {duplicateResults.plagiarizedPercentage > 0 ? (
                                 <div>
-                                   <div className="d-flex align-items-center text-danger fw-bold mb-3" style={{ fontSize: '1.05rem' }}>
-                                     <i className="fas fa-exclamation-triangle fa-2x me-3"></i> 
-                                     Warning: We found similar content on your site!
+                                   <div className="alert alert-danger border-danger border-opacity-25 bg-danger bg-opacity-10 py-3 mb-4">
+                                     <h6 className="fw-bold text-danger mb-2"><i className="fas fa-exclamation-triangle me-2"></i> Content Matches Found!</h6>
+                                     <p className="small mb-0">The following sentences in your blog already exist in our database. You must rewrite them to ensure originality and avoid SEO penalties.</p>
                                    </div>
-                                   <div className="list-group list-group-flush mb-3">
-                                     {duplicateResults.internal.map((item, idx) => (
-                                       <div key={idx} className="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
-                                         <div className="d-flex flex-column">
-                                           <span className="fw-bold text-dark" style={{ fontSize: '0.95rem' }}>{item.title}</span>
-                                           {item.titleMatch && <span className="text-danger small fw-bold mt-1"><i className="fas fa-ban me-1"></i> Exact Title Match</span>}
-                                           {!item.titleMatch && <span className="text-muted small mt-1">Found a match in body text</span>}
+
+                                   <h6 className="fw-bold text-dark border-bottom pb-2 mb-3">Matched Sources & Sentences</h6>
+                                   {duplicateResults.sources.map((source, idx) => (
+                                     <div key={idx} className="card border-0 bg-light mb-3 shadow-none">
+                                       <div className="card-body p-3">
+                                         <div className="d-flex justify-content-between align-items-start mb-2">
+                                            <div className="fw-bold text-primary">
+                                                <i className="far fa-file-alt me-2"></i>
+                                                {source.title}
+                                            </div>
+                                            {source.titleMatch && <span className="badge bg-danger">Exact Title Match</span>}
                                          </div>
-                                         <span className="badge rounded-pill bg-danger shadow-sm px-3 py-2" style={{ fontSize: '0.9rem' }}>{item.similarityScore}% Match</span>
+                                         <div className="small text-muted mb-2">Matched Sentences:</div>
+                                         <ul className="list-group list-group-flush mb-0">
+                                            {source.matchedSentences.map((sentence, sIdx) => (
+                                              <li key={sIdx} className="list-group-item bg-transparent text-danger fw-semibold px-0 py-1" style={{ fontSize: '0.85rem' }}>
+                                                <mark className="bg-danger bg-opacity-10 text-danger px-1">"{sentence}"</mark>
+                                              </li>
+                                            ))}
+                                         </ul>
                                        </div>
-                                     ))}
-                                   </div>
-                                   <div className="small fw-semibold text-muted bg-light p-2 rounded">
-                                     <i className="fas fa-info-circle me-1"></i> You should significantly rewrite this content or change the title to avoid SEO duplicate penalties from Google.
-                                   </div>
+                                     </div>
+                                   ))}
                                 </div>
                               ) : (
-                                <div className="d-flex align-items-center py-2">
-                                  <i className="fas fa-check-circle fa-3x text-success me-3"></i> 
-                                  <div>
-                                    <div className="text-success fw-bold" style={{ fontSize: '1.2rem' }}>Excellent! 100% Unique internally.</div>
-                                    <div className="small fw-normal text-muted mt-1">No matching content found across your database. Safe to publish!</div>
-                                  </div>
+                                <div className="text-center py-4 bg-light rounded" style={{ border: '1px dashed #ced4da' }}>
+                                  <i className="fas fa-shield-alt fa-3x text-success mb-3"></i> 
+                                  <h5 className="text-success fw-bold">100% Unique internally!</h5>
+                                  <p className="text-muted small mb-0">No matching sentences found across your database. Great job!</p>
                                 </div>
                               )}
                             </div>
