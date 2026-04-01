@@ -600,31 +600,39 @@ const AddBlogPost = () => {
 
                     {seoResults ? (
                       <div className="seo-metrics-container">
-                        <div className="row g-3 mb-4">
-                          <div className="col-4">
-                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545')}` }}>
-                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>SEO Score</div>
-                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545') }}>
-                                {seoResults.seo.score}
-                              </div>
-                            </div>
+                        <div className="mb-4 mt-3">
+                          <div className="d-flex justify-content-between mb-1">
+                            <span className="fw-bold" style={{ color: '#495057' }}>SEO Score</span>
+                            <span className="fw-bold" style={{ color: seoResults.seo.score > 70 ? '#198754' : (seoResults.seo.score > 40 ? '#ffc107' : '#dc3545') }}>
+                              {seoResults.seo.score}/100
+                            </span>
                           </div>
-                          <div className="col-4">
-                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.readability.color || '#6c757d'}` }}>
-                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Readability</div>
-                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.readability.color }}>
-                                {seoResults.readability.score}
-                              </div>
-                              <div className="fw-bold" style={{ fontSize: '9px', color: seoResults.readability.color }}>{seoResults.readability.label}</div>
-                            </div>
+                          <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                            <div className={`progress-bar ${seoResults.seo.score > 70 ? 'bg-success' : (seoResults.seo.score > 40 ? 'bg-warning' : 'bg-danger')}`} style={{ width: `${seoResults.seo.score}%`, borderRadius: '10px' }}></div>
                           </div>
-                          <div className="col-4">
-                            <div className="p-3 text-center h-100 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', border: `2px solid ${seoResults.ux.score > 70 ? '#198754' : '#ffc107'}` }}>
-                              <div className="text-muted fw-bold mb-1" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>UX Score</div>
-                              <div className="h3 mb-0 fw-bolder" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
-                                {seoResults.ux.score}
-                              </div>
-                            </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between mb-1">
+                            <span className="fw-bold" style={{ color: '#495057' }}>Readability: {seoResults.readability.label}</span>
+                            <span className="fw-bold" style={{ color: seoResults.readability.color || '#6c757d' }}>
+                              {seoResults.readability.score}/100
+                            </span>
+                          </div>
+                          <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                            <div className="progress-bar" style={{ backgroundColor: seoResults.readability.color || '#6c757d', width: `${seoResults.readability.score}%`, borderRadius: '10px' }}></div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between mb-1">
+                            <span className="fw-bold" style={{ color: '#495057' }}>UX Score</span>
+                            <span className="fw-bold" style={{ color: seoResults.ux.score > 70 ? '#198754' : '#ffc107' }}>
+                              {seoResults.ux.score}/100
+                            </span>
+                          </div>
+                          <div className="progress" style={{ height: '10px', backgroundColor: '#e9ecef', borderRadius: '10px' }}>
+                            <div className={`progress-bar ${seoResults.ux.score > 70 ? 'bg-success' : 'bg-warning'}`} style={{ width: `${seoResults.ux.score}%`, borderRadius: '10px' }}></div>
                           </div>
                         </div>
 
@@ -692,32 +700,39 @@ const AddBlogPost = () => {
                       </button>
 
                       {duplicateResults && (
-                        <div className="duplicate-results-container animation-fade-in">
+                        <div className="mt-4 p-3 animation-fade-in" style={{ border: '2px dashed #dee2e6', borderRadius: '8px', backgroundColor: '#fff' }}>
+                          <h6 className="fw-bolder text-dark mb-3 text-uppercase letter-spacing-1" style={{ fontSize: '0.85rem' }}>Plagiarism Report</h6>
                           {duplicateResults.internal?.length > 0 ? (
-                            <div className="alert alert-danger border-danger border-opacity-25 bg-danger bg-opacity-10 py-2 px-3 small rounded-3">
-                              <div className="fw-bold mb-1 text-danger"><i className="fas fa-exclamation-triangle me-1"></i> internal Duplication Detected!</div>
-                              <ul className="mb-0 ps-3">
-                                {duplicateResults.internal.map((item, idx) => (
-                                  <li key={idx}>
-                                    <strong>{item.title}</strong> - {item.similarityScore}% Similar
-                                  </li>
-                                ))}
-                              </ul>
+                            <div>
+                               <div className="d-flex align-items-center text-danger fw-bold mb-3" style={{ fontSize: '1.05rem' }}>
+                                 <i className="fas fa-exclamation-triangle fa-2x me-3"></i> 
+                                 Warning: We found similar content on your site!
+                               </div>
+                               <div className="list-group list-group-flush mb-3">
+                                 {duplicateResults.internal.map((item, idx) => (
+                                   <div key={idx} className="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                                     <div className="d-flex flex-column">
+                                       <span className="fw-bold text-dark" style={{ fontSize: '0.95rem' }}>{item.title}</span>
+                                       {item.titleMatch && <span className="text-danger small fw-bold mt-1"><i className="fas fa-ban me-1"></i> Exact Title Match</span>}
+                                       {!item.titleMatch && <span className="text-muted small mt-1">Found a match in body text</span>}
+                                     </div>
+                                     <span className="badge rounded-pill bg-danger shadow-sm px-3 py-2" style={{ fontSize: '0.9rem' }}>{item.similarityScore}% Match</span>
+                                   </div>
+                                 ))}
+                               </div>
+                               <div className="small fw-semibold text-muted bg-light p-2 rounded">
+                                 <i className="fas fa-info-circle me-1"></i> You should significantly rewrite this content or change the title to avoid SEO duplicate penalties from Google.
+                               </div>
                             </div>
                           ) : (
-                            <div className="alert alert-success border-success border-opacity-25 bg-success bg-opacity-10 py-2 px-3 small rounded-3">
-                              <div className="fw-bold text-success"><i className="fas fa-shield-alt me-1"></i> 100% Unique Internally</div>
+                            <div className="d-flex align-items-center py-2">
+                              <i className="fas fa-check-circle fa-3x text-success me-3"></i> 
+                              <div>
+                                <div className="text-success fw-bold" style={{ fontSize: '1.2rem' }}>Excellent! 100% Unique internally.</div>
+                                <div className="small fw-normal text-muted mt-1">No matching content found across your database. Safe to publish!</div>
+                              </div>
                             </div>
                           )}
-
-                          <div className="alert alert-warning border-warning border-opacity-25 bg-warning bg-opacity-10 py-2 px-3 small rounded-3 mt-2">
-                            <div className="fw-bold text-warning mb-1"><i className="fas fa-globe me-1"></i> External Web Check</div>
-                            {duplicateResults.externalCheckAvailable ? (
-                                <div>Checked across web. Original content.</div>
-                            ) : (
-                                <div className="text-secondary">{duplicateResults.message}</div>
-                            )}
-                          </div>
                         </div>
                       )}
                     </div>
