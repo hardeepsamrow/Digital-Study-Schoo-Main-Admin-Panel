@@ -64,6 +64,7 @@ const EditBlogPost = () => {
   const [name, setName] = useState("");
   const [slot, setSlot] = useState("");
   const [sPopup, setSPopup] = useState(false);
+  const [imageAltText, setImageAltText] = useState("");
 
   const [url, setUrl] = useState("");
   const [canonicalUrl, setCanonicalUrl] = useState("");
@@ -204,6 +205,7 @@ const EditBlogPost = () => {
       setMetaDescription(data?.data?.data?.metaDescription);
       setUrl(data?.data?.data?.url);
       setCanonicalUrl(data?.data?.data?.canonicalUrl || "");
+      setImageAltText(data?.data?.data?.imageAltText || "");
       setAuthorId(data?.data?.data?.author?._id || data?.data?.data?.author || "");
       setTodos(data?.data?.data?.metaKeywords || []);
       setMetaTitle(data?.data?.data?.metaTitle);
@@ -296,6 +298,7 @@ const EditBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("imageAltText", imageAltText);
     data.append("author", authorId);
 
     DataService.updateBlog(data, params.id).then(
@@ -352,6 +355,7 @@ const EditBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("imageAltText", imageAltText);
     data.append("author", authorId);
     data.append("status", "Pending");
     const isoDate = moment(slot).toISOString();
@@ -780,6 +784,17 @@ const EditBlogPost = () => {
                         style={styles.input}
                         accept="image/*"
                         onChangeCapture={onFileChangeCapture}
+                      />
+                    </div>
+                    
+                    <div className="mb-4">
+                      <label className="form-label">Featured Image Alt Text</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={imageAltText}
+                        onChange={(e) => setImageAltText(e.target.value)}
+                        placeholder="Describe the image for SEO"
                       />
                     </div>
 

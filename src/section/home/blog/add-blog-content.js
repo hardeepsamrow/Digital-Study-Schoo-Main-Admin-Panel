@@ -74,6 +74,7 @@ const AddBlogPost = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const [imageAltText, setImageAltText] = useState("");
 
   const [category, setCategory] = useState([]);
   const [data, setData] = useState([]);
@@ -268,6 +269,7 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("imageAltText", imageAltText);
     data.append("author", authorId);
     data.append("status", "Published");
     DataService.addBlog(data).then(
@@ -342,6 +344,7 @@ const AddBlogPost = () => {
     data.append("metaDescription", metaDescription);
     data.append("url", url);
     data.append("canonicalUrl", canonicalUrl);
+    data.append("imageAltText", imageAltText);
     data.append("author", authorId);
     data.append("status", "Pending");
     // Ensure slot is a valid ISO string for backend Date parsing
@@ -792,6 +795,17 @@ const AddBlogPost = () => {
                         ref={inputFileRef}
                         style={styles.input}
                         onChangeCapture={onFileChangeCapture}
+                      />
+                    </div>
+                    
+                    <div className="mb-4">
+                      <label className="form-label">Featured Image Alt Text</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={imageAltText}
+                        onChange={(e) => setImageAltText(e.target.value)}
+                        placeholder="Describe the image for SEO"
                       />
                     </div>
 
