@@ -58,6 +58,23 @@ async function testLogin() {
             console.log("Message:", e.response.data?.message || e.response.data);
         }
     }
+    // Test 4: Try with hssamrow@gmail.com
+    console.log("\nTest 4: Using 'email' field with 'hssamrow@gmail.com'");
+    try {
+        const res = await axios.post(`${API_BASE}api/admin/login`, {
+            email: 'hssamrow@gmail.com',
+            password: 'Rsoft@123'
+        });
+        console.log("✅ SUCCESS with email='hssamrow@gmail.com'");
+        console.log("Response:", JSON.stringify(res.data, null, 2));
+        return;
+    } catch (e) {
+        console.log("❌ FAILED");
+        if (e.response) {
+            console.log("Status:", e.response.status);
+            console.log("Message:", e.response.data?.message || e.response.data);
+        }
+    }
 
     console.log("\n=== All tests failed ===");
     console.log("\nPlease provide the correct admin email address.");
