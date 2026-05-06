@@ -111,6 +111,7 @@ const ContactFormList = () => {
               <th scope="col">S. No.</th>
               <th scope="col">Name </th>
               <th scope="col">Email </th>
+              <th scope="col">Phone </th>
               <th scope="col">Course </th>
               <th scope="col">Visit Date</th>
               <th scope="col">Submit Date</th>
@@ -131,6 +132,14 @@ const ContactFormList = () => {
                         {item?.name}
                       </td>
                       <td>{item?.email}</td>
+                      <td>
+                        {item?.phoneNo}
+                        {item?.phoneNo && (
+                          <a href={`https://wa.me/${item?.phoneNo}?text=Hi ${encodeURIComponent(item?.name)}, this is from Digital Study School. I saw you recently submitted a contact form on our website.`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
+                            <i className="fab fa-whatsapp text-success fs-5"></i>
+                          </a>
+                        )}
+                      </td>
                       <td>{item?.course}</td>
                       <td>{moment(item?.date).format("ll")}</td>
                       <td>{moment(item?.createdAt).format("ll")}</td>

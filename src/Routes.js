@@ -37,6 +37,10 @@ import AddAuthor from "./pages/AddAuthor";
 import EditAuthor from "./pages/EditAuthor";
 import VideoReviews from "./pages/VideoReviews";
 import CertifiedStudents from "./pages/CertifiedStudents";
+import StudentPortalStudents from "./pages/StudentPortalStudents";
+import StudentPortalResources from "./pages/StudentPortalResources";
+import StudentPortalAddStudent from "./pages/StudentPortalAddStudent";
+import StudentPortalAddResource from "./pages/StudentPortalAddResource";
 
 export default function App() {
   return (
@@ -78,6 +82,10 @@ export default function App() {
           <Route exact path="/edit-author/:id" element={<EditAuthor />} />
           <Route exact path="/video-reviews" element={<VideoReviews />} />
           <Route exact path="/certified-students" element={<CertifiedStudents />} />
+          <Route exact path="/student-portal/students" element={<StudentPortalStudents />} />
+          <Route exact path="/student-portal/students/add" element={<StudentPortalAddStudent />} />
+          <Route exact path="/student-portal/resources" element={<StudentPortalResources />} />
+          <Route exact path="/student-portal/resources/add" element={<StudentPortalAddResource />} />
         </Route>
       </Routes>
     </HashRouter>

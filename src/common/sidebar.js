@@ -318,6 +318,41 @@ const Sidebar = () => {
                   <span>Students Photos</span>
                 </Link>
               </li>
+
+              {/* Student Portal Navigation */}
+              <li className={url.includes("student-portal") ? "active" : ""}>
+                <Link
+                  className={url.includes("student-portal") ? "open" : "close"}
+                  onClick={(e) => toggle(e)}
+                >
+                  <i className="fas fa-user-graduate side-bar-main-icon"></i>
+                  <span>Student Portal</span>
+                  <i className="ms-auto">
+                    <svg
+                      width="7"
+                      height="14"
+                      viewBox="0 0 7 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M0.146447 0.646447C0.341709 0.451184 0.658291 0.451184 0.853553 0.646447L6.85355 6.64645C7.04882 6.84171 7.04882 7.15829 6.85355 7.35355L0.853553 13.3536C0.658291 13.5488 0.341709 13.5488 0.146447 13.3536C-0.0488155 13.1583 -0.0488155 12.8417 0.146447 12.6464L5.79289 7L0.146447 1.35355C-0.0488155 1.15829 -0.0488155 0.841709 0.146447 0.646447Z"
+                        fill="#2C5F2D"
+                      />
+                    </svg>
+                  </i>
+                </Link>
+                <ul className="ps-4">
+                  <li>
+                    <Link to={"/student-portal/students"}>All Students</Link>
+                  </li>
+                  <li>
+                    <Link to={"/student-portal/resources"}>All Resources</Link>
+                  </li>
+                </ul>
+              </li>
             </>
           )}
 

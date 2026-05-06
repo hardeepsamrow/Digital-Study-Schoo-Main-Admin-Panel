@@ -299,5 +299,39 @@ const DataService = {
   checkDuplicate: (data) => {
     return axios.post(API_URL + "api/seo/check-duplicate", data);
   },
+  
+  // Student Portal - Students
+  addStudent: (data) => {
+    return axios.post(API_URL + "api/student/add", data);
+  },
+  getAllStudents: () => {
+    return axios.get(API_URL + "api/student/getAll");
+  },
+  getStudentById: (id) => {
+    return axios.get(API_URL + "api/student/get/" + id);
+  },
+  updateStudent: (id, data) => {
+    return axios.put(API_URL + "api/student/update/" + id, data);
+  },
+  deleteStudent: (id) => {
+    return axios.delete(API_URL + "api/student/delete/" + id);
+  },
+
+  // Student Portal - Resources
+  addResource: (data) => {
+    return axios.post(API_URL + "api/resource/add", data);
+  },
+  getAllResources: (params) => {
+    return axios.get(API_URL + "api/resource/getAll", { params });
+  },
+  getResourceById: (id) => {
+    return axios.get(API_URL + "api/resource/get/" + id);
+  },
+  updateResource: (id, data) => {
+    return axios.put(API_URL + "api/resource/update/" + id, data);
+  },
+  deleteResource: (id) => {
+    return axios.delete(API_URL + "api/resource/delete/" + id);
+  },
 };
 export default DataService;
