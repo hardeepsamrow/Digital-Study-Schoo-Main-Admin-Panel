@@ -37,6 +37,13 @@ const StudentsList = () => {
     }
   };
 
+  const formatPhoneForWA = (phone) => {
+    if (!phone) return "";
+    const cleaned = String(phone).replace(/\D/g, "");
+    if (cleaned.length === 10) return `91${cleaned}`;
+    return cleaned;
+  };
+
   return (
     <div className="row">
       <ToastContainer />
@@ -71,7 +78,7 @@ const StudentsList = () => {
                   <td>
                     {item.phoneNo}
                     {item.phoneNo && (
-                      <a href={`https://wa.me/${item.phoneNo}?text=Hi ${encodeURIComponent(item.name)}, here are your login details for the Digital Study School student portal...`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
+                      <a href={`https://wa.me/${formatPhoneForWA(item.phoneNo)}?text=Hi ${encodeURIComponent(item.name)}, here are your login details for the Digital Study School student portal...`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
                         <i className="fab fa-whatsapp text-success fs-5"></i>
                       </a>
                     )}
