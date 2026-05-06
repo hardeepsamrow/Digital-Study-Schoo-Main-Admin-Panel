@@ -40,6 +40,7 @@ import CertifiedStudents from "./pages/CertifiedStudents";
 import StudentPortalStudents from "./pages/StudentPortalStudents";
 import StudentPortalResources from "./pages/StudentPortalResources";
 import StudentPortalAddStudent from "./pages/StudentPortalAddStudent";
+import StudentPortalEditStudent from "./pages/StudentPortalEditStudent";
 import StudentPortalAddResource from "./pages/StudentPortalAddResource";
 
 export default function App() {
@@ -84,6 +85,7 @@ export default function App() {
           <Route exact path="/certified-students" element={<CertifiedStudents />} />
           <Route exact path="/student-portal/students" element={<StudentPortalStudents />} />
           <Route exact path="/student-portal/students/add" element={<StudentPortalAddStudent />} />
+          <Route exact path="/student-portal/students/edit/:id" element={<StudentPortalEditStudent />} />
           <Route exact path="/student-portal/resources" element={<StudentPortalResources />} />
           <Route exact path="/student-portal/resources/add" element={<StudentPortalAddResource />} />
         </Route>

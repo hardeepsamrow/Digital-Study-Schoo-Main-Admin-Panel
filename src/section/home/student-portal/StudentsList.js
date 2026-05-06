@@ -80,7 +80,10 @@ const StudentsList = () => {
                   <td>{item.isActive ? "Active" : "Inactive"}</td>
                   <td>{moment(item.createdAt).format("ll")}</td>
                   <td className="text-end">
-                    <button className="btn btn-sm btn-danger" onClick={() => deleteStudent(item._id)}>Delete</button>
+                    <div className="d-flex justify-content-end gap-2">
+                      <Link to={`/student-portal/students/edit/${item._id}`} className="btn btn-sm btn-primary">Edit</Link>
+                      <button className="btn btn-sm btn-danger" onClick={() => deleteStudent(item._id)}>Delete</button>
+                    </div>
                   </td>
                 </tr>
               ))
