@@ -113,6 +113,7 @@ const ContactFormList = () => {
               <th scope="col">Email </th>
               <th scope="col">Course </th>
               <th scope="col">Visit Date</th>
+              <th scope="col">Submit Date</th>
               <th scope="col">Updated Status</th>
               <th scope="col" className="text-end">
                 Action
@@ -132,6 +133,7 @@ const ContactFormList = () => {
                       <td>{item?.email}</td>
                       <td>{item?.course}</td>
                       <td>{moment(item?.date).format("ll")}</td>
+                      <td>{moment(item?.createdAt).format("ll")}</td>
                       <td>
                         {item?.status
                           ? moment(item?.updatedAt).format("ll")
