@@ -142,7 +142,7 @@ const ContactFormList = () => {
                       <td>
                         {item?.phoneNo}
                         {item?.phoneNo && (
-                          <a href={`https://wa.me/${formatPhoneForWA(item?.phoneNo)}?text=Hi ${encodeURIComponent(item?.name)}, this is from Digital Study School. I saw you recently submitted a contact form on our website.`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
+                          <a href={`https://web.whatsapp.com/send?phone=${formatPhoneForWA(item?.phoneNo)}&text=Hi ${encodeURIComponent(item?.name)}, this is from Digital Study School. I saw you recently submitted a contact form on our website.`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
                             <i className="fab fa-whatsapp text-success fs-5"></i>
                           </a>
                         )}

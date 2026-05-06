@@ -78,7 +78,7 @@ const StudentsList = () => {
                   <td>
                     {item.phoneNo}
                     {item.phoneNo && (
-                      <a href={`https://wa.me/${formatPhoneForWA(item.phoneNo)}?text=Hi ${encodeURIComponent(item.name)}, here are your login details for the Digital Study School student portal...`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
+                      <a href={`https://web.whatsapp.com/send?phone=${formatPhoneForWA(item.phoneNo)}&text=Hi ${encodeURIComponent(item.name)}, here are your login details for the Digital Study School student portal...`} target="_blank" rel="noreferrer" className="ms-2" title="Message on WhatsApp">
                         <i className="fab fa-whatsapp text-success fs-5"></i>
                       </a>
                     )}
