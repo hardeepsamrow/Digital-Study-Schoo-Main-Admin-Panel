@@ -54,6 +54,8 @@ const ResourcesList = () => {
               <th scope="col">Title</th>
               <th scope="col">Type</th>
               <th scope="col">Course Tag</th>
+              <th scope="col">Category</th>
+              <th scope="col">Duration</th>
               <th scope="col">Created At</th>
               <th scope="col" className="text-end">Action</th>
             </tr>
@@ -67,6 +69,8 @@ const ResourcesList = () => {
                   <td>{item.title}</td>
                   <td>{item.resourceType}</td>
                   <td>{item.courseTag}</td>
+                  <td>{item.category || "General"}</td>
+                  <td>{item.courseDuration || "Both"}</td>
                   <td>{moment(item.createdAt).format("ll")}</td>
                   <td className="text-end">
                     <button className="btn btn-sm btn-danger" onClick={() => deleteResource(item._id)}>Delete</button>

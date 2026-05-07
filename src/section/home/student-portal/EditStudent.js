@@ -13,6 +13,7 @@ const EditStudent = () => {
     phoneNo: "",
     password: "",
     courseEnrolled: "",
+    courseDuration: "3 Months",
     isActive: true
   });
   const [loading, setLoading] = useState(false);
@@ -27,6 +28,7 @@ const EditStudent = () => {
         phoneNo: student.phoneNo || "",
         password: "", // Leave blank unless they want to change it
         courseEnrolled: student.courseEnrolled || "",
+        courseDuration: student.courseDuration || "3 Months",
         isActive: student.isActive !== false
       });
       setFetching(false);
@@ -91,6 +93,13 @@ const EditStudent = () => {
               <div className="col-md-6 mb-3">
                 <label className="form-label">Course Enrolled</label>
                 <input type="text" className="form-control" name="courseEnrolled" value={formData.courseEnrolled} onChange={handleChange} placeholder="e.g. Digital Marketing" />
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Course Duration</label>
+                <select className="form-control" name="courseDuration" value={formData.courseDuration} onChange={handleChange}>
+                  <option value="3 Months">3 Months</option>
+                  <option value="6 Months">6 Months</option>
+                </select>
               </div>
               <div className="col-md-6 mb-3">
                 <label className="form-label">Change Password</label>

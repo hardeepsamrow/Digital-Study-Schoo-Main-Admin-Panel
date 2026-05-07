@@ -12,6 +12,8 @@ const AddResource = () => {
     title: "",
     description: "",
     courseTag: "All",
+    category: "General",
+    courseDuration: "Both",
     videoUrl: "",
     toolUsername: "",
     toolPassword: "",
@@ -36,6 +38,8 @@ const AddResource = () => {
     apiData.append("description", formData.description);
     apiData.append("resourceType", resourceType);
     apiData.append("courseTag", formData.courseTag);
+    apiData.append("category", formData.category);
+    apiData.append("courseDuration", formData.courseDuration);
 
     if (resourceType === "pdf") {
       if (!file) {
@@ -86,6 +90,25 @@ const AddResource = () => {
               <div className="col-md-6 mb-3">
                 <label className="form-label">Course Tag</label>
                 <input type="text" className="form-control" name="courseTag" value={formData.courseTag} onChange={handleChange} placeholder="e.g. Digital Marketing, or All" />
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Category</label>
+                <select className="form-control" name="category" value={formData.category} onChange={handleChange}>
+                  <option value="General">General</option>
+                  <option value="SEO">SEO</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Social Media Marketing">Social Media Marketing</option>
+                  <option value="Content Marketing">Content Marketing</option>
+                  <option value="Email Marketing">Email Marketing</option>
+                </select>
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Course Duration</label>
+                <select className="form-control" name="courseDuration" value={formData.courseDuration} onChange={handleChange}>
+                  <option value="Both">Both (3 & 6 Months)</option>
+                  <option value="3 Months">3 Months</option>
+                  <option value="6 Months">6 Months</option>
+                </select>
               </div>
               <div className="col-md-12 mb-3">
                 <label className="form-label">Description</label>

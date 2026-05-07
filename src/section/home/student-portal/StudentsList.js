@@ -62,6 +62,7 @@ const StudentsList = () => {
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
               <th scope="col">Course</th>
+              <th scope="col">Duration</th>
               <th scope="col">Status</th>
               <th scope="col">Enrolled Date</th>
               <th scope="col" className="text-end">Action</th>
@@ -84,6 +85,7 @@ const StudentsList = () => {
                     )}
                   </td>
                   <td>{item.courseEnrolled || "N/A"}</td>
+                  <td>{item.courseDuration || "N/A"}</td>
                   <td>{item.isActive ? "Active" : "Inactive"}</td>
                   <td>{moment(item.createdAt).format("ll")}</td>
                   <td className="text-end">

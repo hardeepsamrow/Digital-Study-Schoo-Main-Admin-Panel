@@ -11,7 +11,8 @@ const AddStudent = () => {
     email: "",
     phoneNo: "",
     password: "",
-    courseEnrolled: ""
+    courseEnrolled: "",
+    courseDuration: "3 Months"
   });
   const [loading, setLoading] = useState(false);
 
@@ -59,6 +60,13 @@ const AddStudent = () => {
               <div className="col-md-6 mb-3">
                 <label className="form-label">Course Enrolled</label>
                 <input type="text" className="form-control" name="courseEnrolled" value={formData.courseEnrolled} onChange={handleChange} placeholder="e.g. Digital Marketing" />
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Course Duration</label>
+                <select className="form-control" name="courseDuration" value={formData.courseDuration} onChange={handleChange}>
+                  <option value="3 Months">3 Months</option>
+                  <option value="6 Months">6 Months</option>
+                </select>
               </div>
               <div className="col-md-6 mb-4">
                 <label className="form-label">Temporary Password <span className="text-danger">*</span></label>
