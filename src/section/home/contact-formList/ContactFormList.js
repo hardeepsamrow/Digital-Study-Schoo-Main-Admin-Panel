@@ -122,7 +122,7 @@ const ContactFormList = () => {
               <th scope="col">Course </th>
               <th scope="col">Visit Date</th>
               <th scope="col">Submit Date</th>
-              <th scope="col">Updated Status</th>
+              <th scope="col">Last Action Date</th>
               <th scope="col" className="text-end">
                 Action
               </th>
@@ -151,9 +151,9 @@ const ContactFormList = () => {
                       <td>{moment(item?.date).format("ll")}</td>
                       <td>{moment(item?.createdAt).format("ll")}</td>
                       <td>
-                        {item?.status
-                          ? moment(item?.updatedAt).format("ll")
-                          : ""}
+                        {item?.updatedAt && moment(item?.updatedAt).diff(moment(item?.createdAt), 'seconds') > 5
+                          ? moment(item?.updatedAt).format("lll")
+                          : "-"}
                       </td>
                       <td width="150">
                         <span className="d-flex justify-content-end">

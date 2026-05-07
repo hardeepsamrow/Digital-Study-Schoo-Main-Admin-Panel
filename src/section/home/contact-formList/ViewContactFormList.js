@@ -150,11 +150,11 @@ const ViewContactFormList = () => {
               <td className="d-flex align-items-center">Submitted On:</td>
               <td>{moment(data?.createdAt).format("ll")}</td>
             </tr>
-            {status && (
+            {data?.updatedAt && moment(data?.updatedAt).diff(moment(data?.createdAt), 'seconds') > 5 && (
               <tr>
-                <td className="d-flex align-items-center">Update Date:</td>
+                <td className="d-flex align-items-center">Last Action Date:</td>
                 <td>
-                  {data?.status ? moment(data?.updatedAt).format("ll") : ""}
+                  {moment(data?.updatedAt).format("lll")}
                 </td>
               </tr>
             )}
