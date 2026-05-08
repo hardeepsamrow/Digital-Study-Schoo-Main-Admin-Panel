@@ -73,6 +73,7 @@ const ResourcesList = () => {
                   <td>{item.courseDuration || "Both"}</td>
                   <td>{moment(item.createdAt).format("ll")}</td>
                   <td className="text-end">
+                    <Link to={`/student-portal/resources/edit/${item._id}`} className="btn btn-sm btn-primary me-2">Edit</Link>
                     <button className="btn btn-sm btn-danger" onClick={() => deleteResource(item._id)}>Delete</button>
                   </td>
                 </tr>

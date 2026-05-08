@@ -42,6 +42,8 @@ import StudentPortalResources from "./pages/StudentPortalResources";
 import StudentPortalAddStudent from "./pages/StudentPortalAddStudent";
 import StudentPortalEditStudent from "./pages/StudentPortalEditStudent";
 import StudentPortalAddResource from "./pages/StudentPortalAddResource";
+import StudentPortalEditResource from "./pages/StudentPortalEditResource";
+
 
 export default function App() {
   return (
@@ -88,6 +90,8 @@ export default function App() {
           <Route exact path="/student-portal/students/edit/:id" element={<StudentPortalEditStudent />} />
           <Route exact path="/student-portal/resources" element={<StudentPortalResources />} />
           <Route exact path="/student-portal/resources/add" element={<StudentPortalAddResource />} />
+          <Route exact path="/student-portal/resources/edit/:id" element={<StudentPortalEditResource />} />
+
         </Route>
       </Routes>
     </HashRouter>
