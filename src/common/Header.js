@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <header>
       <div className="container-fluid">
-        <div className="row pt-3 px-3">
+        <div className="row py-2 px-3 align-items-center">
           <div className="col">
             <img
               style={{ width: "18%" }}

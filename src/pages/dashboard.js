@@ -51,7 +51,7 @@ const Dashboard = () => {
   return (
     <div className="bg-grey h-100">
       <Header />
-      <section className="content-area mt-4">
+      <section className="content-area">
         <Sidebar />
         <div className="Right-content">
           <div className="main-content">
