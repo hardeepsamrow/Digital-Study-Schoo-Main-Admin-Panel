@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const API_BASE = "https://backend.digitalstudyschool.com/";
+const API_BASE = "https://blueviolet-meerkat-733057.hostingersite.com/";
 
 async function testLogin() {
     console.log("\n=== Testing Admin Login ===\n");

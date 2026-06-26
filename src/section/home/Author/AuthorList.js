@@ -105,7 +105,7 @@ const AuthorList = () => {
                             <tr key={i}>
                                 <td>
                                     <img
-                                        src={item.image ? `https://backend.digitalstudyschool.com${item.image.url}` : "../assets/img/user-default.png"}
+                                        src={item.image ? `https://blueviolet-meerkat-733057.hostingersite.com${item.image.url}` : "../assets/img/user-default.png"}
                                         alt={item.name}
                                         style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover" }}
                                     />

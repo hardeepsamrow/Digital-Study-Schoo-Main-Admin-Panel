@@ -41,7 +41,7 @@ const EditAuthor = () => {
             setAuthorType(author.authorType || "");
             setEmail(author.email || "");
             if (author.image) {
-                imgRef.current.src = `https://backend.digitalstudyschool.com${author.image.url}`;
+                imgRef.current.src = `https://blueviolet-meerkat-733057.hostingersite.com${author.image.url}`;
             }
         });
     }, [id]);

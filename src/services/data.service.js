@@ -4,7 +4,7 @@ import AuthService from "../services/auth.service";
 const API_URL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3005/"
-    : "https://backend.digitalstudyschool.com/";
+    : "https://blueviolet-meerkat-733057.hostingersite.com/";
 
 axios.interceptors.request.use(function (config) {
   const token = AuthService.getCurrentUserTokken();

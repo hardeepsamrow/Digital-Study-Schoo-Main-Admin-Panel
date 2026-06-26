@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const API_BASE = "https://backend.digitalstudyschool.com/";
+const API_BASE = "https://blueviolet-meerkat-733057.hostingersite.com/";
 const AUTH_EMAIL = "hssamrow@gmail.com";
 const AUTH_PASSWORD = "Rsoft@123";
 

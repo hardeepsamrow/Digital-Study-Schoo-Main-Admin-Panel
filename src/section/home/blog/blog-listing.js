@@ -111,7 +111,7 @@ const BlogList = () => {
   const getImageUrl = (url) => {
     if (!url) return "../../assets/img/placeholder-img.png";
     if (url.startsWith("http") || url.startsWith("//")) return url;
-    return "https://backend.digitalstudyschool.com" + url;
+    return "https://blueviolet-meerkat-733057.hostingersite.com" + url;
   };
 
   const formatDate = (dateString) => {

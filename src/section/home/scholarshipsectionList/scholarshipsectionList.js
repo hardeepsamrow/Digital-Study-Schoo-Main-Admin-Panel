@@ -140,7 +140,7 @@ const ScholarShipSectionList = () => {
                     <>
                       <img
                         src={
-                          "https://backend.digitalstudyschool.com" +
+                          "https://blueviolet-meerkat-733057.hostingersite.com" +
                           data?.image?.url
                         }
                         ref={imgRef}
@@ -228,7 +228,7 @@ const ScholarShipSectionList = () => {
                 content_style:
                   "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
                 images_upload_url:
-                  "https://backend.digitalstudyschool.com/api/EnNews/images",
+                  "https://blueviolet-meerkat-733057.hostingersite.com/api/EnNews/images",
                 file_picker_types: "image",
               }}
             />

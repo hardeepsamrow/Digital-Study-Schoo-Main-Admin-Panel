@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const API_BASE = "https://backend.digitalstudyschool.com/";
+const API_BASE = "https://blueviolet-meerkat-733057.hostingersite.com/";
 const AUTH_EMAIL = process.env.ADMIN_EMAIL;
 const AUTH_PASSWORD = process.env.ADMIN_PASSWORD;
 

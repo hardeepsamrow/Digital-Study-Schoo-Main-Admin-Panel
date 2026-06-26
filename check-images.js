@@ -1,9 +1,9 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const API_BASE = "https://backend.digitalstudyschool.com"; // Images usually served from backend or frontend public folder?
+const API_BASE = "https://blueviolet-meerkat-733057.hostingersite.com"; // Images usually served from backend or frontend public folder?
 // In the json, url is `/uploads/...`. 
-// Often these are served via `https://backend.digitalstudyschool.com/uploads/...` or `https://digitalstudyschool.com/uploads/...`
+// Often these are served via `https://blueviolet-meerkat-733057.hostingersite.com/uploads/...` or `https://digitalstudyschool.com/uploads/...`
 // Let's try backend first as it is the source.
 
 const blogs = JSON.parse(fs.readFileSync('final_fixed_blogs.json', 'utf8'));

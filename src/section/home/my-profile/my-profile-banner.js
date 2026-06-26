@@ -8,7 +8,7 @@ const MyProfileBanner = (props) => {
           {props?.data?.images ? (
             <img
               src={
-                "https://backend.digitalstudyschool.com" +
+                "https://blueviolet-meerkat-733057.hostingersite.com" +
                 props?.data?.images[0]?.url
               }
               alt="profie image"

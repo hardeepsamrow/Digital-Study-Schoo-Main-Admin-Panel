@@ -140,7 +140,7 @@ const CertifiedStudentsList = () => {
                                 <div className="card h-100 shadow-sm border-0" style={{ borderRadius: '15px', overflow: 'hidden' }}>
                                     <div style={{ position: 'relative', paddingTop: '100%' }}>
                                         <img 
-                                            src={"https://backend.digitalstudyschool.com" + item.image?.url} 
+                                            src={"https://blueviolet-meerkat-733057.hostingersite.com" + item.image?.url} 
                                             alt={item.name} 
                                             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                                             onError={(e) => e.target.src = '../assets/img/noImage.jpg'}

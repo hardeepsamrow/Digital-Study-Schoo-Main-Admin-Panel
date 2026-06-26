@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = (process.env.NODE_ENV != 'production' ? "https://backend.digitalstudyschool.com/" : "https://backend.digitalstudyschool.com/");
+const API_URL = (process.env.NODE_ENV != 'production' ? "https://blueviolet-meerkat-733057.hostingersite.com/" : "https://blueviolet-meerkat-733057.hostingersite.com/");
 
 // const register = (username, email, password) => {
 //   return axios.post(API_URL + "api/users/register", {

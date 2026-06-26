@@ -838,7 +838,7 @@ const AddBlogPost = () => {
                             "alignright alignjustify | bullist numlist outdent indent | removeformat | image file | help",
                           content_style:
                             "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }",
-                          images_upload_url: "https://backend.digitalstudyschool.com/api/blogs/uploadMedia",
+                          images_upload_url: "https://blueviolet-meerkat-733057.hostingersite.com/api/blogs/uploadMedia",
                           file_picker_types: "image media",
                           file_picker_callback: function (cb, value, meta) {
                             const input = document.createElement("input");
@@ -850,7 +850,7 @@ const AddBlogPost = () => {
                               const formData = new FormData();
                               formData.append("file", file);
 
-                              fetch("https://backend.digitalstudyschool.com/api/blogs/uploadMedia", {
+                              fetch("https://blueviolet-meerkat-733057.hostingersite.com/api/blogs/uploadMedia", {
                                 method: "POST",
                                 body: formData,
                               })
